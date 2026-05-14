@@ -1,63 +1,49 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мое Портфолио</title>
+    <title>My Portfolio</title>
     <style>
-        /* Скрываем контент изначально, чтобы он не "мигнул" перед проверкой */
-        #content {
-            display: none;
-        }
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; border-radius: 8px; }
+        #content { display: none; }
+        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #f9f9f9; }
+        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; border-radius: 8px; background: white; }
     </style>
 </head>
 <body>
 
-    <!-- Весь ваш контент должен лежать внутри этого div -->
     <div id="content">
-        <h1>Добро пожаловать в мое портфолио</h1>
-        <p>Здесь представлены мои HTML5 игры:</p>
+        <h1>Welcome to my Portfolio</h1>
+        <p>Here are my latest HTML5 game projects:</p>
         
-        <!-- Существующая карточка игры 1 -->
-<div class="game-card">
-    <h3>Игра №1</h3>
-    <a href="games/game1/index.html">Перейти к игре</a>
-</div>
+        <div class="game-card">
+            <h3>Game #1</h3>
+            <a href="games/game1/index.html">Play Game</a>
+        </div>
 
-<!-- НОВАЯ карточка игры 2 -->
-<div class="game-card">
-    <h3>Игра №2</h3>
-    <a href="games/game2/index.html">Перейти к игре</a>
-</div>
+        <div class="game-card">
+            <h3>Game #2</h3>
+            <a href="games/game2/index.html">Play Game</a>
+        </div>
     </div>
 
-    <!-- Скрипт проверки пароля -->
     <script>
         function checkAuth() {
-            const password = "123"; // ВАШ ПАРОЛЬ
-            
-            // Проверяем, есть ли уже разрешение в памяти браузера
+            const password = "123"; 
             if (sessionStorage.getItem('isAuthorized') === 'true') {
                 document.getElementById('content').style.display = 'block';
                 return;
             }
 
-            // Если разрешения нет, спрашиваем пароль
-            const input = prompt("Введите пароль для доступа:");
-
+            const input = prompt("Enter password to access my portfolio:");
             if (input === password) {
-                // Сохраняем, что пароль верный
                 sessionStorage.setItem('isAuthorized', 'true');
                 document.getElementById('content').style.display = 'block';
             } else {
-                document.body.innerHTML = "<h1>Доступ запрещен</h1>";
+                document.body.innerHTML = "<h1>Access Denied</h1>";
                 setTimeout(() => { window.location.reload(); }, 2000);
             }
         }
-
-        // Запускаем проверку при загрузке страницы
         checkAuth();
     </script>
 </body>
