@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мое Портфолио</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <div id="content" style="display: none;">
+        <h1>Мои игры</h1>
+        <div class="game-card">
+            <h3>Игра 1</h3>
+            <a href="games/game1/index.html">Играть</a>
+        </div>
+    </div>
+
+    <script>
+        const password = "123"; // ВАШ ПАРОЛЬ
+        const input = prompt("Введите пароль для доступа к портфолио:");
+
+        if (input === password) {
+            document.getElementById('content').style.display = 'block';
+        } else {
+            document.body.innerHTML = "<h1>Доступ запрещен. Попробуйте обновить страницу.</h1>";
+        }
+    </script>
+</body>
+</html>
