@@ -1,28 +1,41 @@
-<script>
-    // Функция для проверки пароля
-    function checkAuth() {
-        const password = "123"; // Ваш пароль
-        
-        // Проверяем, есть ли уже разрешение в памяти браузера
-        if (sessionStorage.getItem('isAuthorized') === 'true') {
-            document.getElementById('content').style.display = 'block';
-            return;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра</title>
+    <!-- Тут могут быть ваши стили для игры -->
+</head>
+<body>
+
+    <!-- СЮДА ВСТАВЬТЕ ВАШ КОД ИГРЫ (canvas, скрипты и т.д.) -->
+    <h1>Это моя игра</h1>
+    
+    <!-- Скрипт защиты -->
+    <script>
+        function checkAuth() {
+            const password = "123"; // ВАШ ПАРОЛЬ (должен быть таким же, как на главной)
+            
+            // Если в сессии есть пометка об успехе — просто выходим из функции
+            if (sessionStorage.getItem('isAuthorized') === 'true') {
+                return; 
+            }
+
+            // Если пометки нет — спрашиваем пароль
+            const input = prompt("Введите пароль для доступа к игре:");
+
+            if (input === password) {
+                // Запоминаем успех
+                sessionStorage.setItem('isAuthorized', 'true');
+            } else {
+                // Если пароль неверный — выкидываем на главную
+                alert("Доступ запрещен!");
+                window.location.href = "../../index.html"; // Путь к главной странице
+            }
         }
 
-        // Если разрешения нет, спрашиваем пароль
-        const input = prompt("Введите пароль для доступа:");
-
-        if (input === password) {
-            // Сохраняем, что пароль верный
-            sessionStorage.setItem('isAuthorized', 'true');
-            document.getElementById('content').style.display = 'block';
-        } else {
-            document.body.innerHTML = "<h1>Доступ запрещен</h1>";
-            // Можно добавить кнопку "Попробовать снова"
-            setTimeout(() => { window.location.reload(); }, 2000);
-        }
-    }
-
-    // Запускаем проверку при загрузке страницы
-    window.onload = checkAuth;
-</script>
+        // Запускаем проверку
+        checkAuth();
+    </script>
+</body>
+</html>
