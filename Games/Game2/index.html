@@ -1,0 +1,28 @@
+<script>
+    // Функция для проверки пароля
+    function checkAuth() {
+        const password = "123"; // Ваш пароль
+        
+        // Проверяем, есть ли уже разрешение в памяти браузера
+        if (sessionStorage.getItem('isAuthorized') === 'true') {
+            document.getElementById('content').style.display = 'block';
+            return;
+        }
+
+        // Если разрешения нет, спрашиваем пароль
+        const input = prompt("Введите пароль для доступа:");
+
+        if (input === password) {
+            // Сохраняем, что пароль верный
+            sessionStorage.setItem('isAuthorized', 'true');
+            document.getElementById('content').style.display = 'block';
+        } else {
+            document.body.innerHTML = "<h1>Доступ запрещен</h1>";
+            // Можно добавить кнопку "Попробовать снова"
+            setTimeout(() => { window.location.reload(); }, 2000);
+        }
+    }
+
+    // Запускаем проверку при загрузке страницы
+    window.onload = checkAuth;
+</script>

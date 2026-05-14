@@ -2,31 +2,56 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мое Портфолио</title>
     <style>
+        /* Скрываем контент изначально, чтобы он не "мигнул" перед проверкой */
+        #content {
+            display: none;
+        }
         body { font-family: sans-serif; text-align: center; padding: 50px; }
-        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; }
+        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; border-radius: 8px; }
     </style>
 </head>
 <body>
 
-    <div id="content" style="display: none;">
-        <h1>Мои игры</h1>
+    <!-- Весь ваш контент должен лежать внутри этого div -->
+    <div id="content">
+        <h1>Добро пожаловать в мое портфолио</h1>
+        <p>Здесь представлены мои HTML5 игры:</p>
+        
         <div class="game-card">
-            <h3>Игра 1</h3>
-            <a href="games/game1/index.html">Играть</a>
+            <h3>Игра №1</h3>
+            <a href="games/game1/index.html">Перейти к игре</a>
         </div>
     </div>
 
+    <!-- Скрипт проверки пароля -->
     <script>
-        const password = "123"; // ВАШ ПАРОЛЬ
-        const input = prompt("Введите пароль для доступа к портфолио:");
+        function checkAuth() {
+            const password = "123"; // ВАШ ПАРОЛЬ
+            
+            // Проверяем, есть ли уже разрешение в памяти браузера
+            if (sessionStorage.getItem('isAuthorized') === 'true') {
+                document.getElementById('content').style.display = 'block';
+                return;
+            }
 
-        if (input === password) {
-            document.getElementById('content').style.display = 'block';
-        } else {
-            document.body.innerHTML = "<h1>Доступ запрещен. Попробуйте обновить страницу.</h1>";
+            // Если разрешения нет, спрашиваем пароль
+            const input = prompt("Введите пароль для доступа:");
+
+            if (input === password) {
+                // Сохраняем, что пароль верный
+                sessionStorage.setItem('isAuthorized', 'true');
+                document.getElementById('content').style.display = 'block';
+            } else {
+                document.body.innerHTML = "<h1>Доступ запрещен</h1>";
+                setTimeout(() => { window.location.reload(); }, 2000);
+            }
         }
+
+        // Запускаем проверку при загрузке страницы
+        checkAuth();
     </script>
 </body>
 </html>
