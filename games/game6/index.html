@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Tap Arrow — interactive playable ad">
+    <title>Tap Arrow — Playable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:      #07080f;
+            --surface: rgba(255,255,255,0.04);
+            --border:  rgba(255,255,255,0.08);
+            --accent1: #7c5cfc;
+            --accent2: #f25c7a;
+            --text:    #e8eaf0;
+            --muted:   #7a7f96;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 16px 24px;
+            gap: 14px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 15% 0%, rgba(124,92,252,.14) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 85% 100%, rgba(242,92,122,.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header {
+            position: relative; z-index: 50;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
+            flex-shrink: 0; width: 100%;
+            max-width: 760px;
+        }
+
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+            transition: background .2s;
+        }
+        .btn-back:hover { background: rgba(255,255,255,.08); }
+
+        .btn-rotate {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            border: none; border-radius: 100px;
+            color: #fff; font-size: 14px; font-weight: 600; font-family: inherit;
+            cursor: pointer; transition: opacity .2s;
+        }
+        .btn-rotate:hover { opacity: .85; }
+
+        /* ── GAME FRAME ── */
+        .frame-shrink { position: relative; z-index: 1; flex-shrink: 0; }
+
+        .frame-wrap {
+            transform-origin: top left;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 0 2px rgba(255,255,255,.08), 0 32px 80px rgba(0,0,0,.6);
+            background: #000;
+            position: relative;
+        }
+
+        .frame-wrap iframe { display: block; border: none; }
+
+        /* ── LOADER ── */
+        .loader {
+            position: absolute; inset: 0; z-index: 10;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 16px;
+            background: #07080f;
+            transition: opacity .4s ease;
+        }
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid rgba(124,92,252,.2);
+            border-top-color: #7c5cfc;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+        .loader-text { color: #7a7f96; font-size: 13px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .game-info {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .info-tags { display: flex; gap: 6px; }
+        .tag {
+            font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 100px;
+            background: rgba(124,92,252,.12); color: #a08aff;
+            border: 1px solid rgba(124,92,252,.2);
+        }
+
+        /* ── INFO ── */
+        .game-info {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .info-tags { display: flex; gap: 6px; }
+        .tag {
+            font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 100px;
+            background: rgba(124,92,252,.12); color: #a08aff;
+            border: 1px solid rgba(124,92,252,.2);
+        }
+
+        .info-sep { width: 1px; height: 16px; background: var(--border); }
+        .info-desc { color: var(--muted); font-size: 13px; }
+
+        /* ── TABS ── */
+        .tabs {
+            display: flex; gap: 6px;
+            background: rgba(0,0,0,0.6);
+            padding: 4px; border-radius: 100px;
+            margin: 0 auto;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .tab {
+            padding: 7px 16px;
+            border: 1px solid rgba(255,255,255,0.1); background: transparent;
+            color: var(--text); font-size: 13px; font-weight: 600; font-family: inherit;
+            border-radius: 100px; cursor: pointer; transition: color .2s, background .2s, border-color .2s;
+        }
+        .tab:hover { border-color: rgba(255,255,255,0.3); }
+        .tab.active {
+            background: var(--surface); color: var(--text);
+            box-shadow: 0 2px 8px rgba(0,0,0,.4);
+            border: 1px solid rgba(124,92,252,0.6);
+        }
+
+        /* ── TUTORIAL HAND ── */
+        .tutor-tab-wrap {
+            position: absolute; top: 100%; left: 50%; z-index: 20;
+            pointer-events: none; opacity: 0; transition: opacity .3s;
+        }
+        .tutor-tab-wrap.active { opacity: 1; animation: tutorTabMove 1.8s infinite; }
+        .playable-hand { width: 32px; height: 32px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
+        @keyframes tutorTabMove {
+            0% { transform: translate(10px, 20px); opacity: 0; }
+            15% { transform: translate(-10px, -5px); opacity: 1; }
+            40% { transform: translate(-10px, -5px) scale(0.85); }
+            50% { transform: translate(-10px, -5px) scale(1); }
+            80% { transform: translate(10px, 20px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        .tab.tutor-active { animation: tabPulse 1.8s infinite; }
+        @keyframes tabPulse {
+            0%, 15% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
+            40% { transform: scale(0.95); background: rgba(124,92,252,0.15); border-color: rgba(124,92,252,0.5); }
+            50%, 100% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
+        }
+        .tab.subtle-hint { animation: subtleBlink 3s infinite; }
+        @keyframes subtleBlink {
+            0%, 100% { border-color: rgba(255,255,255,0.1); background: transparent; color: var(--text); }
+            50% { border-color: rgba(124,92,252,1); background: rgba(124,92,252,0.85); color: #fff; }
+        }
+
+        /* ── SPEC CONTAINER ── */
+        .spec-container {
+            display: none; width: 100%; max-width: 760px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px;
+            box-shadow: 0 16px 40px rgba(0,0,0,.4);
+        }
+        .spec-container.active { display: block; }
+        .spec-container img { width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 16px; }
+        .spec-placeholder { text-align: center; color: var(--muted); padding: 40px 20px; }
+
+        .game-wrapper {
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+        }
+        .game-wrapper.hidden { display: none; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            body { padding: 10px 10px 16px; gap: 10px; }
+            .btn-back, .btn-rotate { padding: 8px 14px; font-size: 13px; }
+            .info-desc { display: none; }
+            .tabs { margin: 0; flex-grow: 1; justify-content: center; }
+            .tab { padding: 7px 12px; }
+            .header { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="../../index.html#portfolio" class="btn-back" id="backBtn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('game')">🎮 Playable</button>
+            <div style="position: relative;">
+                <button class="tab" id="specBtn" onclick="switchTab('spec')">📄 Spec</button>
+                <div class="tutor-tab-wrap" id="specTutor">
+                    <svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
+                        <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <button class="btn-rotate" onclick="rotate()" id="rotateBtn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 7A6 6 0 0 1 11.2 3M13 7A6 6 0 0 1 2.8 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M11 1l.2 2.1L13.2 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Rotate
+        </button>
+    </div>
+
+    <div class="game-wrapper" id="gameTab">
+        <div class="frame-shrink" id="frameShrink">
+            <div class="frame-wrap" id="frameWrap">
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    <span class="loader-text">Loading game…</span>
+                </div>
+                <iframe id="gameFrame" scrolling="no" allowfullscreen
+                    onload="document.getElementById('loader').classList.add('hidden')"></iframe>
+            </div>
+        </div>
+
+        <div class="game-info">
+            <div class="info-tags">
+                <span class="tag">Hypercasual</span>
+                <span class="tag">Puzzle</span>
+                <span class="tag">Logic</span>
+            </div>
+            <div class="info-sep"></div>
+            <div class="info-desc">Clear the board by tapping blocks with arrows in this addictive hypercasual puzzle game.</div>
+        </div>
+    </div>
+
+    <div class="spec-container" id="specTab">
+        <!-- 
+            To add your actual Spec:
+            1. Save your Notion page as an image (or multiple images) inside games/game2/
+            2. Remove the .spec-placeholder div below
+            3. Add an image tag like this: <img src="spec.png" alt="Game Design Spec">
+        -->
+        <div class="spec-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity: 0.5; margin-bottom: 16px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3>No Spec Uploaded Yet</h3>
+            <p style="margin-top: 8px; font-size: 14px;">Save your Notion doc as <b>spec.png</b> in this game's folder and uncomment the img tag in index.html.</p>
+        </div>
+    </div>
+
+    <script>
+        const PORT_W = 360, PORT_H = 640;
+        // On mobile (narrow screen) start in portrait; on desktop start landscape
+        let isLandscape = window.innerWidth > 700;
+
+        function fitFrame() {
+            const shrink = document.getElementById('frameShrink');
+            const wrap   = document.getElementById('frameWrap');
+            const iframe = document.getElementById('gameFrame');
+
+            const nativeW = isLandscape ? PORT_H : PORT_W;
+            const nativeH = isLandscape ? PORT_W : PORT_H;
+
+            const headerEl = document.querySelector('.header');
+            const infoEl   = document.querySelector('.game-info');
+            const headerH  = headerEl ? headerEl.offsetHeight : 48;
+            const infoH    = infoEl   ? infoEl.offsetHeight   : 32;
+            const PAD = 16, GAPS = 14 * 3;
+
+            const maxW = window.innerWidth  - PAD * 2;
+            const maxH = window.innerHeight - headerH - infoH - GAPS - PAD * 2;
+
+            const scale = Math.min(maxW / nativeW, maxH / nativeH, 1);
+            const visW  = Math.round(nativeW * scale);
+            const visH  = Math.round(nativeH * scale);
+
+            iframe.width        = nativeW;
+            iframe.height       = nativeH;
+            iframe.style.width  = nativeW + 'px';
+            iframe.style.height = nativeH + 'px';
+
+            wrap.style.width     = nativeW + 'px';
+            wrap.style.height    = nativeH + 'px';
+            wrap.style.transform = `scale(${scale})`;
+
+            shrink.style.width  = visW + 'px';
+            shrink.style.height = visH + 'px';
+        }
+
+        function loadGame() {
+            fitFrame();
+            document.getElementById('gameFrame').src = 'original_game.html';
+        }
+
+        function switchTab(tab) {
+            const specBtn = document.getElementById('specBtn');
+            if (specBtn) {
+                specBtn.classList.remove('subtle-hint');
+                specBtn.classList.remove('tutor-active');
+            }
+
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (tab === 'game') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('gameTab').classList.remove('hidden');
+                document.getElementById('specTab').classList.remove('active');
+                document.getElementById('rotateBtn').style.visibility = 'visible';
+                document.getElementById('rotateBtn').style.opacity = '1';
+                document.getElementById('rotateBtn').style.pointerEvents = 'auto';
+                fitFrame();
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('gameTab').classList.add('hidden');
+                document.getElementById('specTab').classList.add('active');
+                document.getElementById('rotateBtn').style.visibility = 'hidden';
+                document.getElementById('rotateBtn').style.opacity = '0';
+                document.getElementById('rotateBtn').style.pointerEvents = 'none';
+                sessionStorage.setItem('specVisited', 'true');
+            }
+            if (typeof markInteraction === 'function') markInteraction();
+        }
+
+        function rotate() {
+            isLandscape = !isLandscape;
+            fitFrame();
+            document.getElementById('gameFrame').src = 'original_game.html';
+        }
+
+        window.addEventListener('resize', fitFrame);
+        loadGame();
+
+        // Tab Tutorial Logic
+        let interactionOccurred = false;
+        let tutorHandVisible = false;
+
+        if (sessionStorage.getItem('specVisited') === 'true') {
+            interactionOccurred = true;
+        }
+
+        const markInteraction = () => {
+            interactionOccurred = true;
+            if (tutorHandVisible) {
+                const t = document.getElementById('specTutor');
+                const b = document.getElementById('specBtn');
+                if (t) { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; }, 300); }
+                if (b) b.classList.remove('tutor-active');
+                tutorHandVisible = false;
+            }
+        };
+
+        window.addEventListener('blur', markInteraction); // clicking inside iframe
+        window.addEventListener('mousedown', markInteraction);
+        window.addEventListener('touchstart', markInteraction);
+
+        // Fire tutorial hand after 2.5 seconds if no interaction
+        setTimeout(() => {
+            if (!interactionOccurred) {
+                const t = document.getElementById('specTutor');
+                const b = document.getElementById('specBtn');
+                if (t && b) { 
+                    t.classList.add('active'); 
+                    b.classList.add('tutor-active'); 
+                    tutorHandVisible = true;
+                }
+            }
+        }, 2500);
+
+        // Fire subtle hint after 12 seconds
+        setTimeout(() => {
+            if (sessionStorage.getItem('specVisited') === 'true') return;
+            const specTab = document.getElementById('specTab');
+            const b = document.getElementById('specBtn');
+            if (specTab && !specTab.classList.contains('active') && b) {
+                b.classList.add('subtle-hint');
+            }
+        }, 12000);
+    </script>
+</body>
+</html>
