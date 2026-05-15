@@ -44,7 +44,7 @@
 
         .header {
             position: relative; z-index: 1;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; justify-content: space-between; gap: 10px;
             flex-shrink: 0; width: 100%;
             max-width: 760px;
         }
@@ -135,11 +135,49 @@
         .info-sep { width: 1px; height: 16px; background: var(--border); }
         .info-desc { color: var(--muted); font-size: 13px; }
 
+        /* ── TABS ── */
+        .tabs {
+            display: flex; gap: 4px;
+            background: rgba(0,0,0,0.4);
+            padding: 4px; border-radius: 100px;
+            margin: 0 auto;
+        }
+        .tab {
+            padding: 7px 16px;
+            border: none; background: transparent;
+            color: var(--muted); font-size: 13px; font-weight: 600; font-family: inherit;
+            border-radius: 100px; cursor: pointer; transition: color .2s, background .2s;
+        }
+        .tab:hover { color: var(--text); }
+        .tab.active {
+            background: var(--surface); color: var(--text);
+            box-shadow: 0 2px 8px rgba(0,0,0,.2);
+        }
+
+        /* ── SPEC CONTAINER ── */
+        .spec-container {
+            display: none; width: 100%; max-width: 760px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px;
+            box-shadow: 0 16px 40px rgba(0,0,0,.4);
+        }
+        .spec-container.active { display: block; }
+        .spec-container img { width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 16px; }
+        .spec-placeholder { text-align: center; color: var(--muted); padding: 40px 20px; }
+
+        .game-wrapper {
+            display: flex; flex-direction: column; align-items: center; gap: 14px;
+        }
+        .game-wrapper.hidden { display: none; }
+
         /* ── MOBILE ── */
         @media (max-width: 600px) {
             body { padding: 10px 10px 16px; gap: 10px; }
             .btn-back, .btn-rotate { padding: 8px 14px; font-size: 13px; }
             .info-desc { display: none; }
+            .tabs { margin: 0; flex-grow: 1; justify-content: center; }
+            .tab { padding: 7px 12px; }
+            .header { flex-wrap: wrap; justify-content: center; }
         }
     </style>
 </head>
@@ -152,6 +190,10 @@
             </svg>
             Back
         </a>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('game')">🎮 Playable</button>
+            <button class="tab" onclick="switchTab('spec')">📄 Spec</button>
+        </div>
         <button class="btn-rotate" onclick="rotate()" id="rotateBtn">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M1 7A6 6 0 0 1 11.2 3M13 7A6 6 0 0 1 2.8 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -161,24 +203,43 @@
         </button>
     </div>
 
-    <div class="frame-shrink" id="frameShrink">
-        <div class="frame-wrap" id="frameWrap">
-            <div class="loader" id="loader">
-                <div class="spinner"></div>
-                <span class="loader-text">Loading game…</span>
+    <div class="game-wrapper" id="gameTab">
+        <div class="frame-shrink" id="frameShrink">
+            <div class="frame-wrap" id="frameWrap">
+                <div class="loader" id="loader">
+                    <div class="spinner"></div>
+                    <span class="loader-text">Loading game…</span>
+                </div>
+                <iframe id="gameFrame" scrolling="no" allowfullscreen
+                    onload="document.getElementById('loader').classList.add('hidden')"></iframe>
             </div>
-            <iframe id="gameFrame" scrolling="no" allowfullscreen
-                onload="document.getElementById('loader').classList.add('hidden')"></iframe>
+        </div>
+
+        <div class="game-info">
+            <div class="info-tags">
+                <span class="tag">Tycoon</span>
+                <span class="tag">Building</span>
+            </div>
+            <div class="info-sep"></div>
+            <div class="info-desc">Build your railway network and become a railroad tycoon!</div>
         </div>
     </div>
 
-    <div class="game-info">
-        <div class="info-tags">
-            <span class="tag">Tycoon</span>
-            <span class="tag">Building</span>
+    <div class="spec-container" id="specTab">
+        <!-- 
+            To add your actual Spec:
+            1. Save your Notion page as an image (or multiple images) inside games/game2/
+            2. Remove the .spec-placeholder div below
+            3. Add an image tag like this: <img src="spec.png" alt="Game Design Spec">
+        -->
+        <div class="spec-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity: 0.5; margin-bottom: 16px;">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3>No Spec Uploaded Yet</h3>
+            <p style="margin-top: 8px; font-size: 14px;">Save your Notion doc as <b>spec.png</b> in this game's folder and uncomment the img tag in index.html.</p>
         </div>
-        <div class="info-sep"></div>
-        <div class="info-desc">Build your railway network and become a railroad tycoon!</div>
     </div>
 
     <script>
@@ -223,6 +284,22 @@
         function loadGame() {
             fitFrame();
             document.getElementById('gameFrame').src = 'original_game.html';
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            if (tab === 'game') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('gameTab').classList.remove('hidden');
+                document.getElementById('specTab').classList.remove('active');
+                document.getElementById('rotateBtn').style.display = 'inline-flex';
+                fitFrame();
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('gameTab').classList.add('hidden');
+                document.getElementById('specTab').classList.add('active');
+                document.getElementById('rotateBtn').style.display = 'none';
+            }
         }
 
         function rotate() {
