@@ -1,0 +1,13 @@
+<style>
+    html {
+        scroll-behavior: smooth; /* Плавная прокрутка */
+    }
+    nav { 
+        position: fixed; /* Закрепляем шапку сверху */
+        top: 0; width: 100%; 
+        background: #333; 
+        padding: 15px; 
+        z-index: 1000; 
+    }
+    section { padding-top: 80px; min-height: 500px; } /* Отступ для фикс. шапки */
+</style>
