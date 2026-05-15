@@ -137,7 +137,7 @@
 
         /* ── TABS ── */
         .tabs {
-            display: flex; gap: 4px;
+            display: flex; gap: 6px;
             background: rgba(0,0,0,0.6);
             padding: 4px; border-radius: 100px;
             margin: 0 auto;
@@ -145,15 +145,15 @@
         }
         .tab {
             padding: 7px 16px;
-            border: 1px solid transparent; background: transparent;
-            color: var(--muted); font-size: 13px; font-weight: 600; font-family: inherit;
+            border: 1px solid rgba(255,255,255,0.1); background: transparent;
+            color: var(--text); font-size: 13px; font-weight: 600; font-family: inherit;
             border-radius: 100px; cursor: pointer; transition: color .2s, background .2s, border-color .2s;
         }
-        .tab:hover { color: var(--text); }
+        .tab:hover { border-color: rgba(255,255,255,0.3); }
         .tab.active {
             background: var(--surface); color: var(--text);
             box-shadow: 0 2px 8px rgba(0,0,0,.4);
-            border: 1px solid rgba(124,92,252,0.4);
+            border: 1px solid rgba(124,92,252,0.6);
         }
 
         /* ── TUTORIAL HAND ── */
@@ -173,9 +173,14 @@
         }
         .tab.tutor-active { animation: tabPulse 1.8s infinite; }
         @keyframes tabPulse {
-            0%, 15% { transform: none; background: transparent; border-color: transparent; }
+            0%, 15% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
             40% { transform: scale(0.95); background: rgba(124,92,252,0.15); border-color: rgba(124,92,252,0.5); }
-            50%, 100% { transform: none; background: transparent; border-color: transparent; }
+            50%, 100% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
+        }
+        .tab.subtle-hint { animation: subtleBlink 3s infinite; }
+        @keyframes subtleBlink {
+            0%, 100% { border-color: rgba(255,255,255,0.1); background: transparent; color: var(--text); }
+            50% { border-color: rgba(124,92,252,0.6); background: rgba(124,92,252,0.1); color: #fff; }
         }
 
         /* ── SPEC CONTAINER ── */
@@ -344,36 +349,45 @@
         loadGame();
 
         // Tab Tutorial Logic
-        let tabTutorDismissed = false;
-        const dismissTabTutor = () => {
-            if (tabTutorDismissed) return;
-            tabTutorDismissed = true;
-            const t = document.getElementById('specTutor');
-            const b = document.getElementById('specBtn');
-            if (t) t.style.opacity = '0';
-            setTimeout(() => { if (t) t.style.display = 'none'; }, 300);
-            if (b) b.classList.remove('tutor-active');
-            
-            window.removeEventListener('blur', dismissTabTutor);
-            document.removeEventListener('touchstart', dismissTabTutor);
-            document.removeEventListener('mousemove', dismissTabTutor);
-        };
+        let interactionOccurred = false;
+        let tutorHandVisible = false;
 
-        // Fire tutorial after 2 seconds
-        setTimeout(() => {
-            if (!tabTutorDismissed) {
+        const markInteraction = () => {
+            interactionOccurred = true;
+            if (tutorHandVisible) {
                 const t = document.getElementById('specTutor');
                 const b = document.getElementById('specBtn');
-                if (t && b) { t.classList.add('active'); b.classList.add('tutor-active'); }
-                
-                // Delay listeners slightly so it doesn't instantly dismiss
-                setTimeout(() => {
-                    window.addEventListener('blur', dismissTabTutor); // iframe interaction
-                    document.addEventListener('touchstart', dismissTabTutor, {once: true});
-                    document.addEventListener('mousemove', dismissTabTutor, {once: true});
-                }, 500);
+                if (t) { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; }, 300); }
+                if (b) b.classList.remove('tutor-active');
+                tutorHandVisible = false;
             }
-        }, 2000);
+        };
+
+        window.addEventListener('blur', markInteraction); // clicking inside iframe
+        window.addEventListener('mousedown', markInteraction);
+        window.addEventListener('touchstart', markInteraction);
+
+        // Fire tutorial hand after 2.5 seconds if no interaction
+        setTimeout(() => {
+            if (!interactionOccurred) {
+                const t = document.getElementById('specTutor');
+                const b = document.getElementById('specBtn');
+                if (t && b) { 
+                    t.classList.add('active'); 
+                    b.classList.add('tutor-active'); 
+                    tutorHandVisible = true;
+                }
+            }
+        }, 2500);
+
+        // Fire subtle hint after 12 seconds
+        setTimeout(() => {
+            const specTab = document.getElementById('specTab');
+            const b = document.getElementById('specBtn');
+            if (specTab && !specTab.classList.contains('active') && b) {
+                b.classList.add('subtle-hint');
+            }
+        }, 12000);
     </script>
 </body>
 </html>
