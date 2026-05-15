@@ -96,8 +96,30 @@
             border: 1px solid rgba(124,92,252,.2);
         }
 
+        /* ── INFO ── */
+        .game-info {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .info-tags { display: flex; gap: 6px; }
+        .tag {
+            font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 100px;
+            background: rgba(124,92,252,.12); color: #a08aff;
+            border: 1px solid rgba(124,92,252,.2);
+        }
+
         .info-sep { width: 1px; height: 16px; background: var(--border); }
         .info-desc { color: var(--muted); font-size: 13px; }
+
+        /* ── MOBILE ── */
+        @media (max-width: 600px) {
+            body { padding: 10px 10px 16px; gap: 10px; }
+            .btn-back, .btn-rotate { padding: 8px 14px; font-size: 13px; }
+            .info-desc { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -135,7 +157,8 @@
 
     <script>
         const PORT_W = 360, PORT_H = 640;
-        let isLandscape = true;
+        // On mobile (narrow screen) start in portrait; on desktop start landscape
+        let isLandscape = window.innerWidth > 700;
 
         function fitFrame() {
             const shrink = document.getElementById('frameShrink');

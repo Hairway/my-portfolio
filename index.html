@@ -58,6 +58,7 @@
             background: linear-gradient(135deg, var(--accent1), var(--accent2));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             text-decoration: none;
+            flex-shrink: 0;
         }
 
         .nav-links { display: flex; gap: 8px; }
@@ -71,6 +72,40 @@
             transition: color .2s, background .2s;
         }
         .nav-links a:hover { color: var(--text); background: var(--surface); }
+
+        /* hamburger */
+        .nav-burger {
+            display: none;
+            flex-direction: column; gap: 5px;
+            background: none; border: none; cursor: pointer; padding: 8px;
+        }
+        .nav-burger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--text); border-radius: 2px;
+            transition: transform .3s, opacity .3s;
+        }
+        .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .nav-burger.open span:nth-child(2) { opacity: 0; }
+        .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* mobile drawer */
+        .nav-drawer {
+            display: none;
+            position: fixed; inset: 64px 0 0 0; z-index: 99;
+            background: rgba(7,8,15,.97);
+            backdrop-filter: blur(20px);
+            flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+            padding: 40px 24px;
+        }
+        .nav-drawer.open { display: flex; }
+        .nav-drawer a {
+            color: var(--text); text-decoration: none;
+            font-size: 28px; font-weight: 700;
+            padding: 14px 32px; border-radius: 12px;
+            transition: background .2s;
+            width: 100%; text-align: center;
+        }
+        .nav-drawer a:hover { background: var(--surface); }
 
         /* ─── SECTIONS ─── */
         section { position: relative; z-index: 1; }
@@ -210,6 +245,10 @@
             transition: opacity .3s ease;
         }
         .game-card:hover .card-overlay { opacity: 1; }
+        /* always visible on touch devices */
+        @media (hover: none) {
+            .card-overlay { opacity: 1; }
+        }
 
         .card-play {
             display: flex; align-items: center; gap: 8px;
@@ -307,9 +346,25 @@
         .gate-btn:hover { opacity: .88; }
         .gate-error { color: var(--accent2); font-size: 13px; margin-top: 10px; min-height: 18px; }
 
-        @media (max-width: 600px) {
+        /* ─── MOBILE ─── */
+        @media (max-width: 700px) {
             nav { padding: 0 20px; }
-            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .nav-burger { display: flex; }
+
+            #home { padding: 80px 20px 60px; }
+            .hero-sub { font-size: 16px; }
+
+            #portfolio { padding: 70px 16px 60px; }
+            .section-sub { margin-bottom: 36px; }
+            .games-grid { grid-template-columns: 1fr; gap: 20px; }
+            .card-thumb { aspect-ratio: 16/9; }
+
+            #about { padding: 70px 16px 80px; }
+            .about-grid { grid-template-columns: 1fr; gap: 14px; margin-top: 32px; }
+            .about-card { padding: 22px; }
+
+            .btn-primary, .btn-ghost { padding: 13px 24px; font-size: 14px; }
         }
     </style>
 </head>
@@ -335,7 +390,17 @@
         <a href="#portfolio">Work</a>
         <a href="#about">About</a>
     </div>
+    <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
+
+<!-- mobile drawer -->
+<div class="nav-drawer" id="drawer">
+    <a href="#home"   onclick="closeMenu()">Home</a>
+    <a href="#portfolio" onclick="closeMenu()">Work</a>
+    <a href="#about"  onclick="closeMenu()">About</a>
+</div>
 
 <!-- ─── HERO ─── -->
 <section id="home">
@@ -474,6 +539,20 @@
     // Auto-unlock if already authorized
     if (sessionStorage.getItem('isAuthorized') === 'true') {
         document.getElementById('gate').style.display = 'none';
+    }
+
+    // Hamburger menu
+    function toggleMenu() {
+        const b = document.getElementById('burger');
+        const d = document.getElementById('drawer');
+        b.classList.toggle('open');
+        d.classList.toggle('open');
+        document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMenu() {
+        document.getElementById('burger').classList.remove('open');
+        document.getElementById('drawer').classList.remove('open');
+        document.body.style.overflow = '';
     }
 
     // Scroll-spy active nav link
