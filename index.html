@@ -14,10 +14,18 @@
         :root{--bg:#07080f;--surface:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);--accent1:#7c5cfc;--accent2:#f25c7a;--text:#e8eaf0;--muted:#7a7f96;--radius:18px}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{scroll-behavior:smooth}
-        body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-        body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(124,92,252,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(242,92,122,.14) 0%,transparent 60%);pointer-events:none}
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(124,92,252,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(242,92,122,.14) 0%,transparent 60%);pointer-events:none}
         /* NAV */
-        nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(7,8,15,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: max(20px, env(safe-area-inset-top)) 40px 20px;
+            background: rgba(7,8,15,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)
+        }
         .nav-logo{font-weight:800;font-size:18px;background:linear-gradient(135deg,var(--accent1),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;flex-shrink:0}
         .nav-links{display:flex;gap:8px}
         .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:color .2s,background .2s}
@@ -129,7 +137,7 @@
         .reveal.visible{opacity:1;transform:none}
         /* MOBILE */
         @media(max-width:700px){
-            nav{padding:0 20px}
+            nav { padding: max(16px, env(safe-area-inset-top)) 16px 16px; }
             .nav-links{display:none}
             .nav-burger{display:flex}
             #home{padding:80px 20px 60px}
@@ -473,7 +481,7 @@
                     // Attach dismiss listeners
                     if (c) {
                         c.addEventListener('mouseenter', dismissTutor, {once: true});
-                        c.addEventListener('touchstart', dismissTutor, {once: true});
+                        c.addEventListener('click', dismissTutor, {once: true});
                     }
                 }
             }, 600); // 600ms delay to let user see it

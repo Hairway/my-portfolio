@@ -187,12 +187,12 @@
 
         /* ── MOBILE ── */
         @media (max-width: 600px) {
-            body { padding: 10px 10px 16px; gap: 10px; }
-            .btn-back, .btn-rotate { padding: 8px 14px; font-size: 13px; }
+            body { padding: max(16px, env(safe-area-inset-top)) 10px 16px; gap: 10px; }
+            .btn-back, .btn-rotate { padding: 10px; font-size: 0; gap: 0; justify-content: center; }
             .info-desc { display: none; }
-            .tabs { margin: 0; flex-grow: 1; justify-content: center; }
-            .tab { padding: 7px 12px; }
-            .header { flex-wrap: wrap; justify-content: center; }
+            .tabs { margin: 0; flex-grow: 0; justify-content: center; }
+            .tab { padding: 7px 10px; font-size: 13px; }
+            .header { flex-wrap: nowrap; justify-content: space-between; gap: 6px; }
         }
     </style>
 </head>
