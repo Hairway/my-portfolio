@@ -43,7 +43,7 @@
         }
 
         .header {
-            position: relative; z-index: 1;
+            position: relative; z-index: 50;
             display: flex; align-items: center; justify-content: space-between; gap: 10px;
             flex-shrink: 0; width: 100%;
             max-width: 760px;
@@ -339,6 +339,7 @@
                 document.getElementById('rotateBtn').style.visibility = 'hidden';
                 document.getElementById('rotateBtn').style.opacity = '0';
                 document.getElementById('rotateBtn').style.pointerEvents = 'none';
+                sessionStorage.setItem('specVisited', 'true');
             }
             if (typeof markInteraction === 'function') markInteraction();
         }
@@ -355,6 +356,10 @@
         // Tab Tutorial Logic
         let interactionOccurred = false;
         let tutorHandVisible = false;
+
+        if (sessionStorage.getItem('specVisited') === 'true') {
+            interactionOccurred = true;
+        }
 
         const markInteraction = () => {
             interactionOccurred = true;
@@ -386,6 +391,7 @@
 
         // Fire subtle hint after 12 seconds
         setTimeout(() => {
+            if (sessionStorage.getItem('specVisited') === 'true') return;
             const specTab = document.getElementById('specTab');
             const b = document.getElementById('specBtn');
             if (specTab && !specTab.classList.contains('active') && b) {
