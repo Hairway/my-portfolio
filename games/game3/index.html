@@ -379,6 +379,16 @@
         };
 
         window.addEventListener('blur', markInteraction); // clicking inside iframe
+        document.addEventListener('touchstart', markInteraction, {passive: true, capture: true});
+        document.addEventListener('click', markInteraction, {capture: true});
+
+        // Fallback for iOS Safari: check if iframe takes focus
+        const focusCheck = setInterval(() => {
+            if (document.activeElement && document.activeElement.tagName === 'IFRAME') {
+                markInteraction();
+                clearInterval(focusCheck);
+            }
+        }, 500);
 
         // Fire tutorial hand after 2.5 seconds if no interaction
         setTimeout(() => {
