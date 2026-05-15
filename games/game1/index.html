@@ -309,6 +309,12 @@
         }
 
         function switchTab(tab) {
+            const specBtn = document.getElementById('specBtn');
+            if (specBtn) {
+                specBtn.classList.remove('subtle-hint');
+                specBtn.classList.remove('tutor-active');
+            }
+
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             if (tab === 'game') {
                 document.querySelectorAll('.tab')[0].classList.add('active');
