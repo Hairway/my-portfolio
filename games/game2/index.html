@@ -180,7 +180,7 @@
         .tab.subtle-hint { animation: subtleBlink 3s infinite; }
         @keyframes subtleBlink {
             0%, 100% { border-color: rgba(255,255,255,0.1); background: transparent; color: var(--text); }
-            50% { border-color: rgba(124,92,252,0.6); background: rgba(124,92,252,0.1); color: #fff; }
+            50% { border-color: rgba(124,92,252,1); background: rgba(124,92,252,0.85); color: #fff; }
         }
 
         /* ── SPEC CONTAINER ── */
@@ -328,15 +328,19 @@
                 document.querySelectorAll('.tab')[0].classList.add('active');
                 document.getElementById('gameTab').classList.remove('hidden');
                 document.getElementById('specTab').classList.remove('active');
-                document.getElementById('rotateBtn').style.display = 'inline-flex';
+                document.getElementById('rotateBtn').style.visibility = 'visible';
+                document.getElementById('rotateBtn').style.opacity = '1';
+                document.getElementById('rotateBtn').style.pointerEvents = 'auto';
                 fitFrame();
             } else {
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('gameTab').classList.add('hidden');
                 document.getElementById('specTab').classList.add('active');
-                document.getElementById('rotateBtn').style.display = 'none';
+                document.getElementById('rotateBtn').style.visibility = 'hidden';
+                document.getElementById('rotateBtn').style.opacity = '0';
+                document.getElementById('rotateBtn').style.pointerEvents = 'none';
             }
-            if (typeof dismissTabTutor === 'function') dismissTabTutor();
+            if (typeof markInteraction === 'function') markInteraction();
         }
 
         function rotate() {
