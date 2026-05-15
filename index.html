@@ -455,40 +455,85 @@
     });
 
     // Playable Tutorial Hand Logic
-    let tutorTriggered = false;
     let tutorDismissed = false;
     const gamesGrid = document.getElementById('gamesGrid');
+    const tutorHand = document.getElementById('tutorHand');
+    const allCards = Array.from(document.querySelectorAll('.game-card'));
+    let tutorInterval = null;
+    let cycleIndex = 0;
     
     const dismissTutor = () => {
         if (tutorDismissed) return;
         tutorDismissed = true;
-        const h = document.getElementById('tutorHand');
-        const c = document.getElementById('card-game1');
-        if (h) h.style.opacity = '0';
-        setTimeout(() => { if (h) h.style.display = 'none'; }, 300);
-        if (c) c.classList.remove('tutor-active');
+        if (tutorHand) {
+            tutorHand.style.opacity = '0';
+            setTimeout(() => { tutorHand.style.display = 'none'; }, 300);
+        }
+        allCards.forEach(c => c.classList.remove('tutor-active'));
+        if (tutorInterval) clearInterval(tutorInterval);
     };
 
-    const tutorObs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting && !tutorTriggered) {
-            tutorTriggered = true;
+    gamesGrid.addEventListener('click', dismissTutor);
+
+    // Track intersection ratios to know which row is most visible
+    const ratios = new Map();
+    const visObs = new IntersectionObserver(entries => {
+        entries.forEach(e => ratios.set(e.target, e.intersectionRatio));
+    }, { threshold: [0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0] });
+    allCards.forEach(c => visObs.observe(c));
+
+    const runTutorCycle = () => {
+        if (tutorDismissed) return;
+        
+        // Group cards into rows based on vertical position
+        const rows = {};
+        allCards.forEach(c => {
+            const top = Math.round(c.getBoundingClientRect().top / 10) * 10;
+            if (!rows[top]) rows[top] = [];
+            rows[top].push(c);
+        });
+
+        // Find the most visible row
+        let bestRow = [];
+        let maxVis = -1;
+        for (const top in rows) {
+            const row = rows[top];
+            const avgVis = row.reduce((sum, c) => sum + (ratios.get(c) || 0), 0) / row.length;
+            if (avgVis > maxVis) {
+                maxVis = avgVis;
+                bestRow = row;
+            }
+        }
+
+        // If nothing is really visible, don't show the hand
+        if (maxVis <= 0 || bestRow.length === 0) return;
+
+        // Pick target card and increment cycle
+        const targetCard = bestRow[cycleIndex % bestRow.length];
+        cycleIndex++;
+
+        // Move tutor hand
+        allCards.forEach(c => c.classList.remove('tutor-active'));
+        if (tutorHand) {
+            targetCard.appendChild(tutorHand);
+            targetCard.classList.add('tutor-active');
+            tutorHand.classList.add('active');
+        }
+    };
+
+    // Start cycling when the grid comes into view
+    const initialObs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !tutorInterval && !tutorDismissed) {
             setTimeout(() => {
                 if (!tutorDismissed) {
-                    const h = document.getElementById('tutorHand');
-                    const c = document.getElementById('card-game1');
-                    if (h && c) { h.classList.add('active'); c.classList.add('tutor-active'); }
-                    
-                    // Attach dismiss listeners
-                    if (c) {
-                        c.addEventListener('mouseenter', dismissTutor, {once: true});
-                        c.addEventListener('click', dismissTutor, {once: true});
-                    }
+                    runTutorCycle();
+                    tutorInterval = setInterval(runTutorCycle, 3600); // 3.6s = exactly 2 taps of 1.8s
                 }
-            }, 600); // 600ms delay to let user see it
+            }, 600);
+            initialObs.disconnect();
         }
-    }, {threshold: 0.25}); // lower threshold so it triggers earlier
-    
-    if (gamesGrid) tutorObs.observe(gamesGrid);
+    }, { threshold: 0.15 });
+    if (gamesGrid) initialObs.observe(gamesGrid);
 </script>
 </body>
 </html>
