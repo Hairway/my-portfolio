@@ -326,7 +326,9 @@
     <div class="about-hero reveal">
         <div class="about-photo-wrap">
             <!-- Replace avatar.png with your own photo -->
-            <img class="about-photo" src="dima_photo.jpg" alt="Portrait" style="object-position: center 25%;">
+            <div class="about-photo" style="overflow: hidden; padding: 0;">
+                <img src="dima_photo.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: 70% 25%; transform: scale(1.15); display: block;">
+            </div>
         </div>
         <div class="about-bio">
             <div class="about-name">Dima Fomin</div>
@@ -461,6 +463,7 @@
     const allCards = Array.from(document.querySelectorAll('.game-card'));
     let tutorInterval = null;
     let cycleIndex = 0;
+    let activeRowTop = -1;
     
     const dismissTutor = () => {
         if (tutorDismissed) return;
@@ -496,43 +499,49 @@
         // Find the most visible row
         let bestRow = [];
         let maxVis = -1;
+        let bestRowTop = -1;
         for (const top in rows) {
             const row = rows[top];
             const avgVis = row.reduce((sum, c) => sum + (ratios.get(c) || 0), 0) / row.length;
             if (avgVis > maxVis) {
                 maxVis = avgVis;
                 bestRow = row;
+                bestRowTop = top;
             }
         }
 
-        // If nothing is really visible, don't show the hand
-        if (maxVis <= 0 || bestRow.length === 0) return;
+        // If the grid is not prominently visible, do nothing and wait
+        if (maxVis < 0.4 || bestRow.length === 0) return;
+
+        // If user scrolled to a new row, reset cycle to start from the 1st card!
+        if (activeRowTop !== bestRowTop) {
+            activeRowTop = bestRowTop;
+            cycleIndex = 0;
+        }
 
         // Pick target card and increment cycle
         const targetCard = bestRow[cycleIndex % bestRow.length];
         cycleIndex++;
 
-        // Move tutor hand
+        // Move tutor hand and FORCE animation restart
         allCards.forEach(c => c.classList.remove('tutor-active'));
         if (tutorHand) {
             targetCard.appendChild(tutorHand);
             targetCard.classList.add('tutor-active');
+            
+            tutorHand.classList.remove('active');
+            void tutorHand.offsetWidth; // trigger reflow to reset CSS animation
             tutorHand.classList.add('active');
         }
     };
 
-    // Start cycling when the grid comes into view
+    // Start checking when the grid comes into view
     const initialObs = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting && !tutorInterval && !tutorDismissed) {
-            setTimeout(() => {
-                if (!tutorDismissed) {
-                    runTutorCycle();
-                    tutorInterval = setInterval(runTutorCycle, 3600); // 3.6s = exactly 2 taps of 1.8s
-                }
-            }, 600);
+            tutorInterval = setInterval(runTutorCycle, 3500); // 3.5s cleanly allows 2 full taps
             initialObs.disconnect();
         }
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
     if (gamesGrid) initialObs.observe(gamesGrid);
 </script>
 </body>
