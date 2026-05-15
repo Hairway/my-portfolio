@@ -80,11 +80,29 @@
             overflow: hidden;
             box-shadow: 0 0 0 2px rgba(255,255,255,.08), 0 32px 80px rgba(0,0,0,.6);
             background: #000;
+            position: relative;
         }
 
-        .frame-wrap iframe {
-            display: block; border: none;
+        .frame-wrap iframe { display: block; border: none; }
+
+        /* ── LOADER ── */
+        .loader {
+            position: absolute; inset: 0; z-index: 10;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 16px;
+            background: #07080f;
+            transition: opacity .4s ease;
         }
+        .loader.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 3px solid rgba(124,92,252,.2);
+            border-top-color: #7c5cfc;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
+        }
+        .loader-text { color: #7a7f96; font-size: 13px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ── INFO ── */
         .game-info {
@@ -132,7 +150,12 @@
 
     <div class="frame-shrink" id="frameShrink">
         <div class="frame-wrap" id="frameWrap">
-            <iframe id="gameFrame" scrolling="no" allowfullscreen></iframe>
+            <div class="loader" id="loader">
+                <div class="spinner"></div>
+                <span class="loader-text">Loading game…</span>
+            </div>
+            <iframe id="gameFrame" scrolling="no" allowfullscreen
+                onload="document.getElementById('loader').classList.add('hidden')"></iframe>
         </div>
     </div>
 
