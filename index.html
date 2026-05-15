@@ -43,9 +43,27 @@
         .btn-primary:hover{opacity:.88;transform:translateY(-2px)}
         .btn-ghost{display:inline-block;padding:14px 32px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:500;font-size:15px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s}
         .btn-ghost:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
-        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;letter-spacing:.08em;text-transform:uppercase;animation:bounce 2s ease-in-out infinite}
-        .scroll-hint svg{opacity:.5}
-        @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+        .playable-hand { width: 36px; height: 36px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+        .scroll-swipe { animation: scrollSwipe 2s infinite ease-in-out; }
+        @keyframes scrollSwipe { 0% { transform: translateY(16px); opacity: 0; } 20% { opacity: 1; } 70% { transform: translateY(-16px); opacity: 0; } 100% { opacity: 0; } }
+        /* TUTORIAL TAP */
+        .tutor-wrap { position: absolute; top: 40%; left: 50%; z-index: 20; pointer-events: none; opacity: 0; transition: opacity .3s; }
+        .tutor-wrap.active { opacity: 1; animation: tutorMove 1.8s infinite; }
+        @keyframes tutorMove {
+            0% { transform: translate(30px, 40px); opacity: 0; }
+            15% { transform: translate(0, 0); opacity: 1; }
+            40% { transform: translate(0, 0) scale(0.85); } /* tap down */
+            50% { transform: translate(0, 0) scale(1); }    /* release */
+            80% { transform: translate(20px, 40px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        .game-card.tutor-active { animation: cardPulse 1.8s infinite; }
+        @keyframes cardPulse {
+            0%, 15% { transform: none; border-color: var(--border); box-shadow: none; }
+            40% { transform: scale(0.97); border-color: var(--accent1); box-shadow: 0 0 30px rgba(124,92,252,.6); }
+            50%, 100% { transform: none; border-color: var(--border); box-shadow: none; }
+        }
         /* PORTFOLIO */
         #portfolio{padding:100px 24px 80px;max-width:1100px;margin:0 auto}
         .section-label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent1);margin-bottom:12px}
@@ -176,8 +194,10 @@
         <a href="#about" class="btn-ghost">About Me</a>
     </div>
     <div class="scroll-hint">
-        <span>Scroll</span>
-        <svg width="16" height="24" viewBox="0 0 16 24" fill="none"><path d="M8 4v16M2 14l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>SCROLL FOR PLAYABLES</span>
+        <svg class="playable-hand scroll-swipe" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
+            <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
+        </svg>
     </div>
 </section>
 
@@ -186,8 +206,13 @@
     <div class="section-label reveal">Portfolio</div>
     <h2 class="section-title reveal">Playable Ads</h2>
     <p class="section-sub reveal">Interactive playable ads I've built — tap a card to play directly in your browser.</p>
-    <div class="games-grid">
+    <div class="games-grid" id="gamesGrid">
         <a class="game-card" href="games/game1/index.html" id="card-game1">
+            <div class="tutor-wrap" id="tutorHand">
+                <svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
+                    <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
+                </svg>
+            </div>
             <div class="card-thumb">
                 <img src="games/game1/preview.png" alt="Idle War — Merge Soldiers" loading="lazy">
                 <div class="card-overlay">
@@ -356,6 +381,36 @@
             }
         }, {once: true});
     });
+
+    // Playable Tutorial Hand Logic
+    let tutorTriggered = false;
+    let tutorDismissed = false;
+    const tutorObs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !tutorTriggered && !tutorDismissed) {
+            tutorTriggered = true;
+            setTimeout(() => {
+                if (!tutorDismissed) {
+                    const h = document.getElementById('tutorHand');
+                    const c = document.getElementById('card-game1');
+                    if (h && c) { h.classList.add('active'); c.classList.add('tutor-active'); }
+                }
+            }, 800);
+        }
+    }, {threshold: 0.6});
+    
+    const gamesGrid = document.getElementById('gamesGrid');
+    if (gamesGrid) {
+        tutorObs.observe(gamesGrid);
+        const dismissTutor = () => {
+            tutorDismissed = true;
+            const h = document.getElementById('tutorHand');
+            const c = document.getElementById('card-game1');
+            if (h) h.style.display = 'none';
+            if (c) c.classList.remove('tutor-active');
+        };
+        gamesGrid.addEventListener('mouseenter', dismissTutor, {once: true});
+        gamesGrid.addEventListener('touchstart', dismissTutor, {once: true});
+    }
 </script>
 </body>
 </html>
