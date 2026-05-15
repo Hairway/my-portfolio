@@ -3,67 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game #2 — Playable</title>
+    <meta name="description" content="Railroad Empire — interactive playable ad">
+    <title>Railroad Empire — Playable</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg:      #07080f;
+            --surface: rgba(255,255,255,0.04);
+            --border:  rgba(255,255,255,0.08);
+            --accent1: #7c5cfc;
+            --accent2: #f25c7a;
+            --text:    #e8eaf0;
+            --muted:   #7a7f96;
+        }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: sans-serif;
-            background: #1a1a2e;
-            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 16px;
-            gap: 12px;
-            min-height: 100vh;
+            padding: 16px 16px 24px;
+            gap: 14px;
+            overflow-x: hidden;
         }
 
-        .header { display: flex; gap: 10px; flex-shrink: 0; }
-
-        .btn {
-            padding: 10px 22px;
-            background: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 8px;
-            border: none;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background 0.2s;
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 70% 50% at 15% 0%, rgba(124,92,252,.14) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 40% at 85% 100%, rgba(242,92,122,.1) 0%, transparent 60%);
+            pointer-events: none;
         }
-        .btn:hover { background: #555; }
 
-        .frame-shrink { flex-shrink: 0; }
+        .header {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 10px;
+            flex-shrink: 0; width: 100%;
+            max-width: 760px;
+        }
+
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+            transition: background .2s;
+        }
+        .btn-back:hover { background: rgba(255,255,255,.08); }
+
+        .btn-rotate {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 9px 18px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            border: none; border-radius: 100px;
+            color: #fff; font-size: 14px; font-weight: 600; font-family: inherit;
+            cursor: pointer; transition: opacity .2s;
+        }
+        .btn-rotate:hover { opacity: .85; }
+
+        .frame-shrink { position: relative; z-index: 1; flex-shrink: 0; }
 
         .frame-wrap {
             transform-origin: top left;
-            border: 4px solid #444;
-            border-radius: 8px;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 0 0 2px rgba(255,255,255,.08), 0 32px 80px rgba(0,0,0,.6);
             background: #000;
         }
 
-        .frame-wrap iframe {
-            display: block;
-            border: none;
-        }
+        .frame-wrap iframe { display: block; border: none; }
 
-        .description {
-            max-width: 600px;
-            text-align: center;
-            line-height: 1.6;
-            color: #ccc;
-            font-size: 14px;
+        .game-info {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; gap: 12px;
             flex-shrink: 0;
         }
+
+        .info-tags { display: flex; gap: 6px; }
+        .tag {
+            font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 100px;
+            background: rgba(124,92,252,.12); color: #a08aff;
+            border: 1px solid rgba(124,92,252,.2);
+        }
+
+        .info-sep { width: 1px; height: 16px; background: var(--border); }
+        .info-desc { color: var(--muted); font-size: 13px; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <a href="../../index.html#portfolio" class="btn">← Back</a>
-        <button class="btn" onclick="rotate()">📱 Rotate</button>
+        <a href="../../index.html#portfolio" class="btn-back" id="backBtn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Back
+        </a>
+        <button class="btn-rotate" onclick="rotate()" id="rotateBtn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M1 7A6 6 0 0 1 11.2 3M13 7A6 6 0 0 1 2.8 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                <path d="M11 1l.2 2.1L13.2 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Rotate
+        </button>
     </div>
 
     <div class="frame-shrink" id="frameShrink">
@@ -72,14 +124,17 @@
         </div>
     </div>
 
-    <div class="description" id="desc">
-        <p>Railroad Empire — build your railway network and become a railroad tycoon!</p>
+    <div class="game-info">
+        <div class="info-tags">
+            <span class="tag">Tycoon</span>
+            <span class="tag">Building</span>
+        </div>
+        <div class="info-sep"></div>
+        <div class="info-desc">Build your railway network and become a railroad tycoon!</div>
     </div>
 
     <script>
         const PORT_W = 360, PORT_H = 640;
-
-        // Горизонтальная — первая
         let isLandscape = true;
 
         function fitFrame() {
@@ -90,11 +145,14 @@
             const nativeW = isLandscape ? PORT_H : PORT_W;
             const nativeH = isLandscape ? PORT_W : PORT_H;
 
-            const headerH = document.querySelector('.header').offsetHeight;
-            const descH   = document.getElementById('desc').offsetHeight;
-            const PAD = 32, GAPS = 24;
-            const maxW = window.innerWidth  - PAD;
-            const maxH = window.innerHeight - headerH - descH - GAPS - PAD;
+            const headerEl = document.querySelector('.header');
+            const infoEl   = document.querySelector('.game-info');
+            const headerH  = headerEl ? headerEl.offsetHeight : 48;
+            const infoH    = infoEl   ? infoEl.offsetHeight   : 32;
+            const PAD = 16, GAPS = 14 * 3;
+
+            const maxW = window.innerWidth  - PAD * 2;
+            const maxH = window.innerHeight - headerH - infoH - GAPS - PAD * 2;
 
             const scale = Math.min(maxW / nativeW, maxH / nativeH, 1);
             const visW  = Math.round(nativeW * scale);
@@ -125,7 +183,6 @@
         }
 
         window.addEventListener('resize', fitFrame);
-
         loadGame();
     </script>
 </body>

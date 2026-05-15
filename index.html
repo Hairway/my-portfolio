@@ -3,91 +3,492 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <meta name="description" content="Game developer portfolio — playable ads and mobile games showcase">
+    <title>Game Dev Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Основные настройки */
-        html { scroll-behavior: smooth; }
-        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333; }
-        
-        /* Скрываем контент до ввода пароля */
-        #content { display: none; }
-
-        /* Навигация */
-        nav { 
-            position: fixed; top: 0; width: 100%; 
-            background: #333; padding: 15px 0; text-align: center; z-index: 1000;
+        :root {
+            --bg:        #07080f;
+            --surface:   rgba(255,255,255,0.04);
+            --border:    rgba(255,255,255,0.08);
+            --accent1:   #7c5cfc;
+            --accent2:   #f25c7a;
+            --text:      #e8eaf0;
+            --muted:     #7a7f96;
+            --radius:    18px;
         }
-        nav a { color: white; margin: 0 15px; text-decoration: none; font-size: 18px; font-weight: bold; }
-        nav a:hover { color: #ddd; }
 
-        /* Секции */
-        section { padding: 100px 20px 50px; min-height: 400px; }
-        
-        /* Карточки игр */
-        .game-card { border: 1px solid #ccc; padding: 20px; margin: 10px; display: inline-block; border-radius: 8px; background: white; }
-        
-        h1 { margin-top: 0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* — BG mesh gradient — */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 20% -10%, rgba(124,92,252,.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 80% 110%, rgba(242,92,122,.14) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px;
+            height: 64px;
+            background: rgba(7,8,15,0.7);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-weight: 800; font-size: 18px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links { display: flex; gap: 8px; }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px; font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: color .2s, background .2s;
+        }
+        .nav-links a:hover { color: var(--text); background: var(--surface); }
+
+        /* ─── SECTIONS ─── */
+        section { position: relative; z-index: 1; }
+
+        /* ─── HERO ─── */
+        #home {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 80px 24px 60px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: rgba(124,92,252,.15);
+            border: 1px solid rgba(124,92,252,.3);
+            color: #a990ff;
+            font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+            padding: 6px 16px; border-radius: 100px;
+            margin-bottom: 28px;
+        }
+
+        .hero-title {
+            font-size: clamp(40px, 7vw, 80px);
+            font-weight: 800; line-height: 1.05;
+            letter-spacing: -.02em;
+            margin-bottom: 20px;
+        }
+        .hero-title .gradient {
+            background: linear-gradient(135deg, var(--accent1) 0%, var(--accent2) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            max-width: 520px;
+            color: var(--muted); font-size: 18px; font-weight: 300; line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta {
+            display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            color: #fff; font-weight: 600; font-size: 15px;
+            border-radius: 100px; text-decoration: none;
+            transition: opacity .2s, transform .2s;
+            border: none; cursor: pointer;
+        }
+        .btn-primary:hover { opacity: .88; transform: translateY(-2px); }
+
+        .btn-ghost {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text); font-weight: 500; font-size: 15px;
+            border-radius: 100px; text-decoration: none;
+            transition: background .2s, transform .2s;
+        }
+        .btn-ghost:hover { background: rgba(255,255,255,.08); transform: translateY(-2px); }
+
+        /* scroll indicator */
+        .scroll-hint {
+            position: absolute; bottom: 36px; left: 50%;
+            transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            color: var(--muted); font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        .scroll-hint svg { opacity: .5; }
+        @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+        /* ─── PORTFOLIO ─── */
+        #portfolio {
+            padding: 100px 24px 80px;
+            max-width: 1100px; margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+            color: var(--accent1); margin-bottom: 12px;
+        }
+        .section-title {
+            font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.15;
+            margin-bottom: 12px;
+        }
+        .section-sub {
+            color: var(--muted); font-size: 16px; max-width: 480px; margin-bottom: 56px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+        }
+
+        /* ─── GAME CARD ─── */
+        .game-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            text-decoration: none; color: inherit;
+            display: flex; flex-direction: column;
+            transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+            position: relative;
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124,92,252,.4);
+            box-shadow: 0 24px 60px rgba(0,0,0,.4), 0 0 0 1px rgba(124,92,252,.15);
+        }
+
+        .card-thumb {
+            position: relative; overflow: hidden;
+            aspect-ratio: 1 / 1;
+            background: #111;
+        }
+        .card-thumb img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+        .game-card:hover .card-thumb img { transform: scale(1.06); }
+
+        .card-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(7,8,15,.95) 0%, transparent 55%);
+            display: flex; align-items: flex-end; justify-content: center;
+            padding: 24px;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+        .game-card:hover .card-overlay { opacity: 1; }
+
+        .card-play {
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            color: #fff; font-weight: 700; font-size: 15px;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        .card-body { padding: 20px 22px 22px; }
+
+        .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+        .tag {
+            font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 100px;
+            background: rgba(124,92,252,.12); color: #a08aff;
+            border: 1px solid rgba(124,92,252,.2);
+        }
+
+        .card-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+        .card-desc { color: var(--muted); font-size: 14px; line-height: 1.55; }
+
+        /* ─── ABOUT ─── */
+        #about {
+            padding: 100px 24px 120px;
+            max-width: 780px; margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 48px;
+        }
+
+        .about-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+
+        .about-icon {
+            font-size: 28px; margin-bottom: 14px; display: block;
+        }
+        .about-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+        .about-card p { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+        .contact-row {
+            margin-top: 40px;
+            display: flex; gap: 12px; flex-wrap: wrap;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            position: relative; z-index: 1;
+            text-align: center; padding: 32px 24px;
+            border-top: 1px solid var(--border);
+            color: var(--muted); font-size: 13px;
+        }
+
+        /* ─── PASSWORD OVERLAY ─── */
+        #gate {
+            position: fixed; inset: 0; z-index: 999;
+            background: var(--bg);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .gate-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 48px 40px;
+            text-align: center; max-width: 360px; width: 90%;
+        }
+        .gate-icon { font-size: 40px; margin-bottom: 16px; }
+        .gate-box h2 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+        .gate-box p { color: var(--muted); font-size: 14px; margin-bottom: 28px; }
+        .gate-input {
+            width: 100%; padding: 14px 18px;
+            background: rgba(255,255,255,.06); border: 1px solid var(--border);
+            border-radius: 10px; color: var(--text); font-size: 16px; font-family: inherit;
+            outline: none; margin-bottom: 12px;
+            transition: border-color .2s;
+        }
+        .gate-input:focus { border-color: var(--accent1); }
+        .gate-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent1), var(--accent2));
+            border: none; border-radius: 10px;
+            color: #fff; font-size: 15px; font-weight: 700; font-family: inherit;
+            cursor: pointer; transition: opacity .2s;
+        }
+        .gate-btn:hover { opacity: .88; }
+        .gate-error { color: var(--accent2); font-size: 13px; margin-top: 10px; min-height: 18px; }
+
+        @media (max-width: 600px) {
+            nav { padding: 0 20px; }
+            .about-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="content">
-        <!-- Навигация -->
-        <nav>
-            <a href="#home">HOME</a>
-            <a href="#portfolio">PORTFOLIO</a>
-            <a href="#about">ABOUT ME</a>
-        </nav>
+<!-- ─── PASSWORD GATE ─── -->
+<div id="gate">
+    <div class="gate-box">
+        <div class="gate-icon">🔐</div>
+        <h2>Portfolio Access</h2>
+        <p>This portfolio is password protected. Enter the password to continue.</p>
+        <input id="pwInput" class="gate-input" type="password" placeholder="Password" autofocus>
+        <button class="gate-btn" onclick="checkAuth()">Enter →</button>
+        <div class="gate-error" id="gateError"></div>
+    </div>
+</div>
 
-        <!-- Раздел HOME -->
-        <section id="home">
-            <h1>Welcome to my Portfolio</h1>
-            <p>I am a game developer, and this is my space to showcase my work.</p>
-        </section>
+<!-- ─── NAV ─── -->
+<nav>
+    <a class="nav-logo" href="#home">GameDev.portfolio</a>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#portfolio">Work</a>
+        <a href="#about">About</a>
+    </div>
+</nav>
 
-        <!-- Раздел PORTFOLIO -->
-        <section id="portfolio">
-            <h1>My Games</h1>
-            <p>Here are my latest projects:</p>
-            
-            <div class="game-card">
-                <h3>Game #1</h3>
-                <a href="games/game1/index.html">Play Game</a>
-            </div>
-
-            <div class="game-card">
-                <h3>Game #2</h3>
-                <a href="games/game2/index.html">Play Game</a>
-            </div>
-        </section>
-
-        <!-- Раздел ABOUT ME -->
-        <section id="about">
-            <h1>About Me</h1>
-            <p>I am passionate about creating interactive web experiences and games.</p>
-            <p>You can contact me at: your-email@example.com</p>
-        </section>
+<!-- ─── HERO ─── -->
+<section id="home">
+    <div class="hero-tag">Game Developer</div>
+    <h1 class="hero-title">
+        Crafting Games<br>
+        <span class="gradient">People Love to Play</span>
+    </h1>
+    <p class="hero-sub">
+        I design and build playable ads and mobile game experiences that engage, delight, and convert.
+    </p>
+    <div class="hero-cta">
+        <a href="#portfolio" class="btn-primary">View My Work</a>
+        <a href="#about" class="btn-ghost">About Me</a>
     </div>
 
-    <!-- Скрипт проверки пароля -->
-    <script>
-        function checkAuth() {
-            const password = "123"; 
-            if (sessionStorage.getItem('isAuthorized') === 'true') {
-                document.getElementById('content').style.display = 'block';
-                return;
-            }
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+            <path d="M8 4v16M2 14l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </div>
+</section>
 
-            const input = prompt("Enter password to access my portfolio:");
-            if (input === password) {
-                sessionStorage.setItem('isAuthorized', 'true');
-                document.getElementById('content').style.display = 'block';
-            } else {
-                document.body.innerHTML = "<h1>Access Denied</h1>";
-                setTimeout(() => { window.location.reload(); }, 2000);
-            }
+<!-- ─── PORTFOLIO ─── -->
+<section id="portfolio">
+    <div class="section-label">Portfolio</div>
+    <h2 class="section-title">Playable Ads</h2>
+    <p class="section-sub">Interactive playable ads I've built — tap a card to play directly in your browser.</p>
+
+    <div class="games-grid">
+
+        <a class="game-card" href="games/game1/index.html" id="card-game1">
+            <div class="card-thumb">
+                <img src="games/game1/preview.png" alt="Idle War — Merge Soldiers">
+                <div class="card-overlay">
+                    <div class="card-play">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>
+                        Play Playable
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="tag">Idle</span>
+                    <span class="tag">Merge</span>
+                    <span class="tag">Strategy</span>
+                </div>
+                <div class="card-title">Idle War: Merge Soldiers</div>
+                <div class="card-desc">Merge soldiers, upgrade your army and lead them to victory in this idle battle game.</div>
+            </div>
+        </a>
+
+        <a class="game-card" href="games/game2/index.html" id="card-game2">
+            <div class="card-thumb">
+                <img src="games/game2/preview.png" alt="Railroad Empire">
+                <div class="card-overlay">
+                    <div class="card-play">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>
+                        Play Playable
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-tags">
+                    <span class="tag">Tycoon</span>
+                    <span class="tag">Building</span>
+                    <span class="tag">Strategy</span>
+                </div>
+                <div class="card-title">Railroad Empire</div>
+                <div class="card-desc">Build your railway network, connect cities and become a railroad tycoon.</div>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about">
+    <div class="section-label">About</div>
+    <h2 class="section-title">Who I Am</h2>
+    <p class="section-sub">I'm a game developer specialising in playable ads and interactive web experiences.</p>
+
+    <div class="about-grid">
+        <div class="about-card">
+            <span class="about-icon">🎮</span>
+            <h3>Game Development</h3>
+            <p>Building mobile games and playable ads using modern web technologies — Three.js, Pixi.js, and more.</p>
+        </div>
+        <div class="about-card">
+            <span class="about-icon">📱</span>
+            <h3>Playable Ads</h3>
+            <p>Creating high-converting interactive ad units that let players experience the core game loop before installing.</p>
+        </div>
+        <div class="about-card">
+            <span class="about-icon">✨</span>
+            <h3>Polish & UX</h3>
+            <p>Strong focus on feel, animations and the small details that make the difference between good and great.</p>
+        </div>
+        <div class="about-card">
+            <span class="about-icon">📬</span>
+            <h3>Get In Touch</h3>
+            <p>Open to freelance projects and collaboration. Let's build something great together.</p>
+        </div>
+    </div>
+
+    <div class="contact-row">
+        <a href="mailto:your-email@example.com" class="btn-primary">✉️ Contact Me</a>
+    </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <p>© 2025 GameDev Portfolio · Built with passion</p>
+</footer>
+
+<script>
+    const PASSWORD = "123";
+
+    function checkAuth() {
+        const val = document.getElementById('pwInput').value;
+        if (val === PASSWORD) {
+            sessionStorage.setItem('isAuthorized', 'true');
+            document.getElementById('gate').style.display = 'none';
+        } else {
+            document.getElementById('gateError').textContent = 'Incorrect password. Try again.';
+            document.getElementById('pwInput').value = '';
+            document.getElementById('pwInput').focus();
         }
-        checkAuth();
-    </script>
+    }
+
+    document.getElementById('pwInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') checkAuth();
+    });
+
+    // Auto-unlock if already authorized
+    if (sessionStorage.getItem('isAuthorized') === 'true') {
+        document.getElementById('gate').style.display = 'none';
+    }
+
+    // Scroll-spy active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                navLinks.forEach(a => a.style.color = '');
+                const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+                if (active) active.style.color = '#e8eaf0';
+            }
+        });
+    }, { threshold: 0.4 });
+    sections.forEach(s => observer.observe(s));
+</script>
 </body>
 </html>
