@@ -130,3 +130,218 @@
         @media(max-width:420px){.contact-grid{grid-template-columns:1fr}}
     </style>
 </head>
+<body>
+
+<!-- GATE -->
+<div id="gate">
+    <div class="gate-box">
+        <div class="gate-icon">🔐</div>
+        <h2>Portfolio Access</h2>
+        <p>This portfolio is password protected. Enter the password to continue.</p>
+        <input id="pwInput" class="gate-input" type="password" placeholder="Password" autofocus>
+        <button class="gate-btn" onclick="checkAuth()">Enter →</button>
+        <div class="gate-error" id="gateError"></div>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav>
+    <a class="nav-logo" href="#home">GameDev.portfolio</a>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#portfolio">Work</a>
+        <a href="#about">About</a>
+        <a href="#contacts">Contact</a>
+    </div>
+    <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+<div class="nav-drawer" id="drawer">
+    <a href="#home" onclick="closeMenu()">Home</a>
+    <a href="#portfolio" onclick="closeMenu()">Work</a>
+    <a href="#about" onclick="closeMenu()">About</a>
+    <a href="#contacts" onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="home">
+    <div class="hero-tag">Game Developer</div>
+    <h1 class="hero-title">Crafting Games<br><span class="gradient">People Love to Play</span></h1>
+    <p class="hero-sub">I design and build playable ads and mobile game experiences that engage, delight, and convert.</p>
+    <div class="hero-cta">
+        <a href="#portfolio" class="btn-primary">View My Work</a>
+        <a href="#about" class="btn-ghost">About Me</a>
+    </div>
+    <div class="scroll-hint">
+        <span>Scroll</span>
+        <svg width="16" height="24" viewBox="0 0 16 24" fill="none"><path d="M8 4v16M2 14l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+    <div class="section-label reveal">Portfolio</div>
+    <h2 class="section-title reveal">Playable Ads</h2>
+    <p class="section-sub reveal">Interactive playable ads I've built — tap a card to play directly in your browser.</p>
+    <div class="games-grid">
+        <a class="game-card" href="games/game1/index.html" id="card-game1">
+            <div class="card-thumb">
+                <img src="games/game1/preview.png" alt="Idle War — Merge Soldiers" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-play">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>
+                        Play Playable
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-tags"><span class="tag">Idle</span><span class="tag">Merge</span><span class="tag">Strategy</span></div>
+                <div class="card-title">Idle War: Merge Soldiers</div>
+                <div class="card-desc">Merge soldiers, upgrade your army and lead them to victory in this idle battle game.</div>
+            </div>
+        </a>
+        <a class="game-card" href="games/game2/index.html" id="card-game2">
+            <div class="card-thumb">
+                <img src="games/game2/preview.png" alt="Railroad Empire" loading="lazy">
+                <div class="card-overlay">
+                    <div class="card-play">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>
+                        Play Playable
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-tags"><span class="tag">Tycoon</span><span class="tag">Building</span><span class="tag">Strategy</span></div>
+                <div class="card-title">Railroad Empire</div>
+                <div class="card-desc">Build your railway network, connect cities and become a railroad tycoon.</div>
+            </div>
+        </a>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="section-label reveal">About</div>
+    <h2 class="section-title reveal">Who I Am</h2>
+    <div class="about-hero reveal">
+        <div class="about-photo-wrap">
+            <!-- Replace avatar.png with your own photo -->
+            <img class="about-photo" src="avatar.png" alt="Portrait">
+        </div>
+        <div class="about-bio">
+            <div class="about-name">Your Name</div>
+            <div class="about-role">Game Developer &amp; Playable Ad Specialist</div>
+            <p class="about-text">I design and build mobile games and playable ads — interactive experiences that engage players and drive installs. Passionate about game feel, polished UI, and pushing the limits of what runs in a browser.</p>
+            <div class="skills-wrap">
+                <span class="skill-chip">Three.js</span>
+                <span class="skill-chip">Pixi.js</span>
+                <span class="skill-chip">WebGL</span>
+                <span class="skill-chip">Unity</span>
+                <span class="skill-chip">JavaScript</span>
+                <span class="skill-chip">Playable Ads</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts">
+    <div class="section-label reveal">Contact</div>
+    <h2 class="section-title reveal">Get In Touch</h2>
+    <p class="section-sub reveal">Open to freelance projects and collaboration. Let's build something great together.</p>
+    <div class="contact-grid reveal">
+        <a class="contact-card" href="mailto:your@email.com" id="contact-email">
+            <div class="contact-icon">&#x2709;&#xFE0F;</div>
+            <div class="contact-info"><div class="contact-label">Email</div><div class="contact-value">your@email.com</div></div>
+        </a>
+        <a class="contact-card" href="https://t.me/yourusername" target="_blank" id="contact-tg">
+            <div class="contact-icon">&#x2708;&#xFE0F;</div>
+            <div class="contact-info"><div class="contact-label">Telegram</div><div class="contact-value">@yourusername</div></div>
+        </a>
+        <a class="contact-card" href="https://linkedin.com/in/yourprofile" target="_blank" id="contact-li">
+            <div class="contact-icon">&#x1F4BC;</div>
+            <div class="contact-info"><div class="contact-label">LinkedIn</div><div class="contact-value">yourprofile</div></div>
+        </a>
+        <a class="contact-card" href="https://github.com/yourusername" target="_blank" id="contact-gh">
+            <div class="contact-icon">&#x1F419;</div>
+            <div class="contact-info"><div class="contact-label">GitHub</div><div class="contact-value">yourusername</div></div>
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <a class="footer-logo" href="#home">GameDev.portfolio</a>
+        <span class="footer-copy">&copy; 2025 &middot; Built with passion</span>
+        <div class="footer-links">
+            <a href="mailto:your@email.com">Email</a>
+            <a href="https://t.me/yourusername" target="_blank">Telegram</a>
+            <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const PASSWORD = "123";
+    function checkAuth() {
+        const val = document.getElementById('pwInput').value;
+        if (val === PASSWORD) {
+            sessionStorage.setItem('isAuthorized','true');
+            document.getElementById('gate').style.display = 'none';
+        } else {
+            document.getElementById('gateError').textContent = 'Incorrect password. Try again.';
+            document.getElementById('pwInput').value = '';
+            document.getElementById('pwInput').focus();
+        }
+    }
+    document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAuth(); });
+    if (sessionStorage.getItem('isAuthorized') === 'true') document.getElementById('gate').style.display = 'none';
+
+    function toggleMenu() {
+        const b = document.getElementById('burger'), d = document.getElementById('drawer');
+        b.classList.toggle('open'); d.classList.toggle('open');
+        document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+    }
+    function closeMenu() {
+        document.getElementById('burger').classList.remove('open');
+        document.getElementById('drawer').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Scroll-spy
+    const spyObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                document.querySelectorAll('.nav-links a').forEach(a => a.style.color = '');
+                const active = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+                if (active) active.style.color = '#e8eaf0';
+            }
+        });
+    }, {threshold: 0.4});
+    document.querySelectorAll('section[id]').forEach(s => spyObs.observe(s));
+
+    // Reveal on scroll
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+    }, {threshold: 0.12});
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    // Game cards — reveal + hover preload
+    document.querySelectorAll('.game-card').forEach((c, i) => {
+        c.classList.add('reveal');
+        c.style.transitionDelay = (i * 0.1) + 's';
+        revealObs.observe(c);
+        c.addEventListener('mouseenter', () => {
+            const href = c.getAttribute('href');
+            if (!document.querySelector(`link[rel=prefetch][href="${href}"]`)) {
+                const l = document.createElement('link');
+                l.rel = 'prefetch'; l.href = href;
+                document.head.appendChild(l);
+            }
+        }, {once: true});
+    });
+</script>
+</body>
+</html>
