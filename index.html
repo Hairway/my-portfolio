@@ -41,7 +41,8 @@
         .nav-drawer a:hover{background:var(--surface)}
         section{position:relative;z-index:1}
         /* HERO */
-        #home{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 60px 60px;gap:40px;position:relative}
+        #home{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 60px 60px;gap:40px;position:relative;--mouse-x:50%;--mouse-y:50%}
+        #home::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y), rgba(124,92,252,0.15), transparent 100%);pointer-events:none;z-index:0;transition:opacity .3s ease}
         .hero-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
         .hero-tag{display:inline-block;background:rgba(124,92,252,.15);border:1px solid rgba(124,92,252,.3);color:#a990ff;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:28px}
         .hero-title{font-size:clamp(36px,5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
@@ -57,19 +58,22 @@
         .scroll-swipe { animation: scrollSwipe 2s infinite ease-in-out; }
         @keyframes scrollSwipe { 0% { transform: translateY(16px); opacity: 0; } 20% { opacity: 1; } 70% { transform: translateY(-16px); opacity: 0; } 100% { opacity: 0; } }
         /* HERO CARD STACK */
-        .hero-right{display:flex;align-items:center;justify-content:center;perspective:800px}
-        .card-stack{position:relative;width:240px;height:340px;transform-style:preserve-3d;transition:transform .1s ease-out;cursor:pointer}
-        .stack-card{position:absolute;width:220px;height:310px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 60px rgba(0,0,0,.5);transition:transform .6s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;background:#141520}
-        .stack-card img{width:100%;height:100%;object-fit:cover;display:block}
+        .hero-right{display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
+        .hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(124,92,252,0.3) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 6s ease-in-out infinite}
+        @keyframes pulseGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.8;transform:scale(1.05)}}
+        .card-stack{position:relative;width:240px;height:340px;transform-style:preserve-3d;transition:transform .1s ease-out;cursor:pointer;z-index:1;animation:floatStack 6s ease-in-out infinite}
+        @keyframes floatStack{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+        .stack-card{position:absolute;width:220px;height:310px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.05);transition:transform .6s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;background:rgba(20,21,32,.8);backdrop-filter:blur(12px)}
+        .stack-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.9}
         .stack-card:nth-child(1){transform:rotate(-8deg) translate(-30px,10px);z-index:1}
         .stack-card:nth-child(2){transform:rotate(-2deg) translate(-10px,5px);z-index:2}
         .stack-card:nth-child(3){transform:rotate(4deg) translate(10px,-5px);z-index:3}
-        .stack-card-label{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(7,8,15,.95),transparent);font-size:13px;font-weight:700;color:#fff}
+        .stack-card-label{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(7,8,15,1),transparent);font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em}
         .card-stack:hover .stack-card:nth-child(1){transform:rotate(-12deg) translate(-50px,20px) scale(0.95)}
         .card-stack:hover .stack-card:nth-child(2){transform:rotate(-4deg) translate(-15px,10px)}
         .card-stack:hover .stack-card:nth-child(3){transform:rotate(6deg) translate(20px,-10px)}
-        .stack-tap-hint{position:absolute;bottom:-36px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;animation:fadeUpHint 2s ease-in-out infinite}
-        @keyframes fadeUpHint{0%,100%{opacity:0;transform:translateX(-50%) translateY(6px)}40%,60%{opacity:1;transform:translateX(-50%) translateY(0)}}
+        .stack-tap-hint{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);font-size:12px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;animation:fadeUpHint 2s ease-in-out infinite;z-index:2}
+        @keyframes fadeUpHint{0%,100%{opacity:0;transform:translateX(-50%) translateY(8px)}40%,60%{opacity:1;transform:translateX(-50%) translateY(0)}}
         @media(max-width:860px){#home{grid-template-columns:1fr;text-align:center;padding:90px 20px 80px}.hero-left{align-items:center}.hero-sub{max-width:100%}.hero-right{display:none}}
         /* TUTORIAL TAP */
         .tutor-wrap { position: absolute; top: 40%; left: 50%; z-index: 20; pointer-events: none; opacity: 0; transition: opacity .3s; }
@@ -511,7 +515,10 @@
     <div class="contact-grid reveal">
         <a class="contact-card" href="mailto:hairway7@icloud.com" id="contact-email">
             <div class="contact-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#a990ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#a990ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4.5 8.4"></path>
+                </svg>
             </div>
             <div class="contact-info"><div class="contact-label">Email</div><div class="contact-value">hairway7@icloud.com</div></div>
         </a>
@@ -620,6 +627,18 @@
         });
     }
 
+    // Hero Background Glow Parallax
+    const homeSect = document.getElementById('home');
+    if (homeSect) {
+        homeSect.addEventListener('mousemove', e => {
+            const rect = homeSect.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            homeSect.style.setProperty('--mouse-x', `${x}%`);
+            homeSect.style.setProperty('--mouse-y', `${y}%`);
+        });
+    }
+
     // ── PLAYSTATION ACHIEVEMENTS ──
     const PS_ACHIEVEMENTS = [
         { id: 'first',  tier: 'bronze', emoji: '🥉', name: 'First Contact',   desc: 'Opened your first playable',     plays: 1 },
@@ -629,6 +648,10 @@
         { id: 'almost', tier: 'gold',   emoji: '🥇', name: 'Almost There',     desc: 'Just one more to go!',           plays: 5 },
         { id: 'plat',   tier: 'plat',   emoji: '💎', name: 'Master Explorer',  desc: 'You played ALL 6 playables!',    plays: 6 },
     ];
+    const HIDDEN_ACHIEVEMENTS = {
+        time:   { id: 'time',   tier: 'silver', emoji: '⏳', name: 'Taking it in',   desc: 'Spent 60 seconds on the page' },
+        scroll: { id: 'scroll', tier: 'bronze', emoji: '🤿', name: 'Deep Dive',      desc: 'Scrolled all the way to the bottom' }
+    };
     const TOTAL_GAMES = 6;
     let playsCount = +(sessionStorage.getItem('playsCount') || 0);
     let toastTimer = null;
@@ -682,6 +705,30 @@
             }
         }
     });
+
+    // ── HIDDEN ACHIEVEMENTS LOGIC ──
+    function checkHidden(achObj) {
+        const key = 'ach_' + achObj.id;
+        if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, '1');
+            setTimeout(() => showAchievement(achObj), 500);
+        }
+    }
+    // Time on page achievement
+    if (!sessionStorage.getItem('ach_time')) {
+        setTimeout(() => checkHidden(HIDDEN_ACHIEVEMENTS.time), 60000);
+    }
+    // Scroll depth achievement
+    const footerObs = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            checkHidden(HIDDEN_ACHIEVEMENTS.scroll);
+            footerObs.disconnect();
+        }
+    }, { threshold: 0.1 });
+    const footer = document.querySelector('footer');
+    if (footer && !sessionStorage.getItem('ach_scroll')) {
+        footerObs.observe(footer);
+    }
 
     // Scroll-spy
     const spyObs = new IntersectionObserver(entries => {
