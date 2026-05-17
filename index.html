@@ -43,6 +43,11 @@
         /* HERO */
         #home{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 60px 60px;gap:40px;position:relative;--mouse-x:50%;--mouse-y:50%}
         #home::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y), rgba(124,92,252,0.15), transparent 100%);pointer-events:none;z-index:0;transition:opacity .3s ease}
+        #home::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%, rgba(242,92,122,0.08), transparent 50%), radial-gradient(circle at 30% 70%, rgba(124,92,252,0.08), transparent 50%);pointer-events:none;z-index:0;animation:ambientBreathe 8s ease-in-out infinite alternate}
+        @keyframes ambientBreathe { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+        #heroParticles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+        .hero-particle { position: absolute; background: rgba(124,92,252,0.6); border-radius: 50%; filter: blur(3px); animation: floatParticle linear infinite; }
+        @keyframes floatParticle { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(-100vh) scale(0.5); opacity: 0; } }
         .hero-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
         .hero-tag{display:inline-block;background:rgba(124,92,252,.15);border:1px solid rgba(124,92,252,.3);color:#a990ff;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:6px 16px;border-radius:100px;margin-bottom:28px}
         .hero-title{font-size:clamp(36px,5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px}
@@ -53,14 +58,130 @@
         .btn-primary:hover{opacity:.88;transform:translateY(-2px)}
         .btn-ghost{display:inline-block;padding:14px 32px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:500;font-size:15px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s}
         .btn-ghost:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
-        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:rgba(255,255,255,.6);font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;z-index:2}
-        .mouse-icon { width: 22px; height: 34px; border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; position: relative; }
-        .mouse-wheel { width: 4px; height: 8px; background: rgba(255,255,255,0.8); border-radius: 2px; position: absolute; left: 50%; transform: translateX(-50%); top: 4px; animation: scrollWheel 2s infinite ease-in-out; }
-        @keyframes scrollWheel { 0% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 12px); opacity: 0; } }
-        .mobile-swipe { width: 30px; height: 38px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); animation: mobileSwipe 2.5s infinite ease-in-out; transform-origin: bottom right; }
-        @keyframes mobileSwipe { 0% { transform: translateY(15px) scale(0.9); opacity: 0; } 15% { opacity: 1; transform: translateY(15px) scale(0.9); } 25% { transform: translateY(15px) scale(1); } 65% { transform: translateY(-15px) scale(1); opacity: 0.9; } 100% { transform: translateY(-15px) scale(0.9); opacity: 0; } }
-        .desktop-only { display: block; } .mobile-only { display: none; }
-        @media(max-width:860px){ .desktop-only { display: none; } .mobile-only { display: block; } }
+        /* PLAYABLE-STYLE SWIPE TUTORIAL */
+        .playable-swipe-tutor {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+            pointer-events: none;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .playable-swipe-tutor.fade-out {
+            opacity: 0;
+            transform: translateX(-50%) translateY(20px) scale(0.85);
+        }
+        .tutor-drag-track {
+            position: relative;
+            width: 24px;
+            height: 60px;
+            margin-bottom: 12px;
+        }
+        .tutor-path-line {
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            transform: translateX(-50%);
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.05), rgba(124, 92, 252, 0.6) 50%, rgba(242, 92, 122, 0.8) 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(124, 92, 252, 0.4);
+        }
+        .tutor-pulse-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent2);
+            box-shadow: 0 0 12px var(--accent2);
+        }
+        .tutor-pulse-dot.start {
+            bottom: 4px;
+            background: var(--accent1);
+            box-shadow: 0 0 12px var(--accent1);
+            animation: dotPulse 1.8s infinite ease-in-out;
+        }
+        .tutor-pulse-dot.end {
+            top: 4px;
+            animation: dotPulse 1.8s infinite ease-in-out;
+            animation-delay: 0.9s;
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
+            50% { transform: translateX(-50%) scale(2.2); opacity: 1; box-shadow: 0 0 20px var(--accent2); }
+        }
+        .tutor-finger {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            left: calc(50% - 22px);
+            bottom: 0px;
+            filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
+            z-index: 2;
+            animation: swipeUpMotion 2.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform-origin: bottom center;
+        }
+        @keyframes swipeUpMotion {
+            0% { transform: translateY(0) scale(1.15); opacity: 0; }
+            8% { transform: translateY(0) scale(1.15); opacity: 0; }
+            15% { transform: translateY(0) scale(0.9); opacity: 1; }
+            20% { transform: translateY(0) scale(0.85); opacity: 1; }
+            55% { transform: translateY(-44px) scale(0.85); opacity: 1; }
+            65% { transform: translateY(-44px) scale(1.1); opacity: 1; }
+            75%, 100% { transform: translateY(-44px) scale(1.15); opacity: 0; }
+        }
+        .tutor-tap-ripple {
+            position: absolute;
+            left: 50%;
+            bottom: 12px;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--accent1);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            animation: tapRippleAnim 2.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        @keyframes tapRippleAnim {
+            0%, 15% { transform: translateX(-50%) scale(0.2); opacity: 0; }
+            20% { transform: translateX(-50%) scale(0.5); opacity: 1; }
+            45% { transform: translateX(-50%) scale(1.5); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        .tutor-pill-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 20px;
+            background: rgba(18, 19, 29, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(8px);
+            animation: floatPill 3s ease-in-out infinite alternate;
+        }
+        @keyframes floatPill {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-3px); }
+        }
+        .tutor-pill-text {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
         /* HERO CARD STACK */
         .hero-right{display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
         .hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(124,92,252,0.3) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 6s ease-in-out infinite}
@@ -76,8 +197,7 @@
         .card-stack:hover .stack-card:nth-child(1){transform:rotate(-12deg) translate(-50px,20px) scale(0.95)}
         .card-stack:hover .stack-card:nth-child(2){transform:rotate(-4deg) translate(-15px,10px)}
         .card-stack:hover .stack-card:nth-child(3){transform:rotate(6deg) translate(20px,-10px)}
-        .stack-tap-hint{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);font-size:12px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;animation:fadeUpHint 2s ease-in-out infinite;z-index:2}
-        @keyframes fadeUpHint{0%,100%{opacity:0;transform:translateX(-50%) translateY(8px)}40%,60%{opacity:1;transform:translateX(-50%) translateY(0)}}
+        /* Removed stack-tap-hint to keep layout ultra clean */
         @media(max-width:860px){#home{grid-template-columns:1fr;text-align:center;padding:90px 20px 80px}.hero-left{align-items:center}.hero-sub{max-width:100%}.hero-right{display:none}}
         /* TUTORIAL TAP */
         .playable-hand { width: 36px; height: 36px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
@@ -184,6 +304,7 @@
         @media(max-width:420px){.contact-grid{grid-template-columns:1fr}}
 
         /* ── PLAY NOW HERO BUTTON ── */
+        .btn-playnow, .btn-ghost { position: relative; overflow: hidden; }
         .btn-playnow {
             display: inline-flex; align-items: center; gap: 10px;
             padding: 18px 40px;
@@ -207,6 +328,16 @@
             60%      { transform: rotate(-6deg) translateY(-1px); }
             80%      { transform: rotate(4deg) translateY(0); }
         }
+        /* Ripple & Reveals */
+        .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.4); transform: scale(0); animation: rippleAnim 0.6s linear; pointer-events: none; }
+        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+        .reveal-blur { opacity: 0; filter: blur(16px); transform: translateY(20px); animation: blurReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes blurReveal { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+        .hero-tag.reveal-blur { animation-delay: 0.1s; }
+        .hero-title.reveal-blur { animation-delay: 0.25s; }
+        .hero-sub.reveal-blur { animation-delay: 0.4s; }
+        .hero-cta.reveal-blur { animation-delay: 0.55s; }
+        .hero-right.reveal-blur { animation-delay: 0.7s; }
 
         /* ── SKELETON LOADING ── */
         .card-thumb .skeleton-shimmer {
@@ -301,11 +432,12 @@
 
 <!-- HERO -->
 <section id="home">
+    <div id="heroParticles"></div>
     <div class="hero-left">
-        <div class="hero-tag">Playable Ads Producer</div>
-        <h1 class="hero-title">Crafting Ads<br><span class="gradient">That Hit Benchmarks</span></h1>
-        <p class="hero-sub">I invent high-converting playable ad concepts, write detailed specs, and lead creative teams to deliver top-performing creatives.</p>
-        <div class="hero-cta">
+        <div class="hero-tag reveal-blur">Playable Ads Producer</div>
+        <h1 class="hero-title reveal-blur">Crafting Ads<br><span class="gradient">That Hit Benchmarks</span></h1>
+        <p class="hero-sub reveal-blur">I invent high-converting playable ad concepts, write detailed specs, and lead creative teams to deliver top-performing creatives.</p>
+        <div class="hero-cta reveal-blur">
             <a href="#portfolio" class="btn-playnow" id="heroPlayBtn">
                 <svg width="22" height="22" viewBox="0 0 32 42" fill="#fff" stroke="rgba(0,0,0,.3)" stroke-width="1.5"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg>
                 PLAY NOW
@@ -313,7 +445,7 @@
             <a href="#about" class="btn-ghost">About Me</a>
         </div>
     </div>
-    <div class="hero-right">
+    <div class="hero-right reveal-blur">
         <div class="card-stack" id="heroCardStack">
             <div class="stack-card">
                 <img src="games/game3/preview.png" alt="Battle Lines">
@@ -328,14 +460,20 @@
                 <div class="stack-card-label">Kingdom Clash</div>
             </div>
         </div>
-        <span class="stack-tap-hint">Tap to explore ↓</span>
     </div>
-    <div class="scroll-hint">
-        <span>Scroll to start</span>
-        <div class="mouse-icon desktop-only"><div class="mouse-wheel"></div></div>
-        <svg class="mobile-swipe mobile-only" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
-            <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
-        </svg>
+    <div class="playable-swipe-tutor" id="heroScrollTutor">
+        <div class="tutor-drag-track">
+            <div class="tutor-path-line"></div>
+            <div class="tutor-pulse-dot start"></div>
+            <div class="tutor-pulse-dot end"></div>
+            <div class="tutor-tap-ripple"></div>
+            <svg class="tutor-finger" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="1.8">
+                <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
+            </svg>
+        </div>
+        <div class="tutor-pill-label">
+            <span class="tutor-pill-text">Scroll to start</span>
+        </div>
     </div>
 </section>
 
@@ -563,6 +701,7 @@
         if (val === PASSWORD) {
             sessionStorage.setItem('isAuthorized','true');
             document.getElementById('gate').style.display = 'none';
+            if (typeof initHeroTutor === 'function') initHeroTutor();
         } else {
             document.getElementById('gateError').textContent = 'Incorrect password. Try again.';
             document.getElementById('pwInput').value = '';
@@ -613,10 +752,83 @@
         else img.addEventListener('load', onLoad);
     });
 
-    // ── HERO CARD STACK — mouse parallax tilt + click to scroll ──
+    // Playable Parallax & Card Stack
+    const heroRight = document.querySelector('.hero-right');
     const cardStack = document.getElementById('heroCardStack');
-    if (cardStack) {
-        const heroRight = cardStack.closest('.hero-right');
+    
+    // JS Ripple Effect for CTAs
+    document.querySelectorAll('.btn-playnow, .btn-ghost').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let rect = this.getBoundingClientRect();
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+            let ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            let size = Math.max(rect.width, rect.height);
+            ripple.style.width = size + 'px';
+            ripple.style.height = size + 'px';
+            ripple.style.marginTop = -(size/2) + 'px';
+            ripple.style.marginLeft = -(size/2) + 'px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Hero Particles
+    const pContainer = document.getElementById('heroParticles');
+    if (pContainer) {
+        for(let i=0; i<15; i++) {
+            let p = document.createElement('div');
+            p.className = 'hero-particle';
+            let size = Math.random() * 5 + 2;
+            p.style.width = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            p.style.animationDelay = (Math.random() * -30) + 's';
+            pContainer.appendChild(p);
+        }
+    }
+
+    // Hero Playable Tutorial (Onboarding via Session Storage so it is easily previewable, but smooth!)
+    const initHeroTutor = () => {
+        const tutor = document.getElementById('heroScrollTutor');
+        if (!tutor) return;
+
+        if (sessionStorage.getItem('heroTutorSeen')) {
+            tutor.style.display = 'none';
+            return;
+        }
+
+        const hideTutor = () => {
+            if (tutor.classList.contains('fade-out')) return;
+            tutor.classList.add('fade-out');
+            sessionStorage.setItem('heroTutorSeen', '1');
+            
+            // Clean up event listeners
+            window.removeEventListener('scroll', hideTutor);
+            window.removeEventListener('click', hideTutor);
+            
+            // Fully remove from display after transition
+            setTimeout(() => {
+                tutor.style.display = 'none';
+            }, 600);
+        };
+
+        // Defer listener registration slightly to prevent the gate's submit click from immediately triggering dismissal
+        setTimeout(() => {
+            window.addEventListener('scroll', hideTutor, { passive: true });
+            window.addEventListener('click', hideTutor, { passive: true });
+        }, 100);
+    };
+    if (sessionStorage.getItem('isAuthorized') === 'true') {
+        initHeroTutor();
+    }
+
+    if (heroRight && cardStack) {
         heroRight.addEventListener('mousemove', e => {
             const rect = cardStack.getBoundingClientRect();
             const cx = rect.left + rect.width / 2;
