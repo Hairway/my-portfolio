@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <script>
+        if (sessionStorage.getItem('isAuthorized') !== 'true') {
+            window.location.href = '../../index.html';
+        }
+    </script>
     <meta name="description" content="Pocket Tales — interactive playable ad">
     <title>Pocket Tales — Playable</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,6 +112,7 @@
             position: relative; z-index: 1;
             display: flex; align-items: center; gap: 12px;
             flex-shrink: 0;
+            margin-top: 24px;
         }
 
         .info-tags { display: flex; gap: 6px; }
@@ -121,6 +128,7 @@
             position: relative; z-index: 1;
             display: flex; align-items: center; gap: 12px;
             flex-shrink: 0;
+            margin-top: 24px;
         }
 
         .info-tags { display: flex; gap: 6px; }
@@ -461,6 +469,9 @@
                 b.classList.add('subtle-hint');
             }
         }, 12000);
+
+        // Prevent context menu (right click) to protect playable assets from direct download
+        document.addEventListener('contextmenu', e => e.preventDefault());
     </script>
 </body>
 </html>
