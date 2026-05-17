@@ -1,6 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+    <script>
+    (function() {
+        // Redirection Blocker API overrides
+        function showRedirectModal(source) {
+            console.log("Store redirect blocked from source:", source);
+            if (document.getElementById('portfolio-blocker-modal')) return;
+            
+            var modal = document.createElement('div');
+            modal.id = 'portfolio-blocker-modal';
+            modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,18,0.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:999999;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#fff;animation:fadeInBlocker 0.3s ease-out;';
+            
+            var content = document.createElement('div');
+            content.style.cssText = 'background:linear-gradient(135deg, rgba(20,20,35,0.95) 0%, rgba(30,20,50,0.95) 100%);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:32px;width:90%;max-width:400px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.5);transform:scale(0.9);animation:scaleUpBlocker 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;';
+            
+            if (!document.getElementById('portfolio-blocker-style')) {
+                var style = document.createElement('style');
+                style.id = 'portfolio-blocker-style';
+                style.textContent = '@keyframes fadeInBlocker { from { opacity: 0; } to { opacity: 1; } } @keyframes scaleUpBlocker { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }';
+                document.head.appendChild(style);
+            }
+            
+            var iconContainer = document.createElement('div');
+            iconContainer.style.cssText = 'width:70px;height:70px;margin:0 auto 20px;background:rgba(147,51,234,0.1);border:2px solid rgba(147,51,234,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(147,51,234,0.25);';
+            iconContainer.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>';
+            
+            var title = document.createElement('h3');
+            title.style.cssText = 'font-size:22px;font-weight:700;margin:0 0 12px 0;background:linear-gradient(90deg, #c084fc, #a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;';
+            title.innerText = 'Demo Playable Mode';
+            
+            var text = document.createElement('p');
+            text.style.cssText = 'font-size:14px;line-height:1.6;color:rgba(255,255,255,0.7);margin:0 0 24px 0;';
+            text.innerText = 'Store redirection is disabled to keep you in the portfolio. You can continue playing the interactive demo!';
+            
+            var btn = document.createElement('button');
+            btn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(90deg, #9333ea, #a855f7);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 20px rgba(147,51,234,0.3);outline:none;';
+            btn.innerText = 'Resume Playable';
+            btn.onmouseover = function() {
+                btn.style.filter = 'brightness(1.1)';
+                btn.style.boxShadow = '0 8px 25px rgba(147,51,234,0.45)';
+            };
+            btn.onmouseout = function() {
+                btn.style.filter = 'none';
+                btn.style.boxShadow = '0 8px 20px rgba(147,51,234,0.3)';
+            };
+            btn.onclick = function() {
+                modal.style.animation = 'fadeInBlocker 0.2s ease-in reverse';
+                setTimeout(function() {
+                    modal.remove();
+                }, 180);
+            };
+            
+            content.appendChild(iconContainer);
+            content.appendChild(title);
+            content.appendChild(text);
+            content.appendChild(btn);
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+        }
+
+        window.open = function() {
+            showRedirectModal("window.open");
+            return { close: function() {}, focus: function() {} };
+        };
+        
+        if (typeof window.FbPlayableAd === 'undefined') {
+            window.FbPlayableAd = { onCTAClick: function() { showRedirectModal("FbPlayableAd.onCTAClick"); } };
+        }
+        if (typeof window.mraid === 'undefined') {
+            window.mraid = { open: function(url) { showRedirectModal("mraid.open"); } };
+        }
+        if (typeof window.dapi === 'undefined') {
+            window.dapi = { openStoreUrl: function() { showRedirectModal("dapi.openStoreUrl"); } };
+        }
+        if (typeof window.ExitApi === 'undefined') {
+            window.ExitApi = { exit: function() { showRedirectModal("ExitApi.exit"); } };
+        }
+
+        let originalPlatform = window.platform || {};
+        const platformProxy = new Proxy(originalPlatform, {
+            get: function(target, prop) {
+                if (prop === 'clickAd') {
+                    return function(e) {
+                        if (e && e.preventDefault) e.preventDefault();
+                        if (e && e.stopPropagation) e.stopPropagation();
+                        showRedirectModal("platform.clickAd");
+                    };
+                }
+                return target[prop];
+            },
+            set: function(target, prop, value) {
+                if (prop === 'clickAd') return true;
+                target[prop] = value;
+                return true;
+            }
+        });
+
+        Object.defineProperty(window, 'platform', {
+            get: function() { return platformProxy; },
+            set: function(val) {
+                if (val) {
+                    for (var k in val) {
+                        if (k !== 'clickAd') {
+                            originalPlatform[k] = val[k];
+                        }
+                    }
+                }
+            },
+            configurable: true
+        });
+
+        document.addEventListener('click', function(e) {
+            var t = e.target;
+            while (t && t !== document) {
+                if (t.tagName === 'A') {
+                    var hr = t.getAttribute('href');
+                    if (hr && (hr.includes('play.google.com') || hr.includes('apps.apple.com') || hr.startsWith('http'))) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showRedirectModal("Anchor link click");
+                        return;
+                    }
+                }
+                t = t.parentNode;
+            }
+        }, true);
+
+        window.addEventListener('beforeunload', function(e) {
+            showRedirectModal("Navigation blocked");
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        });
+    })();
+    </script>
+<head>
 		<!--marker_head@start-->
 		
 		
