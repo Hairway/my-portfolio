@@ -127,12 +127,56 @@
             }
         }, true);
 
-        window.addEventListener('beforeunload', function(e) {
-            showRedirectModal("Navigation blocked");
-            e.preventDefault();
-            e.returnValue = '';
-            return '';
-        });
+        // 1. Prevent contextmenu inside iframe
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // 2. Prevent common keyboard shortcuts inside iframe
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+            if (metaOrCtrl) {
+                if (e.key === 's' || e.key === 'S' || e.keyCode === 83) { e.preventDefault(); return false; }
+                if (e.key === 'u' || e.key === 'U' || e.keyCode === 85) { e.preventDefault(); return false; }
+                if (e.shiftKey) {
+                    if (e.key === 'I' || e.key === 'i' || e.keyCode === 73 ||
+                        e.key === 'J' || e.key === 'j' || e.keyCode === 74 ||
+                        e.key === 'C' || e.key === 'c' || e.keyCode === 67) {
+                        e.preventDefault(); return false;
+                    }
+                }
+                if (isMac && e.altKey) {
+                    if (e.key === 'i' || e.key === 'I' || e.keyCode === 73 ||
+                        e.key === 'j' || e.key === 'J' || e.keyCode === 74 ||
+                        e.key === 'u' || e.key === 'U' || e.keyCode === 85 ||
+                        e.key === 'c' || e.key === 'C' || e.keyCode === 67) {
+                        e.preventDefault(); return false;
+                    }
+                }
+            }
+        }, true);
+
+        // 3. Infinite debugger loop to freeze DevTools console
+        (function() {
+            function freeze() {
+                try {
+                    (function debuggerTrap(i) {
+                        if (("" + i / i).length !== 1 || i % 20 === 0) {
+                            (function() { return true; }).constructor("debugger")();
+                        } else {
+                            (function() { return false; }).constructor("debugger")();
+                        }
+                        debuggerTrap(++i);
+                    })(0);
+                } catch (e) {
+                    setTimeout(freeze, 500);
+                }
+            }
+            setTimeout(freeze, 1000);
+        })();
     })();
     </script>
 <head>

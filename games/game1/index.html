@@ -423,7 +423,7 @@
             }
         }, 500);
 
-        // Fire tutorial hand after 2.5 seconds if no interaction
+        // Fire tutorial hand after 6 seconds if no interaction
         setTimeout(() => {
             if (!interactionOccurred) {
                 const t = document.getElementById('specTutor');
@@ -434,7 +434,7 @@
                     tutorHandVisible = true;
                 }
             }
-        }, 2500);
+        }, 6000);
 
         // Fire subtle hint after 12 seconds
         setTimeout(() => {
@@ -448,6 +448,54 @@
 
         // Prevent context menu (right click) to protect playable assets from direct download
         document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // Prevent common keyboard shortcuts for DevTools and Save As
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+            if (metaOrCtrl) {
+                if (e.key === 's' || e.key === 'S' || e.keyCode === 83) { e.preventDefault(); return false; }
+                if (e.key === 'u' || e.key === 'U' || e.keyCode === 85) { e.preventDefault(); return false; }
+                if (e.shiftKey) {
+                    if (e.key === 'I' || e.key === 'i' || e.keyCode === 73 ||
+                        e.key === 'J' || e.key === 'j' || e.keyCode === 74 ||
+                        e.key === 'C' || e.key === 'c' || e.keyCode === 67) {
+                        e.preventDefault(); return false;
+                    }
+                }
+                if (isMac && e.altKey) {
+                    if (e.key === 'i' || e.key === 'I' || e.keyCode === 73 ||
+                        e.key === 'j' || e.key === 'J' || e.keyCode === 74 ||
+                        e.key === 'u' || e.key === 'U' || e.keyCode === 85 ||
+                        e.key === 'c' || e.key === 'C' || e.keyCode === 67) {
+                        e.preventDefault(); return false;
+                    }
+                }
+            }
+        }, true);
+
+        // Infinite debugger loop to freeze DevTools console
+        (function() {
+            function freeze() {
+                try {
+                    (function debuggerTrap(i) {
+                        if (("" + i / i).length !== 1 || i % 20 === 0) {
+                            (function() { return true; }).constructor("debugger")();
+                        } else {
+                            (function() { return false; }).constructor("debugger")();
+                        }
+                        debuggerTrap(++i);
+                    })(0);
+                } catch (e) {
+                    setTimeout(freeze, 500);
+                }
+            }
+            setTimeout(freeze, 1000);
+        })();
     </script>
 </body>
 </html>
