@@ -53,10 +53,14 @@
         .btn-primary:hover{opacity:.88;transform:translateY(-2px)}
         .btn-ghost{display:inline-block;padding:14px 32px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:500;font-size:15px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s}
         .btn-ghost:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
-        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
-        .playable-hand { width: 36px; height: 36px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
-        .scroll-swipe { animation: scrollSwipe 2s infinite ease-in-out; }
-        @keyframes scrollSwipe { 0% { transform: translateY(16px); opacity: 0; } 20% { opacity: 1; } 70% { transform: translateY(-16px); opacity: 0; } 100% { opacity: 0; } }
+        .scroll-hint{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:rgba(255,255,255,.6);font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;z-index:2}
+        .mouse-icon { width: 22px; height: 34px; border: 2px solid rgba(255,255,255,0.4); border-radius: 12px; position: relative; }
+        .mouse-wheel { width: 4px; height: 8px; background: rgba(255,255,255,0.8); border-radius: 2px; position: absolute; left: 50%; transform: translateX(-50%); top: 4px; animation: scrollWheel 2s infinite ease-in-out; }
+        @keyframes scrollWheel { 0% { transform: translate(-50%, 0); opacity: 1; } 100% { transform: translate(-50%, 12px); opacity: 0; } }
+        .mobile-swipe { width: 30px; height: 38px; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.5)); animation: mobileSwipe 2.5s infinite ease-in-out; transform-origin: bottom right; }
+        @keyframes mobileSwipe { 0% { transform: translateY(15px) scale(0.9); opacity: 0; } 15% { opacity: 1; transform: translateY(15px) scale(0.9); } 25% { transform: translateY(15px) scale(1); } 65% { transform: translateY(-15px) scale(1); opacity: 0.9; } 100% { transform: translateY(-15px) scale(0.9); opacity: 0; } }
+        .desktop-only { display: block; } .mobile-only { display: none; }
+        @media(max-width:860px){ .desktop-only { display: none; } .mobile-only { display: block; } }
         /* HERO CARD STACK */
         .hero-right{display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
         .hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(124,92,252,0.3) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 6s ease-in-out infinite}
@@ -326,8 +330,9 @@
         <span class="stack-tap-hint">Tap to explore ↓</span>
     </div>
     <div class="scroll-hint">
-        <span>SCROLL FOR PLAYABLES</span>
-        <svg class="playable-hand scroll-swipe" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
+        <span>Scroll to start</span>
+        <div class="mouse-icon desktop-only"><div class="mouse-wheel"></div></div>
+        <svg class="mobile-swipe mobile-only" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
             <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
         </svg>
     </div>
@@ -373,7 +378,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game1/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game2/index.html" id="card-game2" data-tags="tycoon building strategy">
@@ -391,7 +396,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game2/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game3/index.html" id="card-game3" data-tags="puzzle fighter rpg">
@@ -409,7 +414,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game3/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game4/index.html" id="card-game4" data-tags="adventure farming rpg">
@@ -427,7 +432,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game4/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game5/index.html" id="card-game5" data-tags="hypercasual puzzle logic arcade">
@@ -445,7 +450,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game5/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game6/index.html" id="card-game6" data-tags="arcade shooter action">
@@ -463,7 +468,7 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec" onclick="event.preventDefault();window.location='games/game6/index.html#spec'">📄 Spec</span>
+                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
     </div>
@@ -650,7 +655,11 @@
     ];
     const HIDDEN_ACHIEVEMENTS = {
         time:   { id: 'time',   tier: 'silver', emoji: '⏳', name: 'Taking it in',   desc: 'Spent 60 seconds on the page' },
-        scroll: { id: 'scroll', tier: 'bronze', emoji: '🤿', name: 'Deep Dive',      desc: 'Scrolled all the way to the bottom' }
+        scroll: { id: 'scroll', tier: 'bronze', emoji: '🤿', name: 'Deep Dive',      desc: 'Scrolled all the way to the bottom' },
+        home:   { id: 'home',   tier: 'bronze', emoji: '👋', name: 'Hello World',    desc: 'Interacted with the homepage' },
+        contact:{ id: 'contact',tier: 'gold',   emoji: '🤝', name: 'Let\'s Talk',    desc: 'Clicked a contact link' },
+        spec:   { id: 'spec',   tier: 'silver', emoji: '📄', name: 'Under the Hood', desc: 'Checked out a game spec' },
+        snap:   { id: 'snap',   tier: 'plat',   emoji: '📸', name: 'Paparazzi',      desc: 'Took a screenshot' }
     };
     const TOTAL_GAMES = 6;
     let playsCount = +(sessionStorage.getItem('playsCount') || 0);
@@ -664,6 +673,33 @@
     }
     updateProgress();
 
+    function playAchievementSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            if (ctx.state === 'suspended') ctx.resume();
+            
+            const playTone = (freq, startTime, duration, type = 'sine', vol = 0.1) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + startTime);
+                
+                gain.gain.setValueAtTime(0, ctx.currentTime + startTime);
+                gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + startTime + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + startTime);
+                osc.stop(ctx.currentTime + startTime + duration);
+            };
+
+            // PlayStation-style soft, pleasant chime
+            playTone(880, 0, 0.4, 'sine', 0.05);        // A5
+            playTone(1108.73, 0.1, 0.6, 'sine', 0.08);  // C#6
+        } catch(e) { console.error("Audio error:", e); }
+    }
+
     function showAchievement(ach) {
         const toast = document.getElementById('achievementToast');
         const trophy = document.getElementById('achTrophy');
@@ -672,6 +708,9 @@
         document.getElementById('achName').textContent = ach.name;
         document.getElementById('achDesc').textContent = ach.desc;
         toast.classList.add('show');
+        
+        playAchievementSound();
+        
         clearTimeout(toastTimer);
         toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
     }
@@ -684,10 +723,25 @@
         sessionStorage.removeItem('pendingAchievement');
     }
 
+    // Check for pending hidden achievements
+    const pendingHidden = sessionStorage.getItem('pendingHidden');
+    if (pendingHidden) {
+        const ach = Object.values(HIDDEN_ACHIEVEMENTS).find(a => a.id === pendingHidden);
+        if (ach) setTimeout(() => showAchievement(ach), 800);
+        sessionStorage.removeItem('pendingHidden');
+    }
+
     document.getElementById('gamesGrid').addEventListener('click', e => {
         const card = e.target.closest('.game-card');
         if (!card) return;
-        if (e.target.closest('.card-action-btn.spec')) return;
+        
+        const specBtn = e.target.closest('.card-action-btn.spec');
+        if (specBtn) {
+            e.preventDefault();
+            const specUrl = card.getAttribute('href') + '#spec';
+            checkHidden(HIDDEN_ACHIEVEMENTS.spec, specUrl);
+            return;
+        }
         
         let currentPlays = +(sessionStorage.getItem('playsCount') || 0);
         if (currentPlays < TOTAL_GAMES) {
@@ -707,11 +761,18 @@
     });
 
     // ── HIDDEN ACHIEVEMENTS LOGIC ──
-    function checkHidden(achObj) {
+    function checkHidden(achObj, navigateUrl = null) {
         const key = 'ach_' + achObj.id;
         if (!sessionStorage.getItem(key)) {
             sessionStorage.setItem(key, '1');
-            setTimeout(() => showAchievement(achObj), 500);
+            if (navigateUrl) {
+                sessionStorage.setItem('pendingHidden', achObj.id);
+                window.location = navigateUrl;
+            } else {
+                showAchievement(achObj);
+            }
+        } else if (navigateUrl) {
+            window.location = navigateUrl;
         }
     }
     // Time on page achievement
@@ -729,6 +790,34 @@
     if (footer && !sessionStorage.getItem('ach_scroll')) {
         footerObs.observe(footer);
     }
+
+    // Contact interaction
+    document.querySelectorAll('.contact-card').forEach(c => {
+        c.addEventListener('click', () => checkHidden(HIDDEN_ACHIEVEMENTS.contact));
+    });
+
+    // Home interaction (scroll or click on #home)
+    const homeEl = document.getElementById('home');
+    if (homeEl) {
+        homeEl.addEventListener('click', () => checkHidden(HIDDEN_ACHIEVEMENTS.home));
+        let homeScrolled = false;
+        window.addEventListener('scroll', () => {
+            if (!homeScrolled && window.scrollY > 150) {
+                homeScrolled = true;
+                checkHidden(HIDDEN_ACHIEVEMENTS.home);
+            }
+        }, { passive: true });
+    }
+
+    // Screenshot detection (PrintScreen, Meta+Shift+3/4)
+    document.addEventListener('keyup', e => {
+        if (e.key === 'PrintScreen') checkHidden(HIDDEN_ACHIEVEMENTS.snap);
+    });
+    document.addEventListener('keydown', e => {
+        if (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4')) {
+            checkHidden(HIDDEN_ACHIEVEMENTS.snap);
+        }
+    });
 
     // Scroll-spy
     const spyObs = new IntersectionObserver(entries => {
