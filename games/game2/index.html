@@ -133,7 +133,7 @@
         }
 
         .info-sep { width: 1px; height: 16px; background: var(--border); }
-        .info-desc { color: var(--muted); font-size: 13px; }
+        .info-desc { color: rgba(232, 234, 240, 0.95); font-size: 13px; }
 
         /* ── TABS ── */
         .tabs {
@@ -199,8 +199,7 @@
         }
         .legal-disclaimer {
             font-size: 11px;
-            color: var(--muted);
-            opacity: 0.6;
+            color: rgba(232, 234, 240, 0.85);
             text-align: center;
             max-width: 500px;
             line-height: 1.4;
@@ -239,12 +238,22 @@
                 </div>
             </div>
         </div>
-        <button class="btn-rotate" onclick="rotate()" id="rotateBtn">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M1 7A6 6 0 0 1 11.2 3M13 7A6 6 0 0 1 2.8 11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-                <path d="M11 1l.2 2.1L13.2 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- Switch to Landscape format (shown when in portrait) -->
+        <button class="btn-rotate" onclick="rotate()" id="rotateBtnHorizontal" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="6" y1="12" x2="6.01" y2="12"></line>
             </svg>
-            Rotate
+            Switch to Horizontal
+        </button>
+
+        <!-- Switch to Portrait format (shown when in landscape) -->
+        <button class="btn-rotate" onclick="rotate()" id="rotateBtnVertical" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+            Switch to Vertical
         </button>
     </div>
 
@@ -326,6 +335,17 @@
 
             shrink.style.width  = visW + 'px';
             shrink.style.height = visH + 'px';
+
+            // Toggle orientation specific buttons
+            const btnH = document.getElementById('rotateBtnHorizontal');
+            const btnV = document.getElementById('rotateBtnVertical');
+            if (isLandscape) {
+                if (btnH) btnH.style.display = 'none';
+                if (btnV) btnV.style.display = 'inline-flex';
+            } else {
+                if (btnH) btnH.style.display = 'inline-flex';
+                if (btnV) btnV.style.display = 'none';
+            }
         }
 
         function loadGame() {
@@ -345,17 +365,35 @@
                 document.querySelectorAll('.tab')[0].classList.add('active');
                 document.getElementById('gameTab').classList.remove('hidden');
                 document.getElementById('specTab').classList.remove('active');
-                document.getElementById('rotateBtn').style.visibility = 'visible';
-                document.getElementById('rotateBtn').style.opacity = '1';
-                document.getElementById('rotateBtn').style.pointerEvents = 'auto';
+                const btnH = document.getElementById('rotateBtnHorizontal');
+                const btnV = document.getElementById('rotateBtnVertical');
+                if (btnH) {
+                    btnH.style.visibility = 'visible';
+                    btnH.style.opacity = '1';
+                    btnH.style.pointerEvents = 'auto';
+                }
+                if (btnV) {
+                    btnV.style.visibility = 'visible';
+                    btnV.style.opacity = '1';
+                    btnV.style.pointerEvents = 'auto';
+                }
                 fitFrame();
             } else {
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('gameTab').classList.add('hidden');
                 document.getElementById('specTab').classList.add('active');
-                document.getElementById('rotateBtn').style.visibility = 'hidden';
-                document.getElementById('rotateBtn').style.opacity = '0';
-                document.getElementById('rotateBtn').style.pointerEvents = 'none';
+                const btnH = document.getElementById('rotateBtnHorizontal');
+                const btnV = document.getElementById('rotateBtnVertical');
+                if (btnH) {
+                    btnH.style.visibility = 'hidden';
+                    btnH.style.opacity = '0';
+                    btnH.style.pointerEvents = 'none';
+                }
+                if (btnV) {
+                    btnV.style.visibility = 'hidden';
+                    btnV.style.opacity = '0';
+                    btnV.style.pointerEvents = 'none';
+                }
                 sessionStorage.setItem('specVisited', 'true');
             }
             if (typeof markInteraction === 'function') markInteraction();
