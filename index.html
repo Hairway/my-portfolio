@@ -517,7 +517,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game2/index.html" id="card-game2" data-tags="tycoon building strategy">
@@ -535,7 +534,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game3/index.html" id="card-game3" data-tags="puzzle fighter rpg">
@@ -553,7 +551,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game4/index.html" id="card-game4" data-tags="adventure farming rpg">
@@ -571,7 +568,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game5/index.html" id="card-game5" data-tags="hypercasual puzzle logic arcade">
@@ -589,7 +585,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
         <a class="game-card" href="games/game6/index.html" id="card-game6" data-tags="arcade shooter action">
@@ -607,7 +602,6 @@
             </div>
             <div class="card-actions">
                 <span class="card-action-btn play">▶ Play</span>
-                <span class="card-action-btn spec">📄 Spec</span>
             </div>
         </a>
     </div>
@@ -948,14 +942,6 @@
         const card = e.target.closest('.game-card');
         if (!card) return;
         
-        const specBtn = e.target.closest('.card-action-btn.spec');
-        if (specBtn) {
-            e.preventDefault();
-            const specUrl = card.getAttribute('href') + '#spec';
-            checkHidden(HIDDEN_ACHIEVEMENTS.spec, specUrl);
-            return;
-        }
-        
         let currentPlays = +(sessionStorage.getItem('playsCount') || 0);
         if (currentPlays < TOTAL_GAMES) {
             currentPlays++;
@@ -988,6 +974,11 @@
             window.location = navigateUrl;
         }
     }
+    // Check if they visited any Spec tab inside the subpages (saved in sessionStorage)
+    if (sessionStorage.getItem('specVisited') === 'true') {
+        checkHidden(HIDDEN_ACHIEVEMENTS.spec);
+    }
+
     // Time on page achievement
     if (!sessionStorage.getItem('ach_time')) {
         setTimeout(() => checkHidden(HIDDEN_ACHIEVEMENTS.time), 60000);
