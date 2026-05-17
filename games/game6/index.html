@@ -245,22 +245,9 @@
                 </div>
             </div>
         </div>
-                <!-- Switch to Landscape format (shown when in portrait) -->
-        <button class="btn-rotate" onclick="rotate()" id="rotateBtnHorizontal" style="display: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="6" y1="12" x2="6.01" y2="12"></line>
-            </svg>
-            Switch to Horizontal
-        </button>
-
-        <!-- Switch to Portrait format (shown when in landscape) -->
-        <button class="btn-rotate" onclick="rotate()" id="rotateBtnVertical" style="display: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                <line x1="12" y1="18" x2="12.01" y2="18"></line>
-            </svg>
-            Switch to Vertical
+        <!-- Dynamic orientation toggle button -->
+        <button class="btn-rotate" onclick="rotate()" id="rotateBtn" style="display: none;">
+            <!-- Dynamically populated -->
         </button>
     </div>
 
@@ -344,15 +331,31 @@
             shrink.style.width  = visW + 'px';
             shrink.style.height = visH + 'px';
 
-            // Toggle orientation specific buttons
-            const btnH = document.getElementById('rotateBtnHorizontal');
-            const btnV = document.getElementById('rotateBtnVertical');
-            if (isLandscape) {
-                if (btnH) btnH.style.display = 'none';
-                if (btnV) btnV.style.display = 'inline-flex';
-            } else {
-                if (btnH) btnH.style.display = 'inline-flex';
-                if (btnV) btnV.style.display = 'none';
+            // Update rotate button icon and text dynamically based on current orientation
+            const rotateBtn = document.getElementById('rotateBtn');
+            if (rotateBtn) {
+                rotateBtn.style.display = 'inline-flex';
+                if (isLandscape) {
+                    // Current layout is Landscape (Horizontal). Next action: switch to Portrait (Vertical).
+                    // Icon: vertical phone.
+                    rotateBtn.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                        </svg>
+                        Switch to Vertical
+                    `;
+                } else {
+                    // Current layout is Portrait (Vertical). Next action: switch to Landscape (Horizontal).
+                    // Icon: horizontal screen.
+                    rotateBtn.innerHTML = `
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2" ry="2"></rect>
+                            <line x1="6" y1="12" x2="6.01" y2="12"></line>
+                        </svg>
+                        Switch to Horizontal
+                    `;
+                }
             }
         }
 
@@ -373,34 +376,22 @@
                 document.querySelectorAll('.tab')[0].classList.add('active');
                 document.getElementById('gameTab').classList.remove('hidden');
                 document.getElementById('specTab').classList.remove('active');
-                const btnH = document.getElementById('rotateBtnHorizontal');
-                const btnV = document.getElementById('rotateBtnVertical');
-                if (btnH) {
-                    btnH.style.visibility = 'visible';
-                    btnH.style.opacity = '1';
-                    btnH.style.pointerEvents = 'auto';
-                }
-                if (btnV) {
-                    btnV.style.visibility = 'visible';
-                    btnV.style.opacity = '1';
-                    btnV.style.pointerEvents = 'auto';
+                const rotateBtn = document.getElementById('rotateBtn');
+                if (rotateBtn) {
+                    rotateBtn.style.visibility = 'visible';
+                    rotateBtn.style.opacity = '1';
+                    rotateBtn.style.pointerEvents = 'auto';
                 }
                 fitFrame();
             } else {
                 document.querySelectorAll('.tab')[1].classList.add('active');
                 document.getElementById('gameTab').classList.add('hidden');
                 document.getElementById('specTab').classList.add('active');
-                const btnH = document.getElementById('rotateBtnHorizontal');
-                const btnV = document.getElementById('rotateBtnVertical');
-                if (btnH) {
-                    btnH.style.visibility = 'hidden';
-                    btnH.style.opacity = '0';
-                    btnH.style.pointerEvents = 'none';
-                }
-                if (btnV) {
-                    btnV.style.visibility = 'hidden';
-                    btnV.style.opacity = '0';
-                    btnV.style.pointerEvents = 'none';
+                const rotateBtn = document.getElementById('rotateBtn');
+                if (rotateBtn) {
+                    rotateBtn.style.visibility = 'hidden';
+                    rotateBtn.style.opacity = '0';
+                    rotateBtn.style.pointerEvents = 'none';
                 }
                 sessionStorage.setItem('specVisited', 'true');
             }

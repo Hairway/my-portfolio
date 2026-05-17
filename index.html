@@ -931,9 +931,18 @@
         const card = e.target.closest('.game-card');
         if (!card) return;
         
-        let currentPlays = +(sessionStorage.getItem('playsCount') || 0);
-        if (currentPlays < TOTAL_GAMES) {
-            currentPlays++;
+        let playedGames = [];
+        try {
+            playedGames = JSON.parse(sessionStorage.getItem('playedGames') || '[]');
+        } catch (err) {
+            playedGames = [];
+        }
+        
+        if (!playedGames.includes(card.id)) {
+            playedGames.push(card.id);
+            sessionStorage.setItem('playedGames', JSON.stringify(playedGames));
+            
+            const currentPlays = playedGames.length;
             sessionStorage.setItem('playsCount', currentPlays);
             playsCount = currentPlays;
             updateProgress();
