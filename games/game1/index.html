@@ -183,6 +183,15 @@
         .game-wrapper {
             display: flex; flex-direction: column; align-items: center; gap: 14px;
         }
+        .legal-disclaimer {
+            font-size: 11px;
+            color: var(--muted);
+            opacity: 0.6;
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.4;
+            margin-top: -4px;
+        }
         .game-wrapper.hidden { display: none; }
 
         /* ── MOBILE ── */
@@ -236,6 +245,8 @@
                     onload="document.getElementById('loader').classList.add('hidden')"></iframe>
             </div>
         </div>
+
+        <div class="legal-disclaimer">All trademarks and game assets belong to their respective owners. Shown for portfolio purposes only.</div>
 
         <div class="game-info">
             <div class="info-tags">
