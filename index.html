@@ -52,6 +52,7 @@
 <!-- HERO -->
 <section id="home">
     <div id="heroParticles"></div>
+    <div class="hero-inner">
     <div class="hero-left">
         <div class="hero-tag reveal-blur">Playable Ads Producer</div>
         <h1 class="hero-title reveal-blur">Crafting Ads<br><span class="gradient">That Hit Benchmarks</span></h1>
@@ -123,6 +124,7 @@
             </div>
         </div>
     </div>
+    </div><!-- /.hero-inner -->
     <div class="scroll-hint" id="scrollHint">
         <div class="sh-icon-wrap">
             <div class="sh-ring sh-ring1"></div>
@@ -544,12 +546,8 @@
 
     // ── PLAYSTATION ACHIEVEMENTS ──
     const PS_ACHIEVEMENTS = [
-        { id: 'first',  tier: 'bronze', emoji: '🥉', name: 'First Contact',   desc: 'Opened your first playable',     plays: 1 },
-        { id: 'duo',    tier: 'bronze', emoji: '🥉', name: 'Double Down',      desc: 'Explored 2 playables',           plays: 2 },
-        { id: 'trio',   tier: 'silver', emoji: '🥈', name: 'Hat Trick',        desc: 'Opened 3 playables — on fire!',  plays: 3 },
-        { id: 'four',   tier: 'silver', emoji: '🥈', name: 'Curious Mind',     desc: '4 playables and counting…',      plays: 4 },
-        { id: 'almost', tier: 'gold',   emoji: '🥇', name: 'Almost There',     desc: 'Just one more to go!',           plays: 5 },
-        { id: 'plat',   tier: 'plat',   emoji: '💎', name: 'Master Explorer',  desc: 'You played ALL 6 playables!',    plays: 6 },
+        { id: 'first', tier: 'bronze', emoji: '🥉', name: 'First Contact',  desc: 'Opened your first playable',  plays: 1 },
+        { id: 'plat',  tier: 'plat',   emoji: '💎', name: 'Master Explorer', desc: 'You played ALL 6 playables!', plays: 6 },
     ];
     const HIDDEN_ACHIEVEMENTS = {
         time:   { id: 'time',   tier: 'silver', emoji: '⏳', name: 'Taking it in',   desc: 'Spent 60 seconds on the page' },
@@ -575,26 +573,44 @@
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             if (ctx.state === 'suspended') ctx.resume();
-            
-            const playTone = (freq, startTime, duration, type = 'sine', vol = 0.1) => {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, ctx.currentTime + startTime);
-                
-                gain.gain.setValueAtTime(0, ctx.currentTime + startTime);
-                gain.gain.linearRampToValueAtTime(vol, ctx.currentTime + startTime + 0.05);
-                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startTime + duration);
-                
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(ctx.currentTime + startTime);
-                osc.stop(ctx.currentTime + startTime + duration);
-            };
 
-            // PlayStation-style soft, pleasant chime
-            playTone(880, 0, 0.4, 'sine', 0.05);        // A5
-            playTone(1108.73, 0.1, 0.6, 'sine', 0.08);  // C#6
+            // PS5-style ascending bell arpeggio: B4 → D#5 → F#5 → B5
+            const notes = [
+                { freq: 493.88,  t: 0    },
+                { freq: 622.25,  t: 0.09 },
+                { freq: 739.99,  t: 0.18 },
+                { freq: 987.77,  t: 0.29 },
+            ];
+
+            const master = ctx.createGain();
+            master.gain.setValueAtTime(0.14, ctx.currentTime);
+            master.connect(ctx.destination);
+
+            notes.forEach(({ freq, t }) => {
+                const dur = 1.6 - t * 0.4;
+
+                // Fundamental (bell body)
+                const o1 = ctx.createOscillator();
+                const g1 = ctx.createGain();
+                o1.type = 'sine';
+                o1.frequency.setValueAtTime(freq, ctx.currentTime + t);
+                g1.gain.setValueAtTime(0, ctx.currentTime + t);
+                g1.gain.linearRampToValueAtTime(1, ctx.currentTime + t + 0.006);
+                g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
+                o1.connect(g1); g1.connect(master);
+                o1.start(ctx.currentTime + t); o1.stop(ctx.currentTime + t + dur);
+
+                // 2nd harmonic (shimmer overtone)
+                const o2 = ctx.createOscillator();
+                const g2 = ctx.createGain();
+                o2.type = 'sine';
+                o2.frequency.setValueAtTime(freq * 2.756, ctx.currentTime + t);
+                g2.gain.setValueAtTime(0, ctx.currentTime + t);
+                g2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + t + 0.006);
+                g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur * 0.45);
+                o2.connect(g2); g2.connect(master);
+                o2.start(ctx.currentTime + t); o2.stop(ctx.currentTime + t + dur);
+            });
         } catch(e) { console.warn("Audio error:", e); }
     }
 
