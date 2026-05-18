@@ -1016,8 +1016,8 @@
             setTimeout(scheduleFill, 1980);
         }
 
-        // Delayed start: scroll hint takes priority for the first ~6 s
-        setTimeout(kickStart, 6000);
+        // Start after reveal animations (~2 s) with a beat to breathe
+        setTimeout(kickStart, 3000);
     })();
 
     // Infinite debugger loop to freeze DevTools console
