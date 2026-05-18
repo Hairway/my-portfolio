@@ -82,27 +82,30 @@
         </div>
     </div>
     <div class="hero-right reveal-blur">
-        <div class="phone-wrap">
-            <div class="phone-frame" id="phoneMockup">
-                <div class="phone-notch"></div>
-                <div class="phone-screen">
-                    <img src="games/game1/preview.png" class="phone-game-img" id="phoneGameImg" alt="Playable Ad">
-                    <div class="phone-tutor-layer" id="phoneTutor">
-                        <div class="phone-badge">TUTORIAL</div>
-                        <svg class="phone-hand" viewBox="0 0 32 42" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width="1.5">
-                            <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
-                        </svg>
-                        <div class="phone-tap-label">TAP TO PLAY</div>
-                    </div>
-                    <div class="phone-endcard" id="phoneEndcard">
-                        <div class="phone-ec-stars">★★★★★</div>
-                        <div class="phone-ec-name" id="phoneEcName">Kingdom Clash</div>
-                        <button class="phone-install-btn">INSTALL NOW</button>
-                    </div>
-                </div>
-            </div>
-            <div class="phone-caption">← Click · experience a playable ad</div>
+        <div class="hero-mosaic">
+            <div class="mosaic-item"><img src="games/game1/preview.png" alt="Kingdom Clash"></div>
+            <div class="mosaic-item"><img src="games/game3/preview.png" alt="Battle Lines"></div>
+            <div class="mosaic-item"><img src="games/game5/preview.png" alt="Tap Arrow"></div>
+            <div class="mosaic-item"><img src="games/game6/preview.png" alt="Tank Stars"></div>
         </div>
+    </div>
+    <div class="scroll-hint" id="scrollHint">
+        <div class="sh-mouse">
+            <svg width="26" height="40" viewBox="0 0 26 40" fill="none">
+                <rect x="1.5" y="1.5" width="23" height="37" rx="11.5" stroke="rgba(255,255,255,.4)" stroke-width="1.5"/>
+                <line x1="13" y1="1.5" x2="13" y2="20" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+                <rect class="sh-wheel" x="11" y="8" width="4" height="9" rx="2" fill="rgba(255,255,255,.65)"/>
+            </svg>
+        </div>
+        <div class="sh-finger">
+            <svg class="sh-hand-svg" viewBox="0 0 32 42" fill="#fff" stroke="rgba(0,0,0,.3)" stroke-width="1.5">
+                <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
+            </svg>
+        </div>
+        <span class="sh-label">
+            <span class="sh-label-desktop">Scroll to explore</span>
+            <span class="sh-label-mobile">Swipe to explore</span>
+        </span>
     </div>
 </section>
 
@@ -449,44 +452,15 @@
     }
 
 
-    // ── PHONE MOCKUP ──
-    const PHONE_GAMES = [
-        { img: 'games/game1/preview.png', name: 'Kingdom Clash' },
-        { img: 'games/game2/preview.png', name: 'Railroad Empire' },
-        { img: 'games/game3/preview.png', name: 'Battle Lines' },
-        { img: 'games/game4/preview.png', name: 'Pocket Tales' },
-        { img: 'games/game5/preview.png', name: 'Tap Arrow' },
-        { img: 'games/game6/preview.png', name: 'Tank Stars' },
-    ];
-    let phoneIdx = 0, phoneBusy = false;
-    const phoneFrame = document.getElementById('phoneMockup');
-    const phoneTutor = document.getElementById('phoneTutor');
-    const phoneEcName = document.getElementById('phoneEcName');
-    const phoneGameImg = document.getElementById('phoneGameImg');
-    if (phoneFrame) {
-        phoneFrame.addEventListener('click', function(e) {
-            if (phoneBusy) return;
-            const rect = phoneFrame.getBoundingClientRect();
-            const rip = document.createElement('div');
-            rip.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,.22);width:60px;height:60px;left:${e.clientX-rect.left-30}px;top:${e.clientY-rect.top-30}px;transform:scale(0);animation:phoneRipple .55s linear forwards;pointer-events:none;z-index:8`;
-            phoneFrame.appendChild(rip);
-            setTimeout(() => rip.remove(), 600);
-            if (!phoneFrame.classList.contains('playing')) {
-                phoneBusy = true;
-                phoneTutor.classList.add('hidden');
-                setTimeout(() => { phoneFrame.classList.add('playing'); phoneBusy = false; }, 180);
-            } else {
-                phoneBusy = true;
-                phoneFrame.classList.remove('playing');
-                setTimeout(() => {
-                    phoneIdx = (phoneIdx + 1) % PHONE_GAMES.length;
-                    phoneGameImg.src = PHONE_GAMES[phoneIdx].img;
-                    if (phoneEcName) phoneEcName.textContent = PHONE_GAMES[phoneIdx].name;
-                    phoneTutor.classList.remove('hidden');
-                    phoneBusy = false;
-                }, 380);
-            }
-        });
+    // ── SCROLL HINT TUTORIAL ──
+    const scrollHint = document.getElementById('scrollHint');
+    if (scrollHint && !sessionStorage.getItem('scrollHintSeen')) {
+        setTimeout(() => scrollHint.classList.add('visible'), 1400);
+        window.addEventListener('scroll', () => {
+            scrollHint.classList.remove('visible');
+            scrollHint.classList.add('gone');
+            sessionStorage.setItem('scrollHintSeen', '1');
+        }, { passive: true, once: true });
     }
 
     // ── HERO STATS COUNTER ──
