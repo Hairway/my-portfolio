@@ -543,9 +543,8 @@
         { id: 'plat',  tier: 'plat',   emoji: '💎', name: 'Master Explorer', desc: 'You played ALL 6 playables!', plays: 6 },
     ];
     const HIDDEN_ACHIEVEMENTS = {
-        time:   { id: 'time',   tier: 'silver', emoji: '⏳', name: 'Taking it in',   desc: 'Spent 60 seconds on the page' },
+        time:   { id: 'time',   tier: 'silver', emoji: '⏳', name: 'Taking it in',   desc: 'You weren\'t in a rush' },
         scroll: { id: 'scroll', tier: 'bronze', emoji: '🤿', name: 'Deep Dive',      desc: 'Scrolled all the way to the bottom' },
-        home:   { id: 'home',   tier: 'bronze', emoji: '👋', name: 'Hello World',    desc: 'Interacted with the homepage' },
         contact:{ id: 'contact',tier: 'gold',   emoji: '🤝', name: 'Let\'s Talk',    desc: 'Clicked a contact link' },
         spec:   { id: 'spec',   tier: 'silver', emoji: '📄', name: 'Under the Hood', desc: 'Checked out a game spec' },
         snap:   { id: 'snap',   tier: 'plat',   emoji: '📸', name: 'Paparazzi',      desc: 'Took a screenshot' }
@@ -693,7 +692,7 @@
 
     // Time on page achievement
     if (!sessionStorage.getItem('ach_time')) {
-        setTimeout(() => checkHidden(HIDDEN_ACHIEVEMENTS.time), 60000);
+        setTimeout(() => checkHidden(HIDDEN_ACHIEVEMENTS.time), 180000);
     }
     // Scroll depth achievement
     const footerObs = new IntersectionObserver(entries => {
@@ -738,19 +737,6 @@
             checkPendingContactAchievement();
         }
     });
-
-    // Home interaction (scroll or click on #home)
-    const homeEl = document.getElementById('home');
-    if (homeEl) {
-        homeEl.addEventListener('click', () => checkHidden(HIDDEN_ACHIEVEMENTS.home));
-        let homeScrolled = false;
-        window.addEventListener('scroll', () => {
-            if (!homeScrolled && window.scrollY > 150) {
-                homeScrolled = true;
-                checkHidden(HIDDEN_ACHIEVEMENTS.home);
-            }
-        }, { passive: true });
-    }
 
     // Screenshot detection (PrintScreen, Meta+Shift+3/4)
     document.addEventListener('keyup', e => {
