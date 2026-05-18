@@ -37,9 +37,19 @@
         <a href="#about">About</a>
         <a href="#contacts">Contact</a>
     </div>
-    <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+        <a href="dima_cv.pdf" download="Dima_Fomin_CV.pdf" class="nav-cv">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            CV
+        </a>
+        <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
 </nav>
 <div class="nav-drawer" id="drawer">
     <a href="#home" onclick="closeMenu()">Home</a>
@@ -47,6 +57,7 @@
     <a href="#process" onclick="closeMenu()">Process</a>
     <a href="#about" onclick="closeMenu()">About</a>
     <a href="#contacts" onclick="closeMenu()">Contact</a>
+    <a href="dima_cv.pdf" download="Dima_Fomin_CV.pdf" class="nav-drawer-cv" onclick="closeMenu()">↓ Download CV</a>
 </div>
 
 <!-- HERO -->
