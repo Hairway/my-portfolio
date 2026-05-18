@@ -37,19 +37,9 @@
         <a href="#about">About</a>
         <a href="#contacts">Contact</a>
     </div>
-    <div class="nav-right">
-        <a href="dima_cv.pdf" download="Dima_Fomin_CV.pdf" class="nav-cv">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="7 10 12 15 17 10"/>
-                <line x1="12" y1="15" x2="12" y2="3"/>
-            </svg>
-            CV
-        </a>
-        <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
+    <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
 <div class="nav-drawer" id="drawer">
     <a href="#home" onclick="closeMenu()">Home</a>
@@ -88,9 +78,16 @@
         <div class="hero-cta reveal-blur">
             <a href="#portfolio" class="btn-playnow" id="heroPlayBtn">
                 <svg width="22" height="22" viewBox="0 0 32 42" fill="#fff" stroke="rgba(0,0,0,.3)" stroke-width="1.5"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg>
-                PLAY NOW
+                TAP TO PLAY
             </a>
-            <a href="#about" class="btn-ghost">About Me</a>
+            <a href="dima_cv.pdf" download="Dima_Fomin_CV.pdf" class="btn-ghost btn-cv-hero">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="7 10 12 15 17 10"/>
+                    <line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download CV
+            </a>
         </div>
     </div>
     <div class="hero-right reveal-blur">
