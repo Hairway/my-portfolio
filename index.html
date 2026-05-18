@@ -1032,11 +1032,20 @@
 
                 stats.forEach(s => {
                     if (!s.fill || s.val >= s.max) return;
-                    s.val = Math.min(s.val + 1 + Math.round(Math.random()), s.max);
+                    const gain = 1 + Math.round(Math.random());
+                    s.val = Math.min(s.val + gain, s.max);
                     s.fill.style.animation  = 'none';
                     s.fill.style.transition = 'width .55s cubic-bezier(.34,1.56,.64,1)';
                     s.fill.style.width      = s.val + '%';
-                    if (s.num) s.num.textContent = s.val;
+                    if (s.num) {
+                        s.num.textContent = s.val;
+                        const d = document.createElement('span');
+                        d.className = 'pc-stat-delta';
+                        d.textContent = '+' + gain;
+                        s.num.appendChild(d);
+                        requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('active')));
+                        setTimeout(() => d.remove(), 1300);
+                    }
                 });
             }, 230);
 
