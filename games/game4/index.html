@@ -231,6 +231,26 @@
             .tab { padding: 7px 10px; font-size: 13px; }
             .header { flex-wrap: nowrap; justify-content: space-between; gap: 6px; }
         }
+
+        /* ── SPEC SECTION (redesign) ── */
+        .spec-container { display: none; width: 100%; max-width: 760px; padding: 0; background: none; border: none; box-shadow: none; border-radius: 0; }
+        .spec-container.active { display: flex; flex-direction: column; gap: 10px; }
+        .spec-block { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; }
+        .spec-overview { border-color: rgba(124,92,252,.25); background: rgba(124,92,252,.05); }
+        .spec-block-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent1); margin-bottom: 10px; }
+        .spec-block-text { font-size: 14px; line-height: 1.7; color: rgba(232,234,240,.82); }
+        .spec-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+        .spec-list li { font-size: 14px; line-height: 1.6; color: rgba(232,234,240,.82); padding-left: 18px; position: relative; }
+        .spec-list li::before { content: '\2192'; position: absolute; left: 0; color: var(--accent1); }
+        .spec-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+        .spec-chip { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; padding: 4px 10px; border-radius: 100px; background: rgba(124,92,252,.12); color: #a08aff; border: 1px solid rgba(124,92,252,.2); }
+        .chip-platform { background: rgba(242,92,122,.08); color: #f2a0b0; border-color: rgba(242,92,122,.2); }
+        .chip-dim { background: rgba(255,255,255,.04); color: var(--muted); border-color: rgba(255,255,255,.1); }
+        .spec-title { font-size: 21px; font-weight: 700; margin-bottom: 8px; }
+        .spec-brief { font-size: 14px; line-height: 1.7; color: rgba(232,234,240,.78); }
+        .spec-doc-placeholder { border: 1.5px dashed rgba(255,255,255,.14); border-radius: 10px; padding: 32px 20px; text-align: center; color: var(--muted); font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .todo { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #f5a623; background: rgba(245,166,35,.1); border: 1px solid rgba(245,166,35,.3); border-radius: 100px; padding: 1px 7px; margin-left: 6px; vertical-align: middle; }
+        .spec-role-note { font-size: 12px; color: var(--muted); margin-top: 10px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -287,22 +307,57 @@
     </div>
 
     <div class="spec-container" id="specTab">
-        <!-- 
-            To add your actual Spec:
-            1. Save your Notion page as an image (or multiple images) inside games/game2/
-            2. Remove the .spec-placeholder div below
-            3. Add an image tag like this: <img src="spec.png" alt="Game Design Spec">
-        -->
-        <div class="spec-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" style="opacity: 0.5; margin-bottom: 16px;">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <h3>No Spec Uploaded Yet</h3>
-            <p style="margin-top: 8px; font-size: 14px;">Save your Notion doc as <b>spec.png</b> in this game's folder and uncomment the img tag in index.html.</p>
+
+    <div class="spec-block spec-overview">
+        <div class="spec-chips">
+            <span class="spec-chip">Adventure</span>
+            <span class="spec-chip">Farming</span>
+            <span class="spec-chip">RPG</span>
+            <span class="spec-chip chip-platform">iOS · Android</span>
+            <span class="spec-chip chip-dim">Portrait</span>
+            <span class="spec-chip chip-dim">~30 sec</span>
         </div>
+        <h2 class="spec-title">Pocket Tales</h2>
+        <p class="spec-brief">Плеебл для уютной farming-adventure RPG. Цель — передать атмосферу и зацепить аудиторию через charm и нарратив, а не через action.<span class="todo">TODO — уточни детали брифа</span></p>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">01 · Objective</div>
+        <p class="spec-block-text">Вместо боя показать «один маленький квест»: игрок ощущает персонажа и мир, хочет продолжить историю.<span class="todo">TODO — добавь KPI если знаешь</span></p>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">02 · Core Mechanic</div>
+        <p class="spec-block-text">Тап по ресурсу → сбор → диалог с NPC → получение квеста → быстрый прогресс деревни. Финал — разросшаяся деревня.<span class="todo">TODO — уточни шаги туториала</span></p>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">03 · Key Design Decisions</div>
+        <ul class="spec-list">
+            <li>Мягкая цветовая палитра и плавные анимации персонажа — передают warmth<span class="todo">TODO</span></li>
+            <li>Диалоговый пузырь заменяет привычный HUD — усиливает нарративную составляющую<span class="todo">TODO</span></li>
+            <li>Финальный кадр — разросшаяся деревня — ощущение прогресса как главный крючок<span class="todo">TODO</span></li>
+        </ul>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">04 · Iterations</div>
+        <p class="spec-block-text">Несколько итераций брифа: длина диалога, выбор NPC, состав финального кадра.<span class="todo">TODO — уточни кол-во версий</span></p>
     </div>
 
+    <div class="spec-block">
+        <div class="spec-block-label">Spec Document</div>
+        <div class="spec-doc-placeholder">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="opacity:.4">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>Скриншоты ТЗ появятся здесь</span>
+            <span class="todo">TODO — экспортируй страницу из Notion и добавь img сюда</span>
+        </div>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">Results</div>
+        <p class="spec-block-text">Метрики под NDA — точные данные недоступны. Плеебл показан в портфолио как пример продакшена.<span class="todo">TODO — добавь данные, если есть</span></p>
+        <p class="spec-role-note">Role: Creative Direction · Brief — продакшен выполнен командой разработки.</p>
+    </div>
+    </div>
     <script>
         const PORT_W = 360, PORT_H = 640;
         // On mobile (narrow screen) start in portrait; on desktop start landscape
