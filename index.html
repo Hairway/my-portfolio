@@ -622,13 +622,17 @@
         toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
     }
 
-    // Check for pending achievements on page load
-    const pendingAch = sessionStorage.getItem('pendingAchievement');
-    if (pendingAch) {
-        const ach = PS_ACHIEVEMENTS.find(a => a.plays == pendingAch);
-        if (ach) setTimeout(() => showAchievement(ach), 800);
-        sessionStorage.removeItem('pendingAchievement');
+    // Check for pending achievements (on load and on back-navigation via BF cache)
+    function checkPendingAchievement() {
+        const pendingAch = sessionStorage.getItem('pendingAchievement');
+        if (pendingAch) {
+            const ach = PS_ACHIEVEMENTS.find(a => a.plays == pendingAch);
+            if (ach) setTimeout(() => showAchievement(ach), 800);
+            sessionStorage.removeItem('pendingAchievement');
+        }
     }
+    checkPendingAchievement();
+    window.addEventListener('pageshow', e => { if (e.persisted) checkPendingAchievement(); });
 
     // Check for pending hidden achievements
     const pendingHidden = sessionStorage.getItem('pendingHidden');
@@ -662,9 +666,6 @@
             
             const ach = PS_ACHIEVEMENTS.find(a => a.plays === currentPlays);
             if (ach) {
-                // Show immediately just in case (e.g., open in new tab)
-                showAchievement(ach);
-                // Also queue it for when they navigate back
                 sessionStorage.setItem('pendingAchievement', currentPlays);
             }
         }
