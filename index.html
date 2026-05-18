@@ -993,9 +993,36 @@
         footerObs.observe(footer);
     }
 
-    // Contact interaction
-    document.querySelectorAll('.contact-card').forEach(c => {
-        c.addEventListener('click', () => checkHidden(HIDDEN_ACHIEVEMENTS.contact));
+    // Contact interaction (main cards and footer links) - awards achievement upon return to the page
+    const triggerContactAchievement = () => {
+        const achObj = HIDDEN_ACHIEVEMENTS.contact;
+        const key = 'ach_' + achObj.id;
+        if (!sessionStorage.getItem(key)) {
+            sessionStorage.setItem(key, '1');
+            sessionStorage.setItem('pendingHiddenContact', 'true');
+        }
+    };
+
+    document.querySelectorAll('.contact-card, .footer-links a').forEach(c => {
+        c.addEventListener('click', triggerContactAchievement);
+    });
+
+    function checkPendingContactAchievement() {
+        if (sessionStorage.getItem('pendingHiddenContact') === 'true') {
+            sessionStorage.removeItem('pendingHiddenContact');
+            setTimeout(() => {
+                showAchievement(HIDDEN_ACHIEVEMENTS.contact);
+            }, 800);
+        }
+    }
+
+    // Check on load, focus, and visibility change
+    checkPendingContactAchievement();
+    window.addEventListener('focus', checkPendingContactAchievement);
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+            checkPendingContactAchievement();
+        }
     });
 
     // Home interaction (scroll or click on #home)

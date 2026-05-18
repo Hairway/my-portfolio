@@ -76,6 +76,14 @@
         .btn-rotate:hover { opacity: .85; }
 
         /* ── GAME FRAME ── */
+        /* ── GAME FRAME ── */
+        .frame-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
         .frame-shrink { position: relative; z-index: 1; flex-shrink: 0; }
 
         .frame-wrap {
@@ -252,14 +260,16 @@
     </div>
 
     <div class="game-wrapper" id="gameTab">
-        <div class="frame-shrink" id="frameShrink">
-            <div class="frame-wrap" id="frameWrap">
-                <div class="loader" id="loader">
-                    <div class="spinner"></div>
-                    <span class="loader-text">Loading game…</span>
+        <div class="frame-container" id="frameContainer">
+            <div class="frame-shrink" id="frameShrink">
+                <div class="frame-wrap" id="frameWrap">
+                    <div class="loader" id="loader">
+                        <div class="spinner"></div>
+                        <span class="loader-text">Loading game…</span>
+                    </div>
+                    <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin" scrolling="no" allowfullscreen
+                        onload="document.getElementById('loader').classList.add('hidden')"></iframe>
                 </div>
-                <iframe id="gameFrame" sandbox="allow-scripts allow-same-origin" scrolling="no" allowfullscreen
-                    onload="document.getElementById('loader').classList.add('hidden')"></iframe>
             </div>
         </div>
 
@@ -330,6 +340,9 @@
 
             shrink.style.width  = visW + 'px';
             shrink.style.height = visH + 'px';
+
+            const container = document.getElementById('frameContainer');
+            if (container) container.style.height = maxH + 'px';
 
             // Update rotate button icon and text dynamically based on current orientation
             const rotateBtn = document.getElementById('rotateBtn');
