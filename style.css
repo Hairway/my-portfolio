@@ -675,9 +675,13 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 }
 .scroll-hint.visible {
     opacity: 1;
-    animation: shFloat 2.8s ease-in-out infinite;
+    animation: shFloat 2.8s ease-in-out infinite, shPillGlow 3s ease-in-out infinite;
 }
 .scroll-hint.gone { opacity: 0 !important; animation: none; transition: opacity .3s ease; }
+@keyframes shPillGlow {
+    0%, 100% { border-color: rgba(255,255,255,.1);  box-shadow: none; }
+    50%       { border-color: rgba(124,92,252,.5);   box-shadow: 0 0 22px rgba(124,92,252,.25); }
+}
 @keyframes shFloat {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50%       { transform: translateX(-50%) translateY(-6px); }
@@ -689,8 +693,8 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 72px;
-    height: 72px;
+    width: 86px;
+    height: 86px;
 }
 
 /* pulsing rings (playable-style ripple) */
@@ -701,11 +705,11 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     animation: ringPulse 2.2s ease-out infinite;
     pointer-events: none;
 }
-.sh-ring1 { width: 60px; height: 60px; animation-delay: 0s; }
-.sh-ring2 { width: 60px; height: 60px; animation-delay: 0.9s; }
+.sh-ring1 { width: 70px; height: 70px; animation-delay: 0s; }
+.sh-ring2 { width: 70px; height: 70px; animation-delay: 1s; }
 @keyframes ringPulse {
-    0%   { transform: scale(.75); opacity: .7; }
-    100% { transform: scale(1.9);  opacity: 0; }
+    0%   { transform: scale(.7);  opacity: .8; }
+    100% { transform: scale(2.1); opacity: 0; }
 }
 
 /* mouse — desktop */
@@ -763,10 +767,10 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     margin-top: -4px;
 }
 .sh-chev {
-    width: 11px;
-    height: 11px;
-    border-right: 2px solid white;
-    border-bottom: 2px solid white;
+    width: 13px;
+    height: 13px;
+    border-right: 2.5px solid white;
+    border-bottom: 2.5px solid white;
     transform: rotate(45deg);
     animation: chevCascade 1.5s ease-in-out infinite;
     opacity: 0;

@@ -96,23 +96,23 @@
             <div class="pc-stats">
                 <div class="pc-stat">
                     <span class="pc-stat-name">Concept</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:92%"></div></div>
-                    <span class="pc-stat-val">92</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:79%"></div></div>
+                    <span class="pc-stat-val">79</span>
                 </div>
                 <div class="pc-stat">
                     <span class="pc-stat-name">Spec Writing</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:97%"></div></div>
-                    <span class="pc-stat-val">97</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:84%"></div></div>
+                    <span class="pc-stat-val">84</span>
                 </div>
                 <div class="pc-stat">
                     <span class="pc-stat-name">Production</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:88%"></div></div>
-                    <span class="pc-stat-val">88</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:75%"></div></div>
+                    <span class="pc-stat-val">75</span>
                 </div>
                 <div class="pc-stat">
                     <span class="pc-stat-name">Team Briefing</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:85%"></div></div>
-                    <span class="pc-stat-val">85</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:72%"></div></div>
+                    <span class="pc-stat-val">72</span>
                 </div>
             </div>
             <div class="pc-divider"></div>
@@ -939,6 +939,14 @@
         let currentXP = 300;
         let xpRafId   = null;
 
+        const statEls = card.querySelectorAll('.pc-stat');
+        const stats = [
+            { fill: statEls[0]?.querySelector('.pc-stat-fill'), num: statEls[0]?.querySelector('.pc-stat-val'), val: 79,  max: 99 },
+            { fill: statEls[1]?.querySelector('.pc-stat-fill'), num: statEls[1]?.querySelector('.pc-stat-val'), val: 84,  max: 99 },
+            { fill: statEls[2]?.querySelector('.pc-stat-fill'), num: statEls[2]?.querySelector('.pc-stat-val'), val: 75,  max: 99 },
+            { fill: statEls[3]?.querySelector('.pc-stat-fill'), num: statEls[3]?.querySelector('.pc-stat-val'), val: 72,  max: 99 },
+        ];
+
         function animateXP(from, to, duration) {
             if (xpRafId) cancelAnimationFrame(xpRafId);
             const start = performance.now();
@@ -1014,13 +1022,22 @@
                 badge.classList.add('active');
             }, 140);
 
-            // LVL badge bounce + number increment
+            // LVL badge bounce + number increment + stat gains
             setTimeout(() => {
                 level++;
                 lvlNum.textContent = level;
                 lvlBadge.style.animation = 'none';
                 void lvlBadge.offsetWidth;
                 lvlBadge.style.animation = 'lvlBadgeBounce .7s cubic-bezier(.34,1.56,.64,1) forwards';
+
+                stats.forEach(s => {
+                    if (!s.fill || s.val >= s.max) return;
+                    s.val = Math.min(s.val + 1 + Math.round(Math.random()), s.max);
+                    s.fill.style.animation  = 'none';
+                    s.fill.style.transition = 'width .55s cubic-bezier(.34,1.56,.64,1)';
+                    s.fill.style.width      = s.val + '%';
+                    if (s.num) s.num.textContent = s.val;
+                });
             }, 230);
 
             // Reset bar
