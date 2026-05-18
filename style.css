@@ -45,145 +45,11 @@ section{position:relative;z-index:1}
 .btn-primary:hover{opacity:.88;transform:translateY(-2px)}
 .btn-ghost{display:inline-block;padding:14px 32px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:500;font-size:15px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s}
 .btn-ghost:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
-/* PLAYABLE-STYLE SWIPE TUTORIAL */
-.playable-swipe-tutor {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 100;
-    pointer-events: none;
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.playable-swipe-tutor.fade-out {
-    opacity: 0;
-    transform: translateX(-50%) translateY(20px) scale(0.85);
-}
-.tutor-drag-track {
-    position: relative;
-    width: 24px;
-    height: 60px;
-    margin-bottom: 12px;
-}
-.tutor-path-line {
-    position: absolute;
-    left: 50%;
-    top: 10px;
-    bottom: 10px;
-    width: 2px;
-    transform: translateX(-50%);
-    background: linear-gradient(to top, rgba(255, 255, 255, 0.05), rgba(124, 92, 252, 0.6) 50%, rgba(242, 92, 122, 0.8) 100%);
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(124, 92, 252, 0.4);
-}
-.tutor-pulse-dot {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent2);
-    box-shadow: 0 0 12px var(--accent2);
-}
-.tutor-pulse-dot.start {
-    bottom: 4px;
-    background: var(--accent1);
-    box-shadow: 0 0 12px var(--accent1);
-    animation: dotPulse 1.8s infinite ease-in-out;
-}
-.tutor-pulse-dot.end {
-    top: 4px;
-    animation: dotPulse 1.8s infinite ease-in-out;
-    animation-delay: 0.9s;
-}
-@keyframes dotPulse {
-    0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.6; }
-    50% { transform: translateX(-50%) scale(2.2); opacity: 1; box-shadow: 0 0 20px var(--accent2); }
-}
-.tutor-finger {
-    position: absolute;
-    width: 44px;
-    height: 44px;
-    left: calc(50% - 22px);
-    bottom: 0px;
-    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.6));
-    z-index: 2;
-    animation: swipeUpMotion 2.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transform-origin: bottom center;
-}
-@keyframes swipeUpMotion {
-    0% { transform: translateY(0) scale(1.15); opacity: 0; }
-    8% { transform: translateY(0) scale(1.15); opacity: 0; }
-    15% { transform: translateY(0) scale(0.9); opacity: 1; }
-    20% { transform: translateY(0) scale(0.85); opacity: 1; }
-    55% { transform: translateY(-44px) scale(0.85); opacity: 1; }
-    65% { transform: translateY(-44px) scale(1.1); opacity: 1; }
-    75%, 100% { transform: translateY(-44px) scale(1.15); opacity: 0; }
-}
-.tutor-tap-ripple {
-    position: absolute;
-    left: 50%;
-    bottom: 12px;
-    transform: translateX(-50%);
-    width: 32px;
-    height: 32px;
-    border: 2px solid var(--accent1);
-    border-radius: 50%;
-    opacity: 0;
-    pointer-events: none;
-    animation: tapRippleAnim 2.4s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-@keyframes tapRippleAnim {
-    0%, 15% { transform: translateX(-50%) scale(0.2); opacity: 0; }
-    20% { transform: translateX(-50%) scale(0.5); opacity: 1; }
-    45% { transform: translateX(-50%) scale(1.5); opacity: 0; }
-    100% { opacity: 0; }
-}
-.tutor-pill-label {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 20px;
-    background: rgba(18, 19, 29, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 100px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(8px);
-    animation: floatPill 3s ease-in-out infinite alternate;
-}
-@keyframes floatPill {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-3px); }
-}
-.tutor-pill-text {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    background: linear-gradient(135deg, #fff 30%, rgba(255, 255, 255, 0.7) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-/* HERO CARD STACK */
+/* HERO RIGHT */
 .hero-right{display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
 .hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(124,92,252,0.3) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 6s ease-in-out infinite}
 @keyframes pulseGlow{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.8;transform:scale(1.05)}}
-.card-stack{position:relative;width:240px;height:340px;transform-style:preserve-3d;transition:transform .1s ease-out;cursor:pointer;z-index:1;animation:floatStack 6s ease-in-out infinite}
-@keyframes floatStack{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.stack-card{position:absolute;width:220px;height:310px;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.2);box-shadow:0 24px 60px rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.05);transition:transform .6s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;background:rgba(20,21,32,.8);backdrop-filter:blur(12px)}
-.stack-card img{width:100%;height:100%;object-fit:cover;display:block;opacity:0.9}
-.stack-card:nth-child(1){transform:rotate(-8deg) translate(-30px,10px);z-index:1}
-.stack-card:nth-child(2){transform:rotate(-2deg) translate(-10px,5px);z-index:2}
-.stack-card:nth-child(3){transform:rotate(4deg) translate(10px,-5px);z-index:3}
-.stack-card-label{position:absolute;bottom:0;left:0;right:0;padding:16px;background:linear-gradient(to top,rgba(7,8,15,1),transparent);font-size:13px;font-weight:700;color:#fff;letter-spacing:0.02em}
-.card-stack:hover .stack-card:nth-child(1){transform:rotate(-12deg) translate(-50px,20px) scale(0.95)}
-.card-stack:hover .stack-card:nth-child(2){transform:rotate(-4deg) translate(-15px,10px)}
-.card-stack:hover .stack-card:nth-child(3){transform:rotate(6deg) translate(20px,-10px)}
+
 @media(max-width:860px){#home{grid-template-columns:1fr;text-align:center;padding:90px 20px 80px}.hero-left{align-items:center}.hero-sub{max-width:100%}.hero-right{justify-content:center;padding-bottom:32px}.player-card{width:100%;max-width:320px}.pc-stat-name{width:90px}}
 /* TUTORIAL TAP */
 .playable-hand { width: 36px; height: 36px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
@@ -208,9 +74,10 @@ section{position:relative;z-index:1}
 .section-label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent1);margin-bottom:12px}
 .section-title{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px}
 .section-sub{color:var(--muted);font-size:16px;max-width:480px;margin-bottom:56px}
+#portfolio .section-sub{margin-bottom:24px}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
-.game-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .3s,border-color .3s,box-shadow .3s;position:relative}
-.game-card:hover{transform:translateY(-8px);border-color:rgba(124,92,252,.4);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.game-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;position:relative}
+.game-card:hover{transform:translateY(-6px);border-color:rgba(124,92,252,.4);box-shadow:0 24px 48px rgba(0,0,0,.55),0 0 0 1px rgba(124,92,252,.3)}
 .card-thumb{position:relative;overflow:hidden;aspect-ratio:1/1;background:#111}
 .card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .game-card:hover .card-thumb img{transform:scale(1.06)}
@@ -370,184 +237,6 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 /* ── CONTACT ICON SVG ── */
 .contact-icon svg { width: 22px; height: 22px; }
 
-/* ── PHONE MOCKUP ── */
-.phone-wrap {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    z-index: 1;
-}
-.phone-wrap::before {
-    content: '';
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, rgba(124,92,252,.22) 0%, transparent 70%);
-    filter: blur(50px);
-    z-index: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-}
-.phone-frame {
-    position: relative;
-    width: 230px;
-    height: 406px;
-    background: #09090f;
-    border-radius: 40px;
-    border: 2px solid rgba(255,255,255,.13);
-    box-shadow: 0 0 0 1px rgba(0,0,0,.55), 0 32px 80px rgba(0,0,0,.75), inset 0 0 0 1px rgba(255,255,255,.04);
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform .25s, box-shadow .25s;
-    z-index: 1;
-    user-select: none;
-    -webkit-user-select: none;
-}
-.phone-frame:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 0 0 1px rgba(124,92,252,.35), 0 40px 90px rgba(0,0,0,.75), 0 0 50px rgba(124,92,252,.18);
-}
-.phone-notch {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 70px;
-    height: 20px;
-    background: #09090f;
-    border-radius: 100px;
-    z-index: 10;
-    border: 1.5px solid rgba(255,255,255,.07);
-}
-.phone-screen {
-    position: absolute;
-    inset: 0;
-    border-radius: 38px;
-    overflow: hidden;
-}
-.phone-game-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform .5s ease, filter .5s ease;
-    display: block;
-}
-.phone-frame.playing .phone-game-img {
-    transform: scale(1.07);
-    filter: brightness(.42);
-}
-/* Tutorial layer */
-.phone-tutor-layer {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    z-index: 3;
-    transition: opacity .3s, transform .3s;
-}
-.phone-tutor-layer.hidden {
-    opacity: 0;
-    transform: scale(.88);
-    pointer-events: none;
-}
-.phone-badge {
-    background: rgba(124,92,252,.88);
-    backdrop-filter: blur(6px);
-    color: #fff;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .18em;
-    padding: 5px 14px;
-    border-radius: 100px;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,.18);
-}
-.phone-hand {
-    width: 52px;
-    height: 52px;
-    filter: drop-shadow(0 4px 16px rgba(0,0,0,.7));
-    animation: handTap 1.5s ease-in-out infinite;
-}
-@keyframes handTap {
-    0%, 100%  { transform: translateY(0) scale(1); }
-    35%       { transform: translateY(7px) scale(.86); }
-    55%       { transform: translateY(-5px) scale(1.1); }
-}
-.phone-tap-label {
-    background: rgba(0,0,0,.72);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.12);
-    color: #fff;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    padding: 7px 18px;
-    border-radius: 100px;
-    animation: tapLabelPulse 1.5s ease-in-out infinite;
-}
-@keyframes tapLabelPulse { 0%,100% { opacity:.75; } 50% { opacity:1; } }
-/* End card */
-.phone-endcard {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    background: linear-gradient(to top, rgba(7,8,15,1) 0%, rgba(7,8,15,.88) 55%, transparent 100%);
-    padding: 16px 18px 24px;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transform: translateY(110%);
-    transition: transform .5s cubic-bezier(.34,1.56,.64,1);
-}
-.phone-frame.playing .phone-endcard { transform: translateY(0); }
-.phone-ec-stars { color: #ffd700; font-size: 16px; letter-spacing: 3px; }
-.phone-ec-name {
-    font-size: 15px;
-    font-weight: 800;
-    color: #fff;
-    text-align: center;
-    line-height: 1.25;
-}
-.phone-install-btn {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(135deg, #43a047, #66bb6a);
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 800;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: inherit;
-    animation: installPulse 2s ease-in-out infinite;
-    margin-top: 4px;
-}
-@keyframes installPulse {
-    0%,100% { box-shadow: 0 4px 18px rgba(67,160,71,.45); }
-    50%      { box-shadow: 0 6px 30px rgba(67,160,71,.75); }
-}
-@keyframes phoneRipple { to { transform: scale(5); opacity: 0; } }
-.phone-caption {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-align: center;
-    z-index: 1;
-}
-
 /* ── HERO STATS ── */
 .hero-stats {
     display: flex;
@@ -592,15 +281,9 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 }
 @media(max-width:860px) {
     .hero-stats { max-width: 100%; }
-    .phone-frame { width: 180px; height: 318px; border-radius: 32px; }
-    .phone-screen { border-radius: 30px; }
-    .phone-notch { width: 56px; height: 17px; }
 }
 @media(max-width:700px) {
     .hero-stat-val { font-size: 22px; }
-    .phone-frame { width: 150px; height: 265px; border-radius: 28px; }
-    .phone-screen { border-radius: 26px; }
-    .phone-caption { display: none; }
 }
 
 /* ── PROCESS SECTION ── */
@@ -815,14 +498,7 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 }
 .game-card.card-hidden { display: none; }
 
-/* ── CARD HOVER ENHANCEMENT ── */
-.game-card {
-    transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-}
-.game-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 24px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(124,92,252,.3);
-}
+/* ── CARD PLAY SLIDE-UP ── */
 .card-play {
     transform: translateY(8px);
     transition: transform .3s cubic-bezier(.34,1.56,.64,1), opacity .25s;
@@ -965,44 +641,6 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     border-color: rgba(124,92,252,.45);
 }
 
-/* ── HERO MOSAIC ── */
-.hero-mosaic {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    position: relative;
-    z-index: 1;
-    width: 280px;
-}
-.mosaic-item {
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,.1);
-    box-shadow: 0 8px 32px rgba(0,0,0,.55);
-    transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
-    aspect-ratio: 9/16;
-    background: rgba(20,21,32,.6);
-    position: relative;
-}
-.mosaic-item:nth-child(1) { transform: rotate(-2.5deg) translateY(6px); }
-.mosaic-item:nth-child(2) { transform: rotate(2deg) translateY(-6px); }
-.mosaic-item:nth-child(3) { transform: rotate(1.5deg) translateY(4px); }
-.mosaic-item:nth-child(4) { transform: rotate(-1.5deg) translateY(-4px); }
-.mosaic-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    opacity: .88;
-    transition: opacity .3s, transform .4s;
-}
-.mosaic-item:hover {
-    transform: rotate(0deg) translateY(0) scale(1.05) !important;
-    box-shadow: 0 16px 48px rgba(124,92,252,.35);
-    z-index: 2;
-}
-.mosaic-item:hover img { opacity: 1; }
-
 /* ── SCROLL HINT ── */
 .scroll-hint {
     position: absolute;
@@ -1141,6 +779,4 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     .sh-label-desktop { display: none; }
     .sh-label-mobile { display: inline; }
 
-    .hero-mosaic { width: 220px; gap: 8px; }
-    .mosaic-item { border-radius: 10px; }
 }
