@@ -655,7 +655,7 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 /* ── SCROLL HINT ── */
 .scroll-hint {
     position: absolute;
-    bottom: 28px;
+    bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -666,6 +666,12 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     pointer-events: none;
     transition: opacity .6s ease;
     z-index: 10;
+    background: rgba(7, 8, 15, 0.52);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 60px;
+    padding: 16px 22px 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 .scroll-hint.visible {
     opacity: 1;
@@ -691,7 +697,7 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 .sh-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,.45);
+    border: 1.5px solid rgba(255,255,255,.6);
     animation: ringPulse 2.2s ease-out infinite;
     pointer-events: none;
 }

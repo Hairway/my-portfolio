@@ -934,8 +934,22 @@
         const glow     = document.getElementById('pcGlow');
         const badge    = document.getElementById('pcLvlBadge');
 
-        let level = 21;
-        let pct   = 40;
+        let level     = 21;
+        let pct       = 40;
+        let currentXP = 300;
+        let xpRafId   = null;
+
+        function animateXP(from, to, duration) {
+            if (xpRafId) cancelAnimationFrame(xpRafId);
+            const start = performance.now();
+            function tick(now) {
+                const t      = Math.min((now - start) / duration, 1);
+                const eased  = 1 - Math.pow(1 - t, 2); // ease-out
+                xpText.innerHTML = `${Math.round(from + (to - from) * eased)} XP<span> / ∞</span>`;
+                if (t < 1) xpRafId = requestAnimationFrame(tick);
+            }
+            xpRafId = requestAnimationFrame(tick);
+        }
 
         function kickStart() {
             xpFill.style.animation  = 'none';
@@ -946,9 +960,15 @@
         }
 
         function scheduleFill() {
-            const ms = Math.round((100 - pct) / 100 * 11000);
+            const remaining = 100 - pct;
+            const ms        = Math.round(remaining / 100 * 11000);
             xpFill.style.transition = `width ${ms}ms linear`;
             xpFill.style.width      = '100%';
+
+            const xpGain = Math.round(remaining * 1.5);
+            animateXP(currentXP, currentXP + xpGain, ms);
+            currentXP += xpGain;
+
             setTimeout(doLevelUp, ms);
         }
 
@@ -1005,12 +1025,12 @@
 
             // Reset bar
             setTimeout(() => {
+                if (xpRafId) cancelAnimationFrame(xpRafId);
                 xpFill.style.animation  = 'none';
                 xpFill.style.transition = 'none';
                 pct = 5 + Math.random() * 12;
                 xpFill.style.width = pct + '%';
-                const xp = 300 + (level - 21) * 55 + Math.round(pct);
-                xpText.innerHTML = `${xp} XP<span> / ∞</span>`;
+                xpText.innerHTML = `${currentXP} XP<span> / ∞</span>`;
             }, 980);
 
             // Start next fill
