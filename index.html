@@ -566,42 +566,50 @@
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             if (ctx.state === 'suspended') ctx.resume();
 
-            // PS5-style ascending bell arpeggio: B4 → D#5 → F#5 → B5
+            // Soft crystal chime: D5 → F#5 → A5 (D major, ascending)
             const notes = [
-                { freq: 493.88,  t: 0    },
-                { freq: 622.25,  t: 0.09 },
-                { freq: 739.99,  t: 0.18 },
-                { freq: 987.77,  t: 0.29 },
+                { freq: 587.33, t: 0.00, dur: 2.6 },
+                { freq: 739.99, t: 0.22, dur: 2.2 },
+                { freq: 880.00, t: 0.46, dur: 1.9 },
             ];
 
             const master = ctx.createGain();
-            master.gain.setValueAtTime(0.14, ctx.currentTime);
+            master.gain.setValueAtTime(0.08, ctx.currentTime);
             master.connect(ctx.destination);
 
-            notes.forEach(({ freq, t }) => {
-                const dur = 1.6 - t * 0.4;
-
-                // Fundamental (bell body)
+            notes.forEach(({ freq, t, dur }) => {
+                // Fundamental
                 const o1 = ctx.createOscillator();
                 const g1 = ctx.createGain();
                 o1.type = 'sine';
                 o1.frequency.setValueAtTime(freq, ctx.currentTime + t);
                 g1.gain.setValueAtTime(0, ctx.currentTime + t);
-                g1.gain.linearRampToValueAtTime(1, ctx.currentTime + t + 0.006);
+                g1.gain.linearRampToValueAtTime(1, ctx.currentTime + t + 0.014);
                 g1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur);
                 o1.connect(g1); g1.connect(master);
-                o1.start(ctx.currentTime + t); o1.stop(ctx.currentTime + t + dur);
+                o1.start(ctx.currentTime + t); o1.stop(ctx.currentTime + t + dur + 0.05);
 
-                // 2nd harmonic (shimmer overtone)
+                // Inharmonic shimmer (bell crystal quality)
                 const o2 = ctx.createOscillator();
                 const g2 = ctx.createGain();
                 o2.type = 'sine';
                 o2.frequency.setValueAtTime(freq * 2.756, ctx.currentTime + t);
                 g2.gain.setValueAtTime(0, ctx.currentTime + t);
-                g2.gain.linearRampToValueAtTime(0.3, ctx.currentTime + t + 0.006);
-                g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur * 0.45);
+                g2.gain.linearRampToValueAtTime(0.18, ctx.currentTime + t + 0.014);
+                g2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur * 0.3);
                 o2.connect(g2); g2.connect(master);
-                o2.start(ctx.currentTime + t); o2.stop(ctx.currentTime + t + dur);
+                o2.start(ctx.currentTime + t); o2.stop(ctx.currentTime + t + dur * 0.35);
+
+                // Sub-octave warmth
+                const o3 = ctx.createOscillator();
+                const g3 = ctx.createGain();
+                o3.type = 'sine';
+                o3.frequency.setValueAtTime(freq * 0.5, ctx.currentTime + t);
+                g3.gain.setValueAtTime(0, ctx.currentTime + t);
+                g3.gain.linearRampToValueAtTime(0.12, ctx.currentTime + t + 0.014);
+                g3.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + t + dur * 0.5);
+                o3.connect(g3); g3.connect(master);
+                o3.start(ctx.currentTime + t); o3.stop(ctx.currentTime + t + dur * 0.55);
             });
         } catch(e) { console.warn("Audio error:", e); }
     }
