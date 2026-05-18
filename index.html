@@ -82,11 +82,45 @@
         </div>
     </div>
     <div class="hero-right reveal-blur">
-        <div class="hero-mosaic">
-            <div class="mosaic-item"><img src="games/game1/preview.png" alt="Kingdom Clash"></div>
-            <div class="mosaic-item"><img src="games/game3/preview.png" alt="Battle Lines"></div>
-            <div class="mosaic-item"><img src="games/game5/preview.png" alt="Tap Arrow"></div>
-            <div class="mosaic-item"><img src="games/game6/preview.png" alt="Tank Stars"></div>
+        <div class="player-card" id="playerCard">
+            <div class="pc-topbar">
+                <div class="pc-level"><span class="pc-lvl-label">LVL</span><span class="pc-lvl-num">7</span></div>
+                <div class="pc-class">Playable Ads Producer</div>
+            </div>
+            <div class="pc-xp-wrap">
+                <div class="pc-xp-bar"><div class="pc-xp-fill" style="--xp:72%"></div></div>
+                <div class="pc-xp-text">300 XP<span> / ∞</span></div>
+            </div>
+            <div class="pc-divider"></div>
+            <div class="pc-stats">
+                <div class="pc-stat">
+                    <span class="pc-stat-name">Concept</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:92%"></div></div>
+                    <span class="pc-stat-val">92</span>
+                </div>
+                <div class="pc-stat">
+                    <span class="pc-stat-name">Spec Writing</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:97%"></div></div>
+                    <span class="pc-stat-val">97</span>
+                </div>
+                <div class="pc-stat">
+                    <span class="pc-stat-name">Production</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:88%"></div></div>
+                    <span class="pc-stat-val">88</span>
+                </div>
+                <div class="pc-stat">
+                    <span class="pc-stat-name">Team Briefing</span>
+                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:85%"></div></div>
+                    <span class="pc-stat-val">85</span>
+                </div>
+            </div>
+            <div class="pc-divider"></div>
+            <div class="pc-badges-label">Achievements</div>
+            <div class="pc-badges">
+                <div class="pc-badge">🏆 300+ Shipped</div>
+                <div class="pc-badge">⭐ Benchmark Hit</div>
+                <div class="pc-badge">🎮 Multi-Genre</div>
+            </div>
         </div>
     </div>
     <div class="scroll-hint" id="scrollHint">
@@ -133,6 +167,15 @@
     <div class="section-label reveal">Portfolio</div>
     <h2 class="section-title reveal">Playable Ads</h2>
     <p class="section-sub reveal">Interactive playable ads I've built — tap a card to play directly in your browser.</p>
+    <div class="portfolio-filters reveal" id="portfolioFilters">
+        <button class="pf-btn active" data-filter="all">All</button>
+        <button class="pf-btn" data-filter="idle">Idle / Merge</button>
+        <button class="pf-btn" data-filter="puzzle">Puzzle</button>
+        <button class="pf-btn" data-filter="action">Action</button>
+        <button class="pf-btn" data-filter="rpg">RPG / Adventure</button>
+        <button class="pf-btn" data-filter="tycoon">Tycoon</button>
+        <button class="pf-btn" data-filter="hypercasual">Hypercasual</button>
+    </div>
     <div class="ach-progress-wrap reveal" id="achProgressWrap">
         <div class="ach-progress-bar-bg"><div class="ach-progress-bar-fill" id="achProgressFill"></div></div>
         <div class="ach-progress-label" id="achProgressLabel">0 / 6 played</div>
@@ -585,6 +628,29 @@
         if (ach) setTimeout(() => showAchievement(ach), 800);
         sessionStorage.removeItem('pendingHidden');
     }
+
+    // ── PORTFOLIO FILTER ──
+    const FILTER_MAP = {
+        idle:       ['idle', 'merge'],
+        puzzle:     ['puzzle', 'logic'],
+        action:     ['action', 'shooter', 'arcade'],
+        rpg:        ['rpg', 'adventure', 'farming'],
+        tycoon:     ['tycoon', 'building'],
+        hypercasual:['hypercasual'],
+    };
+    document.querySelectorAll('.pf-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const f = btn.dataset.filter;
+            const keywords = f === 'all' ? [] : (FILTER_MAP[f] || [f]);
+            document.querySelectorAll('.game-card').forEach(card => {
+                const tags = card.dataset.tags || '';
+                const show = f === 'all' || keywords.some(k => tags.includes(k));
+                card.classList.toggle('card-hidden', !show);
+            });
+        });
+    });
 
     document.getElementById('gamesGrid').addEventListener('click', e => {
         const card = e.target.closest('.game-card');
