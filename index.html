@@ -169,15 +169,6 @@
     <div class="section-label reveal">Portfolio</div>
     <h2 class="section-title reveal">Playable Ads</h2>
     <p class="section-sub reveal">Interactive playable ads I've built — tap a card to play directly in your browser.</p>
-    <div class="portfolio-filters reveal" id="portfolioFilters">
-        <button class="pf-btn active" data-filter="all">All</button>
-        <button class="pf-btn" data-filter="idle">Idle / Merge</button>
-        <button class="pf-btn" data-filter="puzzle">Puzzle</button>
-        <button class="pf-btn" data-filter="action">Action</button>
-        <button class="pf-btn" data-filter="rpg">RPG / Adventure</button>
-        <button class="pf-btn" data-filter="tycoon">Tycoon</button>
-        <button class="pf-btn" data-filter="hypercasual">Hypercasual</button>
-    </div>
     <div class="ach-progress-wrap reveal" id="achProgressWrap">
         <div class="ach-progress-bar-bg"><div class="ach-progress-bar-fill" id="achProgressFill"></div></div>
         <div class="ach-progress-label" id="achProgressLabel">0 / 6 played</div>
@@ -645,28 +636,7 @@
         sessionStorage.removeItem('pendingHidden');
     }
 
-    // ── PORTFOLIO FILTER ──
-    const FILTER_MAP = {
-        idle:       ['idle', 'merge'],
-        puzzle:     ['puzzle', 'logic'],
-        action:     ['action', 'shooter', 'arcade'],
-        rpg:        ['rpg', 'adventure', 'farming'],
-        tycoon:     ['tycoon', 'building'],
-        hypercasual:['hypercasual'],
-    };
-    document.querySelectorAll('.pf-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const f = btn.dataset.filter;
-            const keywords = f === 'all' ? [] : (FILTER_MAP[f] || [f]);
-            document.querySelectorAll('.game-card').forEach(card => {
-                const tags = card.dataset.tags || '';
-                const show = f === 'all' || keywords.some(k => tags.includes(k));
-                card.classList.toggle('card-hidden', !show);
-            });
-        });
-    });
+
 
     document.getElementById('gamesGrid').addEventListener('click', e => {
         const card = e.target.closest('.game-card');

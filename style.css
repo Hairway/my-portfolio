@@ -75,7 +75,6 @@ section{position:relative;z-index:1}
 .section-label{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent1);margin-bottom:12px}
 .section-title{font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px}
 .section-sub{color:var(--muted);font-size:16px;max-width:480px;margin-bottom:56px}
-#portfolio .section-sub{margin-bottom:24px}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
 .game-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;position:relative}
 .game-card:hover{transform:translateY(-6px);border-color:rgba(124,92,252,.4);box-shadow:0 24px 48px rgba(0,0,0,.55),0 0 0 1px rgba(124,92,252,.3)}
@@ -467,37 +466,6 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 .about-bm-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
 .about-bm-text { color: var(--muted); }
 
-/* ── PORTFOLIO FILTER ── */
-.portfolio-filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin-bottom: 28px;
-}
-.pf-btn {
-    padding: 7px 16px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 100px;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: background .2s, border-color .2s, color .2s;
-}
-.pf-btn:hover {
-    border-color: rgba(124,92,252,.4);
-    color: var(--text);
-    background: rgba(124,92,252,.06);
-}
-.pf-btn.active {
-    background: rgba(124,92,252,.15);
-    border-color: rgba(124,92,252,.5);
-    color: #c4b0ff;
-}
-.game-card.card-hidden { display: none; }
 
 /* ── CARD PLAY SLIDE-UP ── */
 .card-play {
