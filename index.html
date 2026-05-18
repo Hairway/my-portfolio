@@ -89,7 +89,7 @@
                 <div class="pc-class">Playable Ads Producer</div>
             </div>
             <div class="pc-xp-wrap">
-                <div class="pc-xp-bar"><div class="pc-xp-fill" style="--xp:25%"></div></div>
+                <div class="pc-xp-bar"><div class="pc-xp-fill" style="--xp:40%"></div></div>
                 <div class="pc-xp-text">300 XP<span> / ∞</span></div>
             </div>
             <div class="pc-divider"></div>
@@ -935,12 +935,13 @@
         const badge    = document.getElementById('pcLvlBadge');
 
         let level = 21;
-        let pct   = 25;
+        let pct   = 40;
 
         function kickStart() {
             xpFill.style.animation  = 'none';
             xpFill.style.transition = 'none';
             xpFill.style.width      = pct + '%';
+            void xpFill.offsetWidth; // force reflow so browser commits 40% before transition starts
             scheduleFill();
         }
 
