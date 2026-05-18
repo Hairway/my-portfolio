@@ -17,7 +17,8 @@ nav {
 .nav-links{display:flex;gap:8px}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--text);background:var(--surface)}
-.btn-cv-hero{display:inline-flex;align-items:center;gap:8px}
+.btn-cv-hero{display:inline-flex;align-items:center;gap:8px;background:rgba(124,92,252,.1);border-color:rgba(124,92,252,.35);color:#c4b5fd}
+.btn-cv-hero:hover{background:rgba(124,92,252,.18);border-color:rgba(124,92,252,.6);color:#d4caff}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
 .nav-burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
 .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
