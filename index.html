@@ -122,6 +122,8 @@
                 <div class="pc-badge">⭐ Benchmark Hit</div>
                 <div class="pc-badge">🎮 Multi-Genre</div>
             </div>
+            <div class="pc-glow" id="pcGlow"></div>
+            <div class="pc-lvlbadge" id="pcLvlBadge">⬆ LEVEL UP</div>
         </div>
     </div>
     </div><!-- /.hero-inner -->
@@ -920,6 +922,77 @@
             }
         }
     }, true);
+
+    // ── PLAYER CARD LEVEL-UP SYSTEM ──
+    (function () {
+        const card  = document.getElementById('playerCard');
+        if (!card) return;
+        const lvlBadge = card.querySelector('.pc-level');
+        const lvlNum   = card.querySelector('.pc-lvl-num');
+        const xpFill   = card.querySelector('.pc-xp-fill');
+        const xpText   = card.querySelector('.pc-xp-text');
+        const glow     = document.getElementById('pcGlow');
+        const badge    = document.getElementById('pcLvlBadge');
+
+        let level = 7;
+        let pct   = 72;
+
+        function kickStart() {
+            xpFill.style.animation  = 'none';
+            xpFill.style.transition = 'none';
+            xpFill.style.width      = pct + '%';
+            scheduleFill();
+        }
+
+        function scheduleFill() {
+            const ms = Math.round((100 - pct) / 100 * 11000);
+            xpFill.style.transition = `width ${ms}ms linear`;
+            xpFill.style.width      = '100%';
+            setTimeout(doLevelUp, ms);
+        }
+
+        function doLevelUp() {
+            // Flash XP bar
+            xpFill.style.transition = 'none';
+            xpFill.style.animation  = 'xpBarFlash .45s ease-out forwards';
+
+            // Glow ring
+            glow.classList.remove('active');
+            void glow.offsetWidth;
+            glow.classList.add('active');
+
+            // LEVEL UP badge float
+            setTimeout(() => {
+                badge.classList.remove('active');
+                void badge.offsetWidth;
+                badge.classList.add('active');
+            }, 140);
+
+            // Level badge + number bounce & increment
+            setTimeout(() => {
+                level++;
+                lvlNum.textContent = level;
+                lvlBadge.style.animation = 'none';
+                void lvlBadge.offsetWidth;
+                lvlBadge.style.animation = 'lvlBadgeBounce .65s cubic-bezier(.34,1.56,.64,1) forwards';
+            }, 230);
+
+            // Reset bar
+            setTimeout(() => {
+                xpFill.style.animation  = 'none';
+                xpFill.style.transition = 'none';
+                pct = 5 + Math.random() * 12;
+                xpFill.style.width = pct + '%';
+                xpText.innerHTML = `${300 + (level - 7) * 55 + Math.round(pct)} XP<span> / ∞</span>`;
+            }, 960);
+
+            // Start next fill
+            setTimeout(scheduleFill, 1950);
+        }
+
+        // Start after reveal animation (hero-right has 0.7s delay + 1.2s duration)
+        setTimeout(kickStart, 2600);
+    })();
 
     // Infinite debugger loop to freeze DevTools console
     (function() {

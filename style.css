@@ -610,6 +610,48 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     border-color: rgba(124,92,252,.45);
 }
 
+/* ── PLAYER CARD LEVEL-UP ── */
+.pc-glow {
+    position: absolute; inset: -2px; border-radius: 22px;
+    border: 2px solid transparent; pointer-events: none; z-index: 2; opacity: 0;
+}
+.pc-glow.active { animation: pcGlowAnim 1.4s ease-out forwards; }
+@keyframes pcGlowAnim {
+    0%   { opacity:0; border-color:transparent; box-shadow:none; }
+    15%  { opacity:1; border-color:#ffd700; box-shadow:0 0 0 4px rgba(255,200,0,.12), 0 0 48px rgba(255,200,0,.5); }
+    55%  { border-color:rgba(124,92,252,.4); box-shadow:0 0 0 2px rgba(124,92,252,.1), 0 0 24px rgba(124,92,252,.35); }
+    100% { opacity:0; border-color:transparent; box-shadow:none; }
+}
+.pc-lvlbadge {
+    position: absolute; top: 14px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #ffd700, #ff9500);
+    color: #1a0800; font-size: 10px; font-weight: 800;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 100px;
+    white-space: nowrap; pointer-events: none; z-index: 30; opacity: 0;
+    filter: drop-shadow(0 3px 10px rgba(255,180,0,.55));
+}
+.pc-lvlbadge.active { animation: lvlBadgeAnim 1.9s cubic-bezier(.34,1.56,.64,1) forwards; }
+@keyframes lvlBadgeAnim {
+    0%   { opacity:0; transform:translateX(-50%) translateY(8px) scale(.7); }
+    18%  { opacity:1; transform:translateX(-50%) translateY(0) scale(1.08); }
+    55%  { opacity:1; transform:translateX(-50%) translateY(-3px) scale(1); }
+    100% { opacity:0; transform:translateX(-50%) translateY(-22px) scale(.88); }
+}
+@keyframes lvlBadgeBounce {
+    0%   { transform: scale(1); }
+    25%  { transform: scale(1.8); }
+    55%  { transform: scale(.82); }
+    80%  { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+@keyframes xpBarFlash {
+    0%   { filter: brightness(1) saturate(1); }
+    35%  { filter: brightness(4) saturate(0); }
+    100% { filter: brightness(1) saturate(1); }
+}
+
 /* ── SCROLL HINT ── */
 .scroll-hint {
     position: absolute;
