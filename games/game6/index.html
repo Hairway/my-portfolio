@@ -78,6 +78,11 @@
             cursor: pointer; transition: opacity .2s;
         }
         .btn-rotate:hover { opacity: .85; }
+        .btn-rotate.rotate-hint { animation: rotatePulse 1.2s ease-in-out 3; }
+        @keyframes rotatePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(124,92,252,0); }
+            50% { box-shadow: 0 0 0 8px rgba(124,92,252,0.45); }
+        }
 
         /* ── GAME FRAME ── */
         /* ── GAME FRAME ── */
@@ -492,10 +497,23 @@
             isLandscape = !isLandscape;
             fitFrame();
             document.getElementById('gameFrame').src = 'original_game.html';
+            sessionStorage.setItem('rotateSeen', 'true');
+            const btn = document.getElementById('rotateBtn');
+            if (btn) btn.classList.remove('rotate-hint');
         }
 
         window.addEventListener('resize', fitFrame);
         loadGame();
+
+        // Rotate hint — pulses once after 2s, dismissed on first use
+        setTimeout(() => {
+            if (sessionStorage.getItem('rotateSeen')) return;
+            const btn = document.getElementById('rotateBtn');
+            if (btn && btn.style.display !== 'none') {
+                btn.classList.add('rotate-hint');
+                setTimeout(() => btn.classList.remove('rotate-hint'), 3600);
+            }
+        }, 2000);
 
         // Tab Tutorial Logic
         let interactionOccurred = false;
