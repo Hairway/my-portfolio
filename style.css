@@ -17,7 +17,7 @@ nav {
 .nav-links{display:flex;gap:8px}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--text);background:var(--surface)}
-.btn-cv-hero{display:inline-flex;align-items:center;gap:7px;padding:11px 22px;font-size:14px;background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.3);color:#b8a8f0}
+.btn-cv-hero{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 22px;font-size:14px;background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.3);color:#b8a8f0}
 .btn-cv-hero:hover{background:rgba(124,92,252,.16);border-color:rgba(124,92,252,.55);color:#cfc2ff;transform:translateY(-2px)}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
 .nav-burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
@@ -692,8 +692,8 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     z-index: 10;
     background: rgba(7, 8, 15, 0.52);
     border: 1px solid rgba(255,255,255,.1);
-    border-radius: 60px;
-    padding: 10px 18px 8px;
+    border-radius: 22px;
+    padding: 12px 22px 12px;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
