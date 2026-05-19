@@ -193,17 +193,6 @@
             50% { border-color: rgba(124,92,252,1); background: rgba(124,92,252,0.85); color: #fff; }
         }
 
-        /* ── SPEC CONTAINER ── */
-        .spec-container {
-            display: none; width: 100%; max-width: 760px;
-            background: var(--surface); border: 1px solid var(--border);
-            border-radius: 16px; padding: 24px;
-            box-shadow: 0 16px 40px rgba(0,0,0,.4);
-        }
-        .spec-container.active { display: block; }
-        .spec-container img { width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 16px; }
-        .spec-placeholder { text-align: center; color: var(--muted); padding: 40px 20px; }
-
         .game-wrapper {
             display: flex; flex-direction: column; align-items: center; gap: 14px;
         }
@@ -232,6 +221,7 @@
         .spec-container { display: none; width: 100%; max-width: 760px; padding: 0; background: none; border: none; box-shadow: none; border-radius: 0; }
         .spec-container.active { display: flex; flex-direction: column; gap: 10px; }
         .spec-block { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 24px; }
+        .spec-block img { width: 100%; height: auto; border-radius: 8px; display: block; margin-bottom: 16px; }
         .spec-overview { border-color: rgba(124,92,252,.25); background: rgba(124,92,252,.05); }
         .spec-block-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent1); margin-bottom: 10px; }
         .spec-block-text { font-size: 14px; line-height: 1.7; color: rgba(232,234,240,.82); }
@@ -564,7 +554,7 @@
                 e.preventDefault();
                 return false;
             }
-            const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+            const isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
             const metaOrCtrl = isMac ? e.metaKey : e.ctrlKey;
             if (metaOrCtrl) {
                 if (e.key === 's' || e.key === 'S' || e.keyCode === 83) { e.preventDefault(); return false; }
