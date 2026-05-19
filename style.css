@@ -159,6 +159,7 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     .contact-grid{grid-template-columns:1fr 1fr}
     .footer-inner{flex-direction:column;text-align:center;gap:12px}
     .btn-primary,.btn-ghost{padding:13px 24px;font-size:14px}
+    .hero-right{display:none}
 }
 @media(max-width:420px){.contact-grid{grid-template-columns:1fr}}
 
