@@ -186,7 +186,7 @@
             position: absolute; top: 100%; left: 50%; z-index: 20;
             pointer-events: none; opacity: 0; transition: opacity .3s;
         }
-        .tutor-tab-wrap.active { opacity: 1; animation: tutorTabMove 1.8s infinite; }
+        .tutor-tab-wrap.active { opacity: 1; animation: tutorTabMove 1.8s 2; }
         .playable-hand { width: 32px; height: 32px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6)); }
         @keyframes tutorTabMove {
             0% { transform: translate(10px, 20px); opacity: 0; }
@@ -196,16 +196,11 @@
             80% { transform: translate(10px, 20px); opacity: 0; }
             100% { opacity: 0; }
         }
-        .tab.tutor-active { animation: tabPulse 1.8s infinite; }
+        .tab.tutor-active { animation: tabPulse 1.8s 2; }
         @keyframes tabPulse {
-            0%, 15% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
-            40% { transform: scale(0.95); background: rgba(124,92,252,0.15); border-color: rgba(124,92,252,0.5); }
-            50%, 100% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); }
-        }
-        .tab.subtle-hint { animation: subtleBlink 3s infinite; }
-        @keyframes subtleBlink {
-            0%, 100% { border-color: rgba(255,255,255,0.1); background: transparent; color: var(--text); }
-            50% { border-color: rgba(124,92,252,1); background: rgba(124,92,252,0.85); color: #fff; }
+            0%, 15% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); box-shadow: 0 0 0 0 rgba(124,92,252,0); }
+            40% { transform: scale(0.95); background: rgba(124,92,252,0.2); border-color: rgba(124,92,252,0.7); box-shadow: 0 0 0 6px rgba(124,92,252,0.22), 0 0 22px rgba(124,92,252,0.5); }
+            50%, 100% { transform: none; background: transparent; border-color: rgba(255,255,255,0.1); box-shadow: 0 0 0 0 rgba(124,92,252,0); }
         }
 
         .game-wrapper {
@@ -510,19 +505,23 @@
         let interactionOccurred = false;
         let tutorHandVisible = false;
 
-        if (sessionStorage.getItem('specVisited') === 'true') {
+        if (sessionStorage.getItem('specVisited') === 'true' ||
+            sessionStorage.getItem('specTutorSeen') === 'true') {
             interactionOccurred = true;
         }
 
+        const hideTutorHand = () => {
+            if (!tutorHandVisible) return;
+            const t = document.getElementById('specTutor');
+            const b = document.getElementById('specBtn');
+            if (t) { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; }, 300); }
+            if (b) b.classList.remove('tutor-active');
+            tutorHandVisible = false;
+        };
+
         const markInteraction = () => {
             interactionOccurred = true;
-            if (tutorHandVisible) {
-                const t = document.getElementById('specTutor');
-                const b = document.getElementById('specBtn');
-                if (t) { t.style.opacity = '0'; setTimeout(() => { t.style.display = 'none'; }, 300); }
-                if (b) b.classList.remove('tutor-active');
-                tutorHandVisible = false;
-            }
+            hideTutorHand();
         };
 
         window.addEventListener('blur', markInteraction); // clicking inside iframe
@@ -537,7 +536,7 @@
             }
         }, 500);
 
-        // Fire tutorial hand after 6 seconds if no interaction
+        // Fire the Spec hint after 7s of no interaction — plays 2 taps, then fades
         setTimeout(() => {
             if (!interactionOccurred) {
                 const t = document.getElementById('specTutor');
@@ -546,19 +545,11 @@
                     t.classList.add('active'); 
                     b.classList.add('tutor-active'); 
                     tutorHandVisible = true;
+                    sessionStorage.setItem('specTutorSeen', 'true');
+                    setTimeout(hideTutorHand, 3500);
                 }
             }
-        }, 6000);
-
-        // Fire subtle hint after 12 seconds
-        setTimeout(() => {
-            if (sessionStorage.getItem('specVisited') === 'true') return;
-            const specTab = document.getElementById('specTab');
-            const b = document.getElementById('specBtn');
-            if (specTab && !specTab.classList.contains('active') && b) {
-                b.classList.add('subtle-hint');
-            }
-        }, 12000);
+        }, 7000);
 
         // Prevent context menu (right click) to protect playable assets from direct download
         document.addEventListener('contextmenu', e => e.preventDefault());

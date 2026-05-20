@@ -451,6 +451,7 @@
         if (val === PASSWORD) {
             sessionStorage.setItem('isAuthorized','true');
             document.getElementById('gate').style.display = 'none';
+            revealHero();
         } else {
             document.getElementById('gateError').textContent = 'Incorrect password. Try again.';
             document.getElementById('pwInput').value = '';
@@ -458,7 +459,27 @@
         }
     }
     document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') checkAuth(); });
-    if (sessionStorage.getItem('isAuthorized') === 'true') document.getElementById('gate').style.display = 'none';
+
+    // The hero's entrance plays only once the visitor is past the gate, so the
+    // first impression actually lands instead of finishing behind the password.
+    let heroRevealed = false;
+    function revealHero() {
+        if (heroRevealed) return;
+        heroRevealed = true;
+        document.body.classList.add('entered');
+        document.querySelectorAll('.hstat-n').forEach(el => animateCounter(el, +el.dataset.to, 900));
+        const sh = document.getElementById('scrollHint');
+        if (sh && !sessionStorage.getItem('scrollHintSeen')) {
+            setTimeout(() => {
+                if (!sessionStorage.getItem('scrollHintSeen')) sh.classList.add('visible');
+            }, 2400);
+        }
+        if (typeof initPlayerCard === 'function') initPlayerCard();
+    }
+    if (sessionStorage.getItem('isAuthorized') === 'true') {
+        document.getElementById('gate').style.display = 'none';
+        revealHero();
+    }
 
     function toggleMenu() {
         const b = document.getElementById('burger'), d = document.getElementById('drawer');
@@ -518,10 +539,9 @@
     }
 
 
-    // ── SCROLL HINT TUTORIAL ──
+    // ── SCROLL HINT TUTORIAL ── (revealHero shows it once the hero settles)
     const scrollHint = document.getElementById('scrollHint');
     if (scrollHint && !sessionStorage.getItem('scrollHintSeen')) {
-        setTimeout(() => scrollHint.classList.add('visible'), 1400);
         window.addEventListener('scroll', () => {
             scrollHint.classList.remove('visible');
             scrollHint.classList.add('gone');
@@ -529,20 +549,12 @@
         }, { passive: true, once: true });
     }
 
-    // ── HERO STATS COUNTER ──
+    // ── HERO STATS COUNTER ── (run by revealHero, in sync with the entrance)
     function animateCounter(el, target, dur) {
         let v = 0, step = target / (dur / 16);
         const tick = () => { v = Math.min(v + step, target); el.textContent = Math.round(v); if (v < target) requestAnimationFrame(tick); };
         requestAnimationFrame(tick);
     }
-    const heroStatsObs = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting) {
-            document.querySelectorAll('.hstat-n').forEach(el => animateCounter(el, +el.dataset.to, 900));
-            heroStatsObs.disconnect();
-        }
-    }, { threshold: 0.5 });
-    const heroStatsEl = document.querySelector('.hero-stats');
-    if (heroStatsEl) heroStatsObs.observe(heroStatsEl);
 
     // Hero Background Glow Parallax
     const homeSect = document.getElementById('home');
@@ -810,13 +822,18 @@
     });
 
     // Playable Tutorial Hand Logic
-    let tutorDismissed = false;
+    let cardPlayedBefore = [];
+    try { cardPlayedBefore = JSON.parse(sessionStorage.getItem('playedGames') || '[]'); } catch (e) {}
+    // Show the card hint only once: skip it entirely if the visitor already
+    // opened a playable or already saw the hint earlier this session.
+    let tutorDismissed = cardPlayedBefore.length > 0 || sessionStorage.getItem('cardTutorSeen') === 'true';
     const gamesGrid = document.getElementById('gamesGrid');
     const tutorHand = document.getElementById('tutorHand');
     const allCards = Array.from(document.querySelectorAll('.game-card'));
     let tutorInterval = null;
     let cycleIndex = 0;
     let activeRowId = null;
+    let tutorShowCount = 0;
     
     const dismissTutor = () => {
         if (tutorDismissed) return;
@@ -886,6 +903,15 @@
             void tutorHand.offsetWidth; // trigger reflow to reset CSS animation
             tutorHand.classList.add('active');
         }
+
+        if (tutorShowCount === 0) sessionStorage.setItem('cardTutorSeen', 'true');
+        tutorShowCount++;
+        // Demonstrate on a couple of cards, then stop — the hint shows once.
+        if (tutorShowCount === 2) {
+            clearInterval(tutorInterval);
+            tutorInterval = null;
+            setTimeout(dismissTutor, 2200);
+        }
     };
 
     // Start checking when the grid comes into view
@@ -929,11 +955,11 @@
         }
     }, true);
 
-    // ── PLAYER CARD LEVEL-UP SYSTEM ──
-    (function () {
+    // ── PLAYER CARD LEVEL-UP SYSTEM ── (started by revealHero, runs once)
+    function initPlayerCard() {
         const card     = document.getElementById('playerCard');
         if (!card) return;
-        if (getComputedStyle(card).display === 'none') return;
+        if (!card.offsetParent) return;
         const lvlBadge = card.querySelector('.pc-level');
         const lvlNum   = card.querySelector('.pc-lvl-num');
         const xpFill   = card.querySelector('.pc-xp-fill');
@@ -1065,14 +1091,11 @@
                 xpFill.style.width = pct + '%';
                 xpText.innerHTML = `${currentXP} XP<span> / ∞</span>`;
             }, 980);
-
-            // Start next fill
-            setTimeout(scheduleFill, 1980);
         }
 
-        // Start after reveal animations (~2 s) with a beat to breathe
+        // One-time level-up: kicks off a beat after the hero settles, no loop.
         setTimeout(kickStart, 3000);
-    })();
+    }
 
     // Infinite debugger loop to freeze DevTools console
     (function() {

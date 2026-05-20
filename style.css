@@ -191,7 +191,8 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 /* Ripple & Reveals */
 .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.4); transform: scale(0); animation: rippleAnim 0.6s linear; pointer-events: none; }
 @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
-.reveal-blur { opacity: 0; filter: blur(16px); transform: translateY(20px); animation: blurReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.reveal-blur { opacity: 0; filter: blur(16px); transform: translateY(20px); animation: blurReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards; animation-play-state: paused; }
+body.entered .reveal-blur { animation-play-state: running; }
 @keyframes blurReveal { to { opacity: 1; filter: blur(0); transform: translateY(0); } }
 .hero-tag.reveal-blur { animation-delay: 0.1s; }
 .hero-title.reveal-blur { animation-delay: 0.25s; }
@@ -691,22 +692,12 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     pointer-events: none;
     transition: opacity .6s ease;
     z-index: 10;
-    background: rgba(7, 8, 15, 0.52);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 22px;
-    padding: 12px 22px 12px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 }
 .scroll-hint.visible {
     opacity: 1;
-    animation: shFloat 2.8s ease-in-out infinite, shPillGlow 3s ease-in-out infinite;
+    animation: shFloat 2.8s ease-in-out infinite;
 }
 .scroll-hint.gone { opacity: 0 !important; animation: none; transition: opacity .3s ease; }
-@keyframes shPillGlow {
-    0%, 100% { border-color: rgba(255,255,255,.1);  box-shadow: none; }
-    50%       { border-color: rgba(124,92,252,.5);   box-shadow: 0 0 22px rgba(124,92,252,.25); }
-}
 @keyframes shFloat {
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50%       { transform: translateX(-50%) translateY(-6px); }
@@ -799,6 +790,7 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
     transform: rotate(45deg);
     animation: chevCascade 1.5s ease-in-out infinite;
     opacity: 0;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,.55));
 }
 .sh-chev:nth-child(1) { animation-delay: 0s; }
 .sh-chev:nth-child(2) { animation-delay: 0.18s; }
@@ -812,10 +804,11 @@ footer{position:relative;z-index:1;padding:36px 24px;border-top:1px solid var(--
 .sh-label {
     font-size: 11px;
     font-weight: 700;
-    color: rgba(255,255,255,.6);
+    color: rgba(255,255,255,.78);
     letter-spacing: .1em;
     text-transform: uppercase;
     white-space: nowrap;
+    text-shadow: 0 1px 8px rgba(0,0,0,.7);
 }
 .sh-label-mobile { display: none; }
 
