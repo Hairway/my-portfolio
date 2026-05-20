@@ -660,16 +660,6 @@
     checkPendingAchievement();
     window.addEventListener('pageshow', e => { if (e.persisted) checkPendingAchievement(); });
 
-    // Check for pending hidden achievements
-    const pendingHidden = sessionStorage.getItem('pendingHidden');
-    if (pendingHidden) {
-        const ach = Object.values(HIDDEN_ACHIEVEMENTS).find(a => a.id === pendingHidden);
-        if (ach) setTimeout(() => showAchievement(ach), 800);
-        sessionStorage.removeItem('pendingHidden');
-    }
-
-
-
     document.getElementById('gamesGrid').addEventListener('click', e => {
         const card = e.target.closest('.game-card');
         if (!card) return;
@@ -698,18 +688,11 @@
     });
 
     // ── HIDDEN ACHIEVEMENTS LOGIC ──
-    function checkHidden(achObj, navigateUrl = null) {
+    function checkHidden(achObj) {
         const key = 'ach_' + achObj.id;
         if (!sessionStorage.getItem(key)) {
             sessionStorage.setItem(key, '1');
-            if (navigateUrl) {
-                sessionStorage.setItem('pendingHidden', achObj.id);
-                window.location = navigateUrl;
-            } else {
-                showAchievement(achObj);
-            }
-        } else if (navigateUrl) {
-            window.location = navigateUrl;
+            showAchievement(achObj);
         }
     }
     // Check if they visited any Spec tab inside the subpages (saved in sessionStorage)
@@ -807,6 +790,15 @@
         c.classList.add('reveal');
         c.style.transitionDelay = (i * 0.1) + 's';
         revealObs.observe(c);
+        // Once the entrance animation finishes, drop the reveal class and the
+        // stagger delay so they don't slow down the card's own hover transition.
+        const onRevealed = (e) => {
+            if (e.target !== c) return;
+            c.classList.remove('reveal', 'visible');
+            c.style.transitionDelay = '';
+            c.removeEventListener('transitionend', onRevealed);
+        };
+        c.addEventListener('transitionend', onRevealed);
         c.addEventListener('mouseenter', () => {
             const href = c.getAttribute('href');
             if (!document.querySelector(`link[rel=prefetch][href="${href}"]`)) {
@@ -941,6 +933,7 @@
     (function () {
         const card     = document.getElementById('playerCard');
         if (!card) return;
+        if (getComputedStyle(card).display === 'none') return;
         const lvlBadge = card.querySelector('.pc-level');
         const lvlNum   = card.querySelector('.pc-lvl-num');
         const xpFill   = card.querySelector('.pc-xp-fill');
