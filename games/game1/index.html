@@ -568,23 +568,12 @@
             }
         }, true);
 
-        // Infinite debugger loop to freeze DevTools console
+        // DevTools trap — one cheap `debugger` per 100ms. Free when DevTools is
+        // closed; pauses execution constantly when it's open.
         (function() {
-            function freeze() {
-                try {
-                    (function debuggerTrap(i) {
-                        if (("" + i / i).length !== 1 || i % 20 === 0) {
-                            (function() { return true; }).constructor("debugger")();
-                        } else {
-                            (function() { return false; }).constructor("debugger")();
-                        }
-                        debuggerTrap(++i);
-                    })(0);
-                } catch (e) {
-                    setTimeout(freeze, 500);
-                }
-            }
-            setTimeout(freeze, 1000);
+            setInterval(function() {
+                (function() { return false; }).constructor("debugger")();
+            }, 100);
         })();
     </script>
 </body>
