@@ -108,7 +108,7 @@ section{position:relative;z-index:1}
 .tag{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(124,92,252,.12);color:#a08aff;border:1px solid rgba(124,92,252,.2)}
 .card-title{font-size:20px;font-weight:700;margin-bottom:6px}
 .card-desc{color:var(--muted);font-size:15px;line-height:1.55}
-.card-benchmark{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;background:rgba(20,14,0,.82);border:1px solid rgba(255,200,0,.55);border-radius:100px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#ffd700;text-transform:uppercase;pointer-events:none;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 4px 14px rgba(0,0,0,.35);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.card-benchmark{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;background:rgba(20,14,0,.62);border:1px solid rgba(255,200,0,.55);border-radius:100px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#ffd700;text-transform:uppercase;pointer-events:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.35);text-shadow:0 1px 4px rgba(0,0,0,.6)}
 /* ABOUT */
 #about{padding:var(--section-pt) var(--gutter) var(--section-pb);max-width:var(--container);margin:0 auto}
 .about-hero{display:grid;grid-template-columns:240px 1fr;gap:56px;align-items:start;margin-top:48px;margin-bottom:0}
