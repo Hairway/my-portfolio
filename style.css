@@ -416,6 +416,9 @@ body.entered .reveal-blur { animation-play-state: running; }
     color: var(--accent-soft);
     margin-bottom: 6px;
     opacity: .85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ── AVAILABILITY STATUS ── */
@@ -423,14 +426,13 @@ body.entered .reveal-blur { animation-play-state: running; }
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(124,92,252,.08);
-    border: 1px solid rgba(124,92,252,.25);
+    background: rgba(76,175,80,.08);
+    border: 1px solid rgba(76,175,80,.25);
     border-radius: 100px;
     padding: 8px 18px;
-    font-size: var(--fs-label);
+    font-size: 13px;
     font-weight: 600;
-    letter-spacing: .04em;
-    color: var(--accent-soft);
+    color: #81c784;
     margin-bottom: 24px;
     white-space: nowrap;
     line-height: 1.2;
@@ -439,15 +441,15 @@ body.entered .reveal-blur { animation-play-state: running; }
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--accent1);
-    box-shadow: 0 0 0 0 rgba(124,92,252,.5);
-    animation: availPulse 2.2s ease-in-out infinite;
+    background: #66bb6a;
+    box-shadow: 0 0 0 0 rgba(102,187,106,.4);
+    animation: availPulse 2s ease-in-out infinite;
     flex-shrink: 0;
 }
 @keyframes availPulse {
-    0%   { box-shadow: 0 0 0 0 rgba(124,92,252,.5); }
-    70%  { box-shadow: 0 0 0 8px rgba(124,92,252,0); }
-    100% { box-shadow: 0 0 0 0 rgba(124,92,252,0); }
+    0%   { box-shadow: 0 0 0 0 rgba(102,187,106,.5); }
+    70%  { box-shadow: 0 0 0 8px rgba(102,187,106,0); }
+    100% { box-shadow: 0 0 0 0 rgba(102,187,106,0); }
 }
 
 /* ── SKILLS TOOLS GROUP ── */

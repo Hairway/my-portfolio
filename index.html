@@ -200,7 +200,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Idle</span><span class="tag">Merge</span><span class="tag">Strategy</span></div>
-                <div class="card-role">Ideation · Concept · Spec · Full Production</div>
+                <div class="card-role">Ideation · Spec · Production</div>
                 <div class="card-title">Kingdom Clash</div>
                 <div class="card-desc">Built a unit-purchasing mechanic focused on readability, pacing, and escalating enemy pressure — from concept to final build.</div>
             </div>
@@ -217,7 +217,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Tycoon</span><span class="tag">Strategy</span><span class="tag">Casual</span></div>
-                <div class="card-role">Concept · Spec · Full Production</div>
+                <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Railroad Empire</div>
                 <div class="card-desc">Designed the level, economy, resource collection, and upgrade systems for a full-funnel playable ad with end-to-end production ownership.</div>
             </div>
@@ -234,7 +234,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Match-3</span><span class="tag">RPG</span></div>
-                <div class="card-role">Concept · Spec · Direction · Level Design</div>
+                <div class="card-role">Concept · Spec · Direction</div>
                 <div class="card-title">Battle Lines: Puzzle Fighter</div>
                 <div class="card-desc">Built the level flow, enemy placement, difficulty pacing, and player navigation systems.</div>
             </div>
@@ -250,7 +250,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Survival</span><span class="tag">City Builder</span><span class="tag">Casual</span></div>
-                <div class="card-role">Creative Direction · Brief · Mechanics &amp; Hook</div>
+                <div class="card-role">Direction · Brief · Mechanics</div>
                 <div class="card-title">Pocket Tales</div>
                 <div class="card-desc">Directed gameplay scenarios, designed new mechanics, and led the playable through full production from concept to launch.</div>
             </div>
@@ -266,7 +266,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span><span class="tag">Casual</span></div>
-                <div class="card-role">Concept · Spec · Full Production</div>
+                <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Tap Arrows Gallery</div>
                 <div class="card-desc">Created a music-based mechanic adapted to the game's existing core loop, with full production from concept to launch.</div>
             </div>
@@ -282,7 +282,7 @@
             </div>
             <div class="card-body">
                 <div class="card-tags"><span class="tag">Arcade</span><span class="tag">Action</span><span class="tag">Turn-Based</span></div>
-                <div class="card-role">Concept · Hook · Full Production</div>
+                <div class="card-role">Concept · Hook · Production</div>
                 <div class="card-title">Tank Stars</div>
                 <div class="card-desc">Designed a hook-driven gameplay scenario with balanced progression, upgrade mechanics, and full playable production.</div>
             </div>
@@ -1014,7 +1014,7 @@
                 });
             }, 230);
 
-            // Reset bar
+            // Reset bar and schedule the next level-up after a pause
             setTimeout(() => {
                 if (xpRafId) cancelAnimationFrame(xpRafId);
                 xpFill.style.animation  = 'none';
@@ -1022,10 +1022,15 @@
                 pct = 5 + Math.random() * 12;
                 xpFill.style.width = pct + '%';
                 xpText.innerHTML = `${currentXP} XP<span> / ∞</span>`;
+                // Loop: schedule the next fill after a 5-6s breather
+                setTimeout(() => {
+                    void xpFill.offsetWidth;
+                    scheduleFill();
+                }, 5000 + Math.random() * 1500);
             }, 980);
         }
 
-        // One-time level-up: kicks off a beat after the hero settles, no loop.
+        // Loops the level-up cycle starting a beat after the hero settles.
         setTimeout(kickStart, 3000);
     }
 </script>
