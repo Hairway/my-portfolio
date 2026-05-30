@@ -6,6 +6,17 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="description" content="Dima Fomin — Playable Ads Producer & Strategist portfolio">
     <title>Dima Fomin | Playable Ads Producer</title>
+    <!-- Social sharing (Open Graph / Twitter) — so a pasted link shows a preview card -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dima-fomin-my-portfolio.vercel.app/">
+    <meta property="og:title" content="Dima Fomin | Playable Ads Producer & Strategist">
+    <meta property="og:description" content="Playable ads from concept to launch — gameplay hooks, intuitive tutorials, and conversion-driven design. Tap in to play real cases.">
+    <meta property="og:image" content="https://dima-fomin-my-portfolio.vercel.app/avatar.png">
+    <meta property="og:image:alt" content="Dima Fomin — Playable Ads Producer">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dima Fomin | Playable Ads Producer & Strategist">
+    <meta name="twitter:description" content="Playable ads from concept to launch — gameplay hooks, intuitive tutorials, and conversion-driven design.">
+    <meta name="twitter:image" content="https://dima-fomin-my-portfolio.vercel.app/avatar.png">
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -450,10 +461,14 @@
 </div>
 
 <script>
-    const PASSWORD = "letstalk";
+    // Obfuscated, NOT real security — a client-side gate only keeps the casually
+    // curious out. Anyone can decode this; use server-side auth for real secrets.
+    const PW_ENC = "bGV0c3RhbGs=";
     function checkAuth() {
         const val = document.getElementById('pwInput').value;
-        if (val === PASSWORD) {
+        let enc = '';
+        try { enc = btoa(val); } catch (e) { enc = ''; } // btoa throws on non-ASCII input
+        if (enc === PW_ENC) {
             sessionStorage.setItem('isAuthorized','true');
             document.getElementById('gate').style.display = 'none';
             revealHero();
@@ -701,22 +716,26 @@
     });
 
     // ── HIDDEN ACHIEVEMENTS LOGIC ──
-    function checkHidden(achObj) {
-        const key = 'ach_' + achObj.id;
-        if (!sessionStorage.getItem(key)) {
-            sessionStorage.setItem(key, '1');
-            showAchievement(achObj);
-        }
-    }
-
     // Contact interaction (main cards and footer links) - awards achievement upon return to the page
     const triggerContactAchievement = () => {
         const achObj = HIDDEN_ACHIEVEMENTS.contact;
         const key = 'ach_' + achObj.id;
-        if (!sessionStorage.getItem(key)) {
-            sessionStorage.setItem(key, '1');
-            sessionStorage.setItem('pendingHiddenContact', 'true');
-        }
+        if (sessionStorage.getItem(key)) return;
+        sessionStorage.setItem(key, '1');
+        sessionStorage.setItem('pendingHiddenContact', 'true');
+        // The toast is normally shown when focus returns to the page (so it isn't
+        // wasted behind a new tab or the mail client). But if the click never
+        // actually leaves — e.g. a mailto: link with no handler installed — focus
+        // never returns. Detect that case and show the toast in place instead.
+        let leftPage = false;
+        const onLeave = () => { leftPage = true; };
+        window.addEventListener('blur', onLeave, { once: true });
+        document.addEventListener('visibilitychange', onLeave, { once: true });
+        setTimeout(() => {
+            window.removeEventListener('blur', onLeave);
+            document.removeEventListener('visibilitychange', onLeave);
+            if (!leftPage) checkPendingContactAchievement();
+        }, 1200);
     };
 
     document.querySelectorAll('.contact-card:not(.contact-card--cv), .footer-links a:not([download])').forEach(c => {
