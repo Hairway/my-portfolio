@@ -461,6 +461,9 @@
 </div>
 
 <script>
+    // Set to true to re-enable the password gate. When false, the gate is
+    // bypassed automatically on load — all the password code below stays intact.
+    const GATE_ENABLED = false;
     // Obfuscated, NOT real security — a client-side gate only keeps the casually
     // curious out. Anyone can decode this; use server-side auth for real secrets.
     const PW_ENC = "bGV0c3RhbGs=";
@@ -496,7 +499,7 @@
         }
         if (typeof initPlayerCard === 'function') initPlayerCard();
     }
-    if (sessionStorage.getItem('isAuthorized') === 'true') {
+    if (!GATE_ENABLED || sessionStorage.getItem('isAuthorized') === 'true') {
         document.getElementById('gate').style.display = 'none';
         revealHero();
     }
