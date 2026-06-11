@@ -454,6 +454,11 @@
             <a href="dima_cv.pdf" download="Dima_Fomin_CV_Playable_Ads_Strategist.pdf">CV</a>
         </div>
     </div>
+    <!-- Private visitor counter — hidden for everyone except the owner -->
+    <div class="view-counter" id="viewCounter" hidden>
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+        <span id="viewCount">…</span> visitors
+    </div>
 </footer>
 
 <div class="sticky-cta" id="stickyCta">
@@ -1062,6 +1067,32 @@
         // Loops the level-up cycle starting a beat after the hero settles.
         setTimeout(kickStart, 3000);
     }
+</script>
+
+<!-- ── PRIVATE VISITOR COUNTER ── -->
+<script>
+    (function () {
+        // Every visitor pings the counter (recorded server-side, your IP excluded).
+        // The number is only shown to you: reveal it once by opening the site with
+        //   #stats=<your-secret-token>
+        // which is then remembered in this browser. Normal visitors never see it.
+        const m = location.hash.match(/^#stats=(.+)$/);
+        if (m) {
+            localStorage.setItem('viewsAdmin', decodeURIComponent(m[1]));
+            history.replaceState(null, '', location.pathname + location.search);
+        }
+        const adminToken = localStorage.getItem('viewsAdmin');
+        const url = '/api/views' + (adminToken ? '?admin=' + encodeURIComponent(adminToken) : '');
+        fetch(url, { method: 'POST' })
+            .then(r => r.json())
+            .then(d => {
+                if (adminToken && typeof d.count === 'number') {
+                    document.getElementById('viewCount').textContent = d.count.toLocaleString();
+                    document.getElementById('viewCounter').hidden = false;
+                }
+            })
+            .catch(() => {});
+    })();
 </script>
 </body>
 </html>

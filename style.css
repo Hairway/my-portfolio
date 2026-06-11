@@ -841,3 +841,8 @@ body.entered .reveal-blur { animation-play-state: running; }
     .sh-label-mobile { display: inline; }
 
 }
+
+/* ── PRIVATE VISITOR COUNTER ── */
+.view-counter{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:14px;font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--muted);opacity:.55}
+.view-counter svg{flex-shrink:0;opacity:.85}
+.view-counter #viewCount{color:var(--accent-soft);font-weight:700}
