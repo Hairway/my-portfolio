@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../../gate-config.js"></script>
     <script>
-        if (sessionStorage.getItem('isAuthorized') !== 'true') {
+        // Only bounce visitors back when the gate is actually switched on.
+        if (window.GATE_ENABLED && sessionStorage.getItem('isAuthorized') !== 'true') {
             window.location.replace('../../');
         }
     </script>
     <meta name="description" content="Tank Stars — interactive playable ad">
     <title>Tank Stars — Playable</title>
+    <link rel="canonical" href="https://dima-fomin-my-portfolio.vercel.app/games/game6/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=optional" rel="stylesheet">
     <style>

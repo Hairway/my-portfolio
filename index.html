@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="description" content="Dima Fomin — Playable Ads Producer & Strategist portfolio">
     <title>Dima Fomin | Playable Ads Producer</title>
+    <link rel="canonical" href="https://dima-fomin-my-portfolio.vercel.app/">
+    <script src="gate-config.js"></script>
     <!-- Social sharing (Open Graph / Twitter) — so a pasted link shows a preview card -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dima-fomin-my-portfolio.vercel.app/">
@@ -26,7 +28,7 @@
 <body>
 
 <!-- GATE -->
-<div id="gate">
+<div id="gate" hidden>
     <div class="gate-box">
         <div class="gate-icon">🔐</div>
         <h2>Portfolio Access</h2>
@@ -467,9 +469,9 @@
 </div>
 
 <script>
-    // Set to true to re-enable the password gate. When false, the gate is
-    // bypassed automatically on load — all the password code below stays intact.
-    const GATE_ENABLED = false;
+    // GATE_ENABLED lives in gate-config.js so the portfolio and the game pages
+    // read the same flag. When false the gate never renders and the password
+    // code below simply stays unused.
     // Obfuscated, NOT real security — a client-side gate only keeps the casually
     // curious out. Anyone can decode this; use server-side auth for real secrets.
     const PW_ENC = "bGV0c3RhbGs=";
@@ -505,8 +507,11 @@
         }
         if (typeof initPlayerCard === 'function') initPlayerCard();
     }
-    if (!GATE_ENABLED || sessionStorage.getItem('isAuthorized') === 'true') {
-        document.getElementById('gate').style.display = 'none';
+    // The gate ships hidden so crawlers and link-preview bots get the real page
+    // instead of the password screen; it is revealed only when actually needed.
+    if (GATE_ENABLED && sessionStorage.getItem('isAuthorized') !== 'true') {
+        document.getElementById('gate').hidden = false;
+    } else {
         revealHero();
     }
 
