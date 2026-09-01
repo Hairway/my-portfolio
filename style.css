@@ -849,3 +849,8 @@ body.entered .reveal-blur { animation-play-state: running; }
 .view-counter svg{flex-shrink:0;opacity:.85}
 .view-counter #viewCount{color:var(--accent-soft);font-weight:700}
 @media(max-width:700px){.footer-brand{align-items:center}}
+
+/* On narrow screens #home is capped at 100dvh, which leaves only ~120px under
+   the hero content — not enough for the full hint, so its icon rode up over the
+   Download CV button. Drop the icon there and keep the chevrons and the label. */
+@media(max-width:860px){.scroll-hint .sh-icon-wrap{display:none}}
