@@ -1050,6 +1050,7 @@ section > .section-sub{padding-bottom:26px;border-bottom:1px solid var(--ink-lin
 .hc-poster{position:absolute;inset:0;z-index:2;cursor:pointer;display:block}
 .hc-poster img{width:100%;height:100%;object-fit:cover;display:block}
 .hc-poster::after{content:"";position:absolute;inset:0;background:rgba(20,18,13,.42)}
+.hc-play b{font-weight:700}
 .hc-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
     display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:100px;
     background:var(--accent1);color:#FFF6EC;font-family:var(--mono);font-size:10px;font-weight:700;
@@ -1774,3 +1775,44 @@ footer a{color:rgba(239,234,219,.9)}
 .hero-stat{flex:0 1 auto;padding:0}
 /* the hero CTA points at the work now, so it carries an arrow, not a hand */
 .btn-playnow svg{width:17px;height:17px}
+
+/* ── the console screen while a build is loading and running ──
+   The scanlines and the sweep are the device's own filter. They belong on the
+   poster, not on top of someone's gameplay — so they come off the moment the
+   build is up, and the player reads the filter as part of the screen it was on. */
+.hc-screen.is-playing::after,
+.hc-screen.is-playing::before { display: none; }
+
+/* while the build downloads, the poster stays as a loading state rather than
+   handing over a black rectangle */
+.hc-screen.is-loading .hc-poster::after { background: rgba(20,18,13,.62); }
+.hc-screen.is-loading .hc-play { pointer-events: none; }
+.hc-screen.is-loading .hc-play b { display: none; }
+.hc-screen.is-loading .hc-play::after {
+    content: "Loading"; letter-spacing: .12em; }
+.hc-screen.is-loading .hc-play svg { display: none; }
+.hc-screen.is-loading .hc-play::before {
+    content: ""; width: 11px; height: 11px; margin-right: 7px; border-radius: 50%;
+    border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+    animation: hcSpin .7s linear infinite; }
+@keyframes hcSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce){ .hc-screen.is-loading .hc-play::before{animation:none} }
+
+/* the CTA is a contact route now, so it carries the LinkedIn mark */
+.btn-playnow svg { width: 17px; height: 17px; }
+
+/* the two hero buttons came to 489px against a 480px shrink-to-fit row, so they
+   wrapped onto separate lines nine pixels short of fitting */
+.hero-cta{width:100%;max-width:none;flex-wrap:wrap;align-items:center}
+.btn-playnow{padding-left:24px;padding-right:26px}
+.btn-ghost.btn-cv-hero{padding-left:22px;padding-right:24px}
+@media(max-width:860px){
+    .hero-cta{justify-content:center}
+}
+/* between 861 and 1150 the left column narrows to ~454px while the pair needs
+   465 — tighten the padding rather than let them wrap again */
+@media(min-width:861px) and (max-width:1150px){
+    .hero-cta{gap:8px}
+    .btn-playnow{padding-left:18px;padding-right:20px}
+    .btn-ghost.btn-cv-hero{padding-left:16px;padding-right:18px}
+}

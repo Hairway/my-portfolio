@@ -55,7 +55,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=32">
+    <link rel="stylesheet" href="style.css?v=36">
 </head>
 <body>
 
@@ -119,9 +119,9 @@
             </div>
         </div>
         <div class="hero-cta reveal-blur">
-            <a href="#portfolio" class="btn-playnow" id="heroPlayBtn">
-                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12 5l7 7-7 7"/></svg>
-                SEE THE WORK
+            <a href="https://www.linkedin.com/in/dima-fomin-185b94246/" target="_blank" rel="noopener noreferrer" class="btn-playnow" id="heroPlayBtn">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.37 1.57-2.37 3.2V21H9z"/></svg>
+                MESSAGE ON LINKEDIN
             </a>
             <a href="dima_cv.pdf" download="Dima_Fomin_CV_Creative_Producer_Playable.pdf" class="btn-ghost btn-cv-hero">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -140,7 +140,7 @@
                 <div class="hc-screen">
                     <div class="hc-poster" id="hcPoster">
                         <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.png" alt="">
-                        <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Tap to play</span>
+                        <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg><b>Tap to play</b></span>
                     </div>
                     <iframe id="hcFrame" title="Playable preview" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
                     <span class="tutor-wrap hc-tutor" id="hcTutor" aria-hidden="true"><svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#15130F" stroke-width="2"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg></span>
@@ -1026,19 +1026,53 @@
         openEl.href = `games/game${n}/index.html`;
         frame.src = 'about:blank';
         poster.hidden = false;
+        screenBox.classList.remove('is-playing', 'is-loading');
+        warm(n);
         if (window.heroField) window.heroField.setColour(HUE[n] || '#D93B22');
         showTutor(1400);
     }
 
+    // Loading a 4 MB build takes a moment, so the poster stays up as a
+    // loading state instead of handing the player a black rectangle, and the
+    // screen's scanline filter comes off so it never sits over the gameplay.
+    const screenBox = root.querySelector('.hc-screen');
+    let warmed = null;
+
+    function warm(n) {
+        if (warmed === n) return;
+        warmed = n;
+        const l = document.createElement('link');
+        l.rel = 'prefetch';
+        l.href = `games/game${n}/original_game.html`;
+        l.as = 'document';
+        document.head.appendChild(l);
+    }
+
     function play() {
-        frame.src = `games/game${current}/original_game.html`;
-        poster.hidden = true;
+        if (playing) return;
         playing = true;
         hideTutor();
+        screenBox.classList.add('is-loading');
+        frame.addEventListener('load', () => {
+            poster.hidden = true;
+            screenBox.classList.remove('is-loading');
+            screenBox.classList.add('is-playing');
+        }, { once: true });
+        frame.src = `games/game${current}/original_game.html`;
         if (window.heroField) window.heroField.pulse();
     }
 
     poster.addEventListener('click', play);
+    // Warming the build is 4 MB of someone's data, so it only happens on a real
+    // signal of intent — a pointer reaching the device, or a focused slot — and
+    // never when the visitor has asked the browser to save data.
+    const thrifty = navigator.connection && (navigator.connection.saveData ||
+        /2g/.test(navigator.connection.effectiveType || ''));
+    if (!thrifty) {
+        root.addEventListener('pointerenter', () => warm(current));
+        root.addEventListener('touchstart', () => warm(current), { passive: true });
+        slots.forEach(b => b.addEventListener('pointerenter', () => warm(b.dataset.game)));
+    }
     showTutor(2600);
 
     // the arrows on the shell step through the rack
