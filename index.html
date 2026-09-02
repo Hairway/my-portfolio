@@ -23,9 +23,9 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+    <link rel="stylesheet" href="style.css?v=32">
 </head>
 <body>
 
@@ -66,7 +66,7 @@
 
 <!-- HERO -->
 <section id="home">
-    <div id="heroParticles"></div>
+    <canvas id="heroField" aria-hidden="true"></canvas>
     <div class="hero-inner">
     <div class="hero-left">
         <div class="hero-tag reveal-blur">Playable Ads Creative Producer</div>
@@ -90,8 +90,8 @@
         </div>
         <div class="hero-cta reveal-blur">
             <a href="#portfolio" class="btn-playnow" id="heroPlayBtn">
-                <svg width="22" height="22" viewBox="0 0 32 42" fill="#fff" stroke="rgba(0,0,0,.3)" stroke-width="1.5"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg>
-                TAP TO PLAY
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13"/><path d="M12 5l7 7-7 7"/></svg>
+                SEE THE WORK
             </a>
             <a href="dima_cv.pdf" download="Dima_Fomin_CV_Creative_Producer_Playable.pdf" class="btn-ghost btn-cv-hero">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -104,48 +104,39 @@
         </div>
     </div>
     <div class="hero-right reveal-blur">
-        <div class="player-card" id="playerCard">
-            <div class="pc-topbar">
-                <div class="pc-level"><span class="pc-lvl-label">LVL</span><span class="pc-lvl-num">21</span></div>
-                <div class="pc-class">Playable Ads Creative Producer</div>
-            </div>
-            <div class="pc-xp-wrap">
-                <div class="pc-xp-bar"><div class="pc-xp-fill" style="--xp:40%"></div></div>
-                <div class="pc-xp-text">300 XP<span> / ∞</span></div>
-            </div>
-            <div class="pc-divider"></div>
-            <div class="pc-stats">
-                <div class="pc-stat">
-                    <span class="pc-stat-name">Concept</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:79%"></div></div>
-                    <span class="pc-stat-val">79</span>
+        <div class="hero-console" id="heroConsole">
+            <div class="hc-shell">
+                <div class="hc-brand"><span class="hc-led"></span>DF&middot;01 PORTABLE</div>
+                <div class="hc-screen">
+                    <div class="hc-poster" id="hcPoster">
+                        <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.png" alt="">
+                        <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Tap to play</span>
+                    </div>
+                    <iframe id="hcFrame" title="Playable preview" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+                    <span class="tutor-wrap hc-tutor" id="hcTutor" aria-hidden="true"><svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#15130F" stroke-width="2"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg></span>
                 </div>
-                <div class="pc-stat">
-                    <span class="pc-stat-name">Spec Writing</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:84%"></div></div>
-                    <span class="pc-stat-val">84</span>
-                </div>
-                <div class="pc-stat">
-                    <span class="pc-stat-name">Production</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:75%"></div></div>
-                    <span class="pc-stat-val">75</span>
-                </div>
-                <div class="pc-stat">
-                    <span class="pc-stat-name">Team Briefing</span>
-                    <div class="pc-stat-bar"><div class="pc-stat-fill" style="--v:72%"></div></div>
-                    <span class="pc-stat-val">72</span>
+                <div class="hc-controls" id="hcControls">
+                    <button type="button" class="hc-arrow" id="hcPrev" aria-label="Previous playable">
+                        <svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                    </button>
+                    <button type="button" class="hc-arrow hc-arrow--next" id="hcNext" aria-label="Next playable">
+                        <svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                    </button>
+                    <span class="hc-abtn" aria-hidden="true"></span><span class="hc-abtn" aria-hidden="true"></span>
                 </div>
             </div>
-            <div class="pc-divider"></div>
-            <div class="pc-badges-label">Achievements</div>
-            <div class="pc-badges">
-                <div class="pc-badge">🏆 400+ Shipped</div>
-                <div class="pc-badge">⭐ Benchmark Hit</div>
-                <div class="pc-badge">🎮 Multi-Genre</div>
-                <div class="pc-badge">🎬 Full-Cycle</div>
+            <div class="hc-slots" aria-label="Choose a playable">
+                <button type="button" class="hc-slot is-active" data-game="1" data-title="Kingdom Clash" aria-label="Kingdom Clash">01</button>
+                <button type="button" class="hc-slot" data-game="2" data-title="Railroad Empire" aria-label="Railroad Empire">02</button>
+                <button type="button" class="hc-slot" data-game="3" data-title="Battle Lines" aria-label="Battle Lines">03</button>
+                <button type="button" class="hc-slot" data-game="4" data-title="Pocket Tales" aria-label="Pocket Tales">04</button>
+                <button type="button" class="hc-slot" data-game="5" data-title="Tap Arrows" aria-label="Tap Arrows">05</button>
+                <button type="button" class="hc-slot" data-game="6" data-title="Tank Stars" aria-label="Tank Stars">06</button>
             </div>
-            <div class="pc-glow" id="pcGlow"></div>
-            <div class="pc-lvlbadge" id="pcLvlBadge">⬆ LEVEL UP</div>
+            <div class="hc-meta">
+                <span class="hc-now" id="hcNow">Kingdom Clash</span>
+                <a class="hc-open" id="hcOpen" href="games/game1/index.html">Open full case &rarr;</a>
+            </div>
         </div>
     </div>
     </div><!-- /.hero-inner -->
@@ -189,16 +180,25 @@
 </div>
 
 <!-- PORTFOLIO -->
+
+<div class="ticker " aria-hidden="true">
+    <div class="ticker-track"><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in parallel</span><b>&#9632;</b><span>30+ builds a month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the client still iterates from</span><b>&#9632;</b><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in parallel</span><b>&#9632;</b><span>30+ builds a month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the client still iterates from</span><b>&#9632;</b></div>
+</div>
+
+<div class="stair stair--red-to-ink" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
+
 <section id="portfolio">
     <div class="section-label reveal">Portfolio</div>
     <h2 class="section-title reveal">Playable Ads</h2>
     <p class="section-sub reveal">Examples of playable ads I created and led from concept to release. Tap a card to play and explore the full spec.</p>
     <div class="ach-progress-wrap reveal" id="achProgressWrap">
         <div class="ach-progress-bar-bg"><div class="ach-progress-bar-fill" id="achProgressFill"></div></div>
-        <div class="ach-progress-label" id="achProgressLabel">0 / 6 played</div>
+        <div class="ach-progress-label" id="achProgressLabel">Playables played <b>0</b> / 6</div>
     </div>
     <div class="games-grid" id="gamesGrid">
         <a class="game-card" href="games/game1/index.html" id="card-game1" data-tags="idle merge strategy">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 01</span><span class="cart-badge">&#9733; Benchmark</span></span>
             <div class="tutor-wrap" id="tutorHand">
                 <svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#000" stroke-width="2">
                     <path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/>
@@ -206,107 +206,125 @@
             </div>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game1/preview.png" alt="Kingdom Clash" loading="lazy">
-                <span class="card-benchmark">★ Benchmark</span>
+                <img width="512" height="512" src="games/game1/preview.png" alt="Kingdom Clash" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Idle</span><span class="tag">Merge</span><span class="tag">Strategy</span></div>
+                <div class="card-tags"><span class="tag">Idle</span><span class="tag">Merge</span><span class="tag">Strategy</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Ideation · Spec · Production</div>
                 <div class="card-title">Kingdom Clash</div>
                 <div class="card-desc">Built a unit-purchasing mechanic focused on readability, pacing, and escalating enemy pressure — from concept to final build.</div>
             </div>
 
+                    </span>
         </a>
         <a class="game-card" href="games/game2/index.html" id="card-game2" data-tags="tycoon strategy casual">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 02</span><span class="cart-badge">&#9733; Benchmark</span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game2/preview.png" alt="Railroad Empire" loading="lazy">
-                <span class="card-benchmark">★ Benchmark</span>
+                <img width="512" height="512" src="games/game2/preview.png" alt="Railroad Empire" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Tycoon</span><span class="tag">Strategy</span><span class="tag">Casual</span></div>
+                <div class="card-tags"><span class="tag">Tycoon</span><span class="tag">Strategy</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Railroad Empire</div>
                 <div class="card-desc">Designed the level, economy, resource collection, and upgrade systems for a full-funnel playable ad with end-to-end production ownership.</div>
             </div>
 
+                    </span>
         </a>
         <a class="game-card" href="games/game3/index.html" id="card-game3" data-tags="puzzle rpg match-3">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 03</span><span class="cart-badge">&#9733; Benchmark</span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game3/preview.png?v=2" alt="Battle Lines" loading="lazy">
-                <span class="card-benchmark">★ Benchmark</span>
+                <img width="512" height="512" src="games/game3/preview.png?v=2" alt="Battle Lines" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Match-3</span><span class="tag">RPG</span></div>
+                <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Match-3</span><span class="tag">RPG</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Direction</div>
                 <div class="card-title">Battle Lines: Puzzle Fighter</div>
                 <div class="card-desc">Built the level flow, enemy placement, difficulty pacing, and player navigation systems.</div>
             </div>
 
+                    </span>
         </a>
         <a class="game-card" href="games/game4/index.html" id="card-game4" data-tags="survival city-builder casual">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 04</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game4/preview.png" alt="Pocket Tales" loading="lazy">
+                <img width="512" height="512" src="games/game4/preview.png" alt="Pocket Tales" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Survival</span><span class="tag">City Builder</span><span class="tag">Casual</span></div>
+                <div class="card-tags"><span class="tag">Survival</span><span class="tag">City Builder</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Direction · Brief · Mechanics</div>
                 <div class="card-title">Pocket Tales</div>
                 <div class="card-desc">Directed gameplay scenarios, designed new mechanics, and led the playable through full production from concept to launch.</div>
             </div>
 
+                    </span>
         </a>
         <a class="game-card" href="games/game5/index.html" id="card-game5" data-tags="puzzle logic casual">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 05</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game5/preview.png" alt="Tap Arrows Gallery" loading="lazy">
+                <img width="512" height="512" src="games/game5/preview.png" alt="Tap Arrows Gallery" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span><span class="tag">Casual</span></div>
+                <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Tap Arrows Gallery</div>
                 <div class="card-desc">Created a music-based mechanic adapted to the game's existing core loop, with full production from concept to launch.</div>
             </div>
 
+                    </span>
         </a>
         <a class="game-card" href="games/game6/index.html" id="card-game6" data-tags="arcade action turn-based">
+            <span class="cart">
+            <span class="cart-head"><span class="cart-no">Playable 06</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img src="games/game6/preview.png" alt="Tank Stars" loading="lazy">
+                <img width="512" height="512" src="games/game6/preview.png" alt="Tank Stars" loading="lazy">
                 <div class="card-overlay">
-                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open Playable</div>
+                    <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="card-tags"><span class="tag">Arcade</span><span class="tag">Action</span><span class="tag">Turn-Based</span></div>
+                <div class="card-tags"><span class="tag">Arcade</span><span class="tag">Action</span><span class="tag">Turn-Based</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Hook · Production</div>
                 <div class="card-title">Tank Stars</div>
                 <div class="card-desc">Designed a hook-driven gameplay scenario with balanced progression, upgrade mechanics, and full playable production.</div>
             </div>
 
+                    </span>
         </a>
     </div>
 </section>
 
 
 <!-- PROCESS -->
+<div class="ticker ticker--amber" aria-hidden="true">
+    <div class="ticker-track"><span>Research the game, then the competitors</span><b>&#9632;</b><span>Find the hook before the mechanic</span><b>&#9632;</b><span>Every new action gets its own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the numbers, iterate</span><b>&#9632;</b><span>Research the game, then the competitors</span><b>&#9632;</b><span>Find the hook before the mechanic</span><b>&#9632;</b><span>Every new action gets its own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the numbers, iterate</span><b>&#9632;</b></div>
+</div>
+
+<div class="stair stair--amber-to-bone" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
 <section id="process">
     <div class="section-label reveal">My Workflow</div>
     <h2 class="section-title reveal">How I Work</h2>
@@ -362,7 +380,7 @@
     <div class="about-hero reveal">
         <div class="about-photo-wrap">
             <div class="about-photo" style="overflow: hidden; padding: 0;">
-                <img src="dima_photo.jpg" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform-origin: 50% 42%; transform: scale(1.3); display: block;">
+                <img src="dima_photo.jpg" width="900" height="1124" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform-origin: 50% 42%; transform: scale(1.3); display: block;">
             </div>
         </div>
         <div class="about-bio">
@@ -372,33 +390,22 @@
             <p class="about-text">Usually I handle the whole production process: research the game and competitors, find the hook and the mechanic, write the GDD, brief artists and developers, review builds, test everything and take the playable to the final version.</p>
             <p class="about-text">Before gaming, I spent more than six years in advertising, finishing as a Group Head Creator leading a team of seven. That is why I treat a playable as an ad first — it has to stop the scroll and sell the game honestly, not just be a fun mini-game.</p>
             <p class="about-text">A few of my concepts became internal benchmarks for the client. A year later they are still the reference other playables iterate from.</p>
-            <div class="skills-wrap">
-                <span class="skill-chip">Ideation &amp; Concepts</span>
-                <span class="skill-chip">Creative Strategy</span>
-                <span class="skill-chip">Market Research</span>
-                <span class="skill-chip">A/B Testing</span>
-                <span class="skill-chip">Team Briefing</span>
-                <span class="skill-chip">Data Analysis</span>
-                <span class="skill-chip">Full Production Cycle</span>
-            </div>
-            <div class="skills-group-label">Tools &amp; Software</div>
-            <div class="skills-wrap skills-tools">
-                <span class="skill-chip">Notion</span>
-                <span class="skill-chip">Miro</span>
-                <span class="skill-chip">Figma</span>
-                <span class="skill-chip">Photoshop</span>
-                <span class="skill-chip">Blender</span>
-                <span class="skill-chip">Unity</span>
-                <span class="skill-chip">Unreal Engine</span>
-                <span class="skill-chip">ChatGPT &amp; Claude</span>
-                <span class="skill-chip">Gemini &amp; Antigravity</span>
-                <span class="skill-chip">Midjourney</span>
-                <span class="skill-chip">Nano Banana</span>
-                <span class="skill-chip">Codex</span>
+            <div class="spec-sheet">
+                <div class="spec-row"><div class="spec-key">Craft</div><div class="spec-val">Ideation &amp; Concepts · Creative Strategy · Market Research · A/B Testing · Team Briefing · Data Analysis · Full Production Cycle</div></div>
+                <div class="spec-row"><div class="spec-key">Tools</div><div class="spec-val">Notion · Miro · Figma · Photoshop · Blender · Unity · Unreal Engine</div></div>
+                <div class="spec-row"><div class="spec-key">AI</div><div class="spec-val">ChatGPT &amp; Claude · Gemini &amp; Antigravity · Midjourney · Nano Banana · Codex</div></div>
+                <div class="spec-row"><div class="spec-key">Output</div><div class="spec-val">30+ playables a month · 400+ shipped · 15 titles in parallel</div></div>
             </div>
         </div>
     </div>
 </section>
+
+
+<div class="ticker ticker--alt" aria-hidden="true">
+    <div class="ticker-track"><span>Open to remote and relocation</span><b>&#9632;</b><span>Playable ads as the main focus</span><b>&#9632;</b><span>Six years in advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b><span>Open to remote and relocation</span><b>&#9632;</b><span>Playable ads as the main focus</span><b>&#9632;</b><span>Six years in advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b></div>
+</div>
+
+<div class="stair stair--blue-to-ink" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
 
 <!-- CONTACTS -->
 <section id="contacts">
@@ -411,6 +418,7 @@
     </div>
     <div class="contact-grid reveal">
         <a class="contact-card" href="mailto:hairway7@icloud.com" id="contact-email">
+            <span class="contact-no">01</span>
             <div class="contact-icon">
                 <svg viewBox="0 0 24 24">
                     <rect x="3" y="5" width="18" height="14" rx="2"/>
@@ -420,18 +428,21 @@
             <div class="contact-info"><div class="contact-label">Email</div><div class="contact-value">hairway7@icloud.com</div></div>
         </a>
         <a class="contact-card" href="https://www.linkedin.com/in/dima-fomin-185b94246/" target="_blank" rel="noopener noreferrer" id="contact-li">
+            <span class="contact-no">02</span>
             <div class="contact-icon">
                 <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="7" y1="10" x2="7" y2="17"/><circle cx="7" cy="7" r="1"/><path d="M11 17v-7M11 13a3 3 0 0 1 6 0v4"/></svg>
             </div>
             <div class="contact-info"><div class="contact-label">LinkedIn</div><div class="contact-value">Dima Fomin</div></div>
         </a>
         <a class="contact-card" href="https://t.me/hairway" target="_blank" rel="noopener noreferrer" id="contact-tg">
+            <span class="contact-no">03</span>
             <div class="contact-icon">
                 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L17 9"/><path d="M10.5 15l.3 2.6"/></svg>
             </div>
             <div class="contact-info"><div class="contact-label">Telegram</div><div class="contact-value">@hairway</div></div>
         </a>
         <a class="contact-card contact-card--cv" href="dima_cv.pdf" download="Dima_Fomin_CV_Creative_Producer_Playable.pdf" id="contact-cv">
+            <span class="contact-no">04</span>
             <div class="contact-icon">
                 <svg viewBox="0 0 24 24">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -507,7 +518,6 @@
                 if (!sessionStorage.getItem('scrollHintSeen')) sh.classList.add('visible');
             }, 2400);
         }
-        if (typeof initPlayerCard === 'function') initPlayerCard();
     }
     // The gate ships hidden so crawlers and link-preview bots get the real page
     // instead of the password screen; it is revealed only when actually needed.
@@ -557,24 +567,6 @@
         });
     });
 
-    // Hero Particles
-    const pContainer = document.getElementById('heroParticles');
-    if (pContainer) {
-        for(let i=0; i<8; i++) {
-            let p = document.createElement('div');
-            p.className = 'hero-particle';
-            let size = Math.random() * 5 + 2;
-            p.style.width = size + 'px';
-            p.style.height = size + 'px';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.top = Math.random() * 100 + '%';
-            p.style.animationDuration = (Math.random() * 15 + 18) + 's';
-            p.style.animationDelay = (Math.random() * -30) + 's';
-            pContainer.appendChild(p);
-        }
-    }
-
-
     // ── SCROLL HINT TUTORIAL ── (revealHero shows it once the hero settles)
     const scrollHint = document.getElementById('scrollHint');
     if (scrollHint && !sessionStorage.getItem('scrollHintSeen')) {
@@ -620,7 +612,7 @@
         const fill = document.getElementById('achProgressFill');
         const label = document.getElementById('achProgressLabel');
         if (fill) fill.style.width = (playsCount / TOTAL_GAMES * 100) + '%';
-        if (label) label.textContent = `${playsCount} / ${TOTAL_GAMES} played`;
+        if (label) label.innerHTML = `Playables played <b>${playsCount}</b> / ${TOTAL_GAMES}`;
     }
     updateProgress();
 
@@ -930,151 +922,6 @@
     if (gamesGrid) initialObs.observe(gamesGrid);
 
     // ── PLAYER CARD LEVEL-UP SYSTEM ── (started by revealHero, runs once)
-    function initPlayerCard() {
-        const card     = document.getElementById('playerCard');
-        if (!card) return;
-        if (!card.offsetParent) return;
-        const lvlBadge = card.querySelector('.pc-level');
-        const lvlNum   = card.querySelector('.pc-lvl-num');
-        const xpFill   = card.querySelector('.pc-xp-fill');
-        const xpText   = card.querySelector('.pc-xp-text');
-        const glow     = document.getElementById('pcGlow');
-        const badge    = document.getElementById('pcLvlBadge');
-
-        let level     = 21;
-        let pct       = 40;
-        let currentXP = 300;
-        let xpRafId   = null;
-
-        const statEls = card.querySelectorAll('.pc-stat');
-        const stats = [
-            { fill: statEls[0]?.querySelector('.pc-stat-fill'), num: statEls[0]?.querySelector('.pc-stat-val'), val: 79,  max: 99 },
-            { fill: statEls[1]?.querySelector('.pc-stat-fill'), num: statEls[1]?.querySelector('.pc-stat-val'), val: 84,  max: 99 },
-            { fill: statEls[2]?.querySelector('.pc-stat-fill'), num: statEls[2]?.querySelector('.pc-stat-val'), val: 75,  max: 99 },
-            { fill: statEls[3]?.querySelector('.pc-stat-fill'), num: statEls[3]?.querySelector('.pc-stat-val'), val: 72,  max: 99 },
-        ];
-
-        function animateXP(from, to, duration) {
-            if (xpRafId) cancelAnimationFrame(xpRafId);
-            const start = performance.now();
-            function tick(now) {
-                const t      = Math.min((now - start) / duration, 1);
-                const eased  = 1 - Math.pow(1 - t, 2); // ease-out
-                xpText.innerHTML = `${Math.round(from + (to - from) * eased)} XP<span> / ∞</span>`;
-                if (t < 1) xpRafId = requestAnimationFrame(tick);
-            }
-            xpRafId = requestAnimationFrame(tick);
-        }
-
-        function kickStart() {
-            xpFill.style.animation  = 'none';
-            xpFill.style.transition = 'none';
-            xpFill.style.width      = pct + '%';
-            void xpFill.offsetWidth; // force reflow so browser commits 40% before transition starts
-            scheduleFill();
-        }
-
-        function scheduleFill() {
-            const remaining = 100 - pct;
-            const ms        = Math.round(remaining / 100 * 11000);
-            xpFill.style.transition = `width ${ms}ms linear`;
-            xpFill.style.width      = '100%';
-
-            const xpGain = Math.round(remaining * 1.5);
-            animateXP(currentXP, currentXP + xpGain, ms);
-            currentXP += xpGain;
-
-            setTimeout(doLevelUp, ms);
-        }
-
-        function spawnParticles() {
-            const lvlRect  = lvlBadge.getBoundingClientRect();
-            const cardRect = card.getBoundingClientRect();
-            const cx = lvlRect.left + lvlRect.width  / 2 - cardRect.left;
-            const cy = lvlRect.top  + lvlRect.height / 2 - cardRect.top;
-            const colors = ['#ffd700','#ffb300','#ffffff','#c4b0ff','#ff9500'];
-            for (let i = 0; i < 12; i++) {
-                const p = document.createElement('div');
-                const size = 3 + Math.random() * 4;
-                p.style.cssText = `position:absolute;width:${size}px;height:${size}px;border-radius:50%;` +
-                    `background:${colors[i % colors.length]};left:${cx}px;top:${cy}px;pointer-events:none;z-index:25;`;
-                card.appendChild(p);
-                const angle = (i / 12) * Math.PI * 2 + Math.random() * .5;
-                const dist  = 28 + Math.random() * 36;
-                p.animate([
-                    { transform: 'translate(-50%,-50%) translate(0,0)', opacity: 1 },
-                    { transform: `translate(-50%,-50%) translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px)`, opacity: 0 }
-                ], { duration: 550 + Math.random() * 200, easing: 'cubic-bezier(.2,1,.4,1)', fill: 'forwards' });
-                setTimeout(() => p.remove(), 800);
-            }
-        }
-
-        function doLevelUp() {
-            // Flash XP bar
-            xpFill.style.transition = 'none';
-            xpFill.style.animation  = 'xpBarFlash .45s ease-out forwards';
-
-            // Intense glow ring
-            glow.classList.remove('active');
-            void glow.offsetWidth;
-            glow.classList.add('active');
-
-            // Particles burst from LVL badge
-            setTimeout(spawnParticles, 180);
-
-            // LEVEL UP badge float
-            setTimeout(() => {
-                badge.classList.remove('active');
-                void badge.offsetWidth;
-                badge.classList.add('active');
-            }, 140);
-
-            // LVL badge bounce + number increment + stat gains
-            setTimeout(() => {
-                level++;
-                lvlNum.textContent = level;
-                lvlBadge.style.animation = 'none';
-                void lvlBadge.offsetWidth;
-                lvlBadge.style.animation = 'lvlBadgeBounce .7s cubic-bezier(.34,1.56,.64,1) forwards';
-
-                stats.forEach(s => {
-                    if (!s.fill || s.val >= s.max) return;
-                    const gain = 1 + Math.round(Math.random());
-                    s.val = Math.min(s.val + gain, s.max);
-                    s.fill.style.animation  = 'none';
-                    s.fill.style.transition = 'width .55s cubic-bezier(.34,1.56,.64,1)';
-                    s.fill.style.width      = s.val + '%';
-                    if (s.num) {
-                        s.num.textContent = s.val;
-                        const d = document.createElement('span');
-                        d.className = 'pc-stat-delta';
-                        d.textContent = '+' + gain;
-                        s.num.appendChild(d);
-                        requestAnimationFrame(() => requestAnimationFrame(() => d.classList.add('active')));
-                        setTimeout(() => d.remove(), 1300);
-                    }
-                });
-            }, 230);
-
-            // Reset bar and schedule the next level-up after a pause
-            setTimeout(() => {
-                if (xpRafId) cancelAnimationFrame(xpRafId);
-                xpFill.style.animation  = 'none';
-                xpFill.style.transition = 'none';
-                pct = 5 + Math.random() * 12;
-                xpFill.style.width = pct + '%';
-                xpText.innerHTML = `${currentXP} XP<span> / ∞</span>`;
-                // Loop: schedule the next fill after a 5-6s breather
-                setTimeout(() => {
-                    void xpFill.offsetWidth;
-                    scheduleFill();
-                }, 5000 + Math.random() * 1500);
-            }, 980);
-        }
-
-        // Loops the level-up cycle starting a beat after the hero settles.
-        setTimeout(kickStart, 3000);
-    }
 </script>
 
 <!-- ── PRIVATE VISITOR COUNTER ── -->
@@ -1101,6 +948,233 @@
             })
             .catch(() => {});
     })();
+</script>
+<script>
+/* Hero handheld: runs the real playable inside the device and swaps cartridges.
+   The build is only fetched on the first tap so the page still loads light. */
+(function () {
+    const root = document.getElementById('heroConsole');
+    if (!root) return;
+    const screenEl = root.querySelector('.hc-screen');
+    const frame  = document.getElementById('hcFrame');
+    const poster = document.getElementById('hcPoster');
+    const posterImg = document.getElementById('hcPosterImg');
+    const nowEl  = document.getElementById('hcNow');
+    const openEl = document.getElementById('hcOpen');
+    const slots  = Array.from(root.querySelectorAll('.hc-slot'));
+    const PREVIEW = { '3': 'games/game3/preview.png?v=2' };
+    // each cartridge owns a hue; the pixel field behind the device borrows it
+    const HUE = { '1':'#D93B22','2':'#2B4FC8','3':'#7C3AA8','4':'#2E7D5B','5':'#C8871B','6':'#B02E62' };
+    const tutor = document.getElementById('hcTutor');
+    let current = '1', playing = false, tutorTimer = null;
+
+    // the hand behaves like a real playable tutorial: it appears when a tap is
+    // required, and it leaves the moment the tap happens
+    function showTutor(delay){
+        clearTimeout(tutorTimer);
+        if (!tutor) return;
+        tutorTimer = setTimeout(() => {
+            if (playing) return;
+            tutor.classList.remove('active');
+            void tutor.offsetWidth;
+            tutor.classList.add('active');
+        }, delay);
+    }
+    function hideTutor(){ clearTimeout(tutorTimer); if (tutor) tutor.classList.remove('active'); }
+
+    function fit() {
+        screenEl.style.setProperty('--hc-scale', (screenEl.clientWidth / 360).toFixed(4));
+    }
+    fit();
+    window.addEventListener('resize', fit);
+
+    function select(n, title) {
+        current = n; playing = false;
+        slots.forEach(b => b.classList.toggle('is-active', b.dataset.game === n));
+        posterImg.src = PREVIEW[n] || `games/game${n}/preview.png`;
+        nowEl.textContent = title;
+        openEl.href = `games/game${n}/index.html`;
+        frame.src = 'about:blank';
+        poster.hidden = false;
+        if (window.heroField) window.heroField.setColour(HUE[n] || '#D93B22');
+        showTutor(1400);
+    }
+
+    function play() {
+        frame.src = `games/game${current}/original_game.html`;
+        poster.hidden = true;
+        playing = true;
+        hideTutor();
+        if (window.heroField) window.heroField.pulse();
+    }
+
+    poster.addEventListener('click', play);
+    showTutor(2600);
+
+    // the arrows on the shell step through the rack
+    const controls = document.getElementById('hcControls');
+    function step(dir) {
+        const i = slots.findIndex(b => b.dataset.game === current);
+        const nextBtn = slots[(i + dir + slots.length) % slots.length];
+        controls.classList.add('is-used');          // stops the "press me" glow
+        select(nextBtn.dataset.game, nextBtn.dataset.title);
+    }
+    document.getElementById('hcPrev').addEventListener('click', () => step(-1));
+    document.getElementById('hcNext').addEventListener('click', () => step(1));
+    slots.forEach(b => b.addEventListener('click', () => {
+        if (b.dataset.game === current && !playing) return;
+        select(b.dataset.game, b.dataset.title);
+    }));
+
+
+})();
+</script>
+<script>
+/* ── HERO STAIRCASE ────────────────────────────────────────────────
+   The same terraced diagonal as the seams between sections, only built
+   out of pixels and lit by a pulse that runs along it. Same step count
+   formula as buildSeams(), so the hero and the seams are one system.
+   The staircase takes the colour of whichever playable is loaded, and
+   every interaction fires an extra pulse.                             */
+(function () {
+    const cv = document.getElementById('heroField');
+    const home = document.getElementById('home');
+    if (!cv || !home) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { cv.remove(); return; }
+
+    const ctx = cv.getContext('2d');
+    const PITCH = 9, BW = 7, BH = 5, ROW = 8;      // pixel grain
+    const SWEEP = 5200, PULSE = 1500;              // ms per pass, ms per tap flash
+
+    let w = 0, h = 0, dpr = 1, cols = 0, steps = 0, perStep = 0, srcCol = 0;
+    let colour = [217, 59, 34], taps = [], running = false, last = 0;
+    const t0 = performance.now();
+
+    function measure() {
+        const r = home.getBoundingClientRect();
+        w = r.width; h = r.height;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+        cv.style.width = w + 'px'; cv.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        cols = Math.ceil(w / PITCH) + 1;
+        steps = Math.max(9, Math.min(15, Math.round(w / 150)));   // matches the seams
+        perStep = cols / steps;
+
+        const screenEl = document.querySelector('.hc-screen');
+        const s = screenEl && screenEl.getBoundingClientRect();
+        srcCol = ((s ? s.left + s.width / 2 - r.left : w * 0.72) / PITCH);
+    }
+
+    function emit() { if (taps.length > 2) taps.shift(); taps.push(performance.now()); }
+
+    function frame(now) {
+        if (!running) return;
+        if (now - last < 40) { requestAnimationFrame(frame); return; }
+        last = now;
+        ctx.clearRect(0, 0, w, h);
+
+        taps = taps.filter(t => now - t < PULSE);
+        const head = ((now - t0) % SWEEP) / SWEEP * (cols + steps * perStep * 0.5);
+        const [cr, cg, cb] = colour;
+
+        for (let i = 0; i < cols; i++) {
+            const terrace = Math.min(steps, Math.floor(i / perStep) + 1);   // rises to the right
+            const x = i * PITCH;
+
+            // the pass of light travelling along the staircase
+            let lift = Math.exp(-Math.pow((i - head) / 7, 2)) * 1.7;
+            for (const t of taps) {
+                const age = (now - t) / PULSE;
+                const d = Math.abs(i - srcCol) - age * cols * 0.9;
+                lift += Math.exp(-Math.pow(d / 9, 2)) * (1 - age) * 2.1;
+            }
+
+            for (let rIdx = 0; rIdx < terrace; rIdx++) {
+                const a = 0.155 * Math.pow(1 - rIdx / steps, 1.5) * (1 + lift);
+                if (a < 0.012) continue;
+                ctx.fillStyle = `rgba(${cr},${cg},${cb},${Math.min(a, 0.36)})`;
+                ctx.fillRect(x, h - (rIdx + 1) * ROW, BW, BH);
+            }
+        }
+        requestAnimationFrame(frame);
+    }
+
+    function start() { if (running) return; running = true; last = 0; requestAnimationFrame(frame); }
+    function stop() { running = false; ctx.clearRect(0, 0, w, h); }
+
+    measure();
+    let rt = null;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(measure, 160); });
+    new IntersectionObserver(es => { es[0].isIntersecting ? start() : stop(); },
+        { threshold: 0.05 }).observe(home);
+
+    window.heroField = {
+        pulse: emit,
+        setColour(hex) {
+            const n = parseInt(hex.slice(1), 16);
+            colour = [n >> 16 & 255, n >> 8 & 255, n & 255];
+            emit();
+        }
+    };
+})();
+</script>
+<script>
+/* Section headlines rise word by word instead of fading in as a block —
+   the fade was the weakest moment on the page next to the hero. */
+(function () {
+    const titles = document.querySelectorAll('.section-title');
+    if (!titles.length) return;
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    titles.forEach(t => {
+        const words = t.textContent.trim().split(/\s+/);
+        t.innerHTML = words.map((word, i) =>
+            `<span class="w"><i style="transition-delay:${still ? 0 : 60 + i * 55}ms">${word}</i></span>`
+        ).join(' ');
+        // the scroll observer may already have marked this title visible before
+        // the words existed — replay the class so the new spans animate in
+        if (t.classList.contains('visible')) {
+            t.classList.remove('visible');
+            void t.offsetWidth;
+            requestAnimationFrame(() => t.classList.add('visible'));
+        }
+    });
+})();
+</script>
+<script>
+/* The seam staircase is drawn at real pixel size and redrawn on resize.
+   Stretching one fixed viewBox across the window was what turned the steps
+   into a 2px-tall ramp on wide displays. */
+(function () {
+    const seams = document.querySelectorAll('.stair');
+    if (!seams.length) return;
+
+    function build() {
+        const w = Math.ceil(document.documentElement.clientWidth);
+        const steps = Math.max(9, Math.min(15, Math.round(w / 150)));
+        const h = w < 700 ? 54 : 96;
+        const sw = w / steps, sh = h / steps;
+
+        seams.forEach(seam => {
+            const up = seam.dataset.dir === 'up';
+            let d = up ? 'M0,0' : `M0,${h}`;
+            for (let i = 0; i < steps; i++) {
+                const x = i * sw;
+                const y = up ? (i + 1) * sh : h - (i + 1) * sh;
+                d += ` L${x.toFixed(1)},${y.toFixed(1)} L${(x + sw).toFixed(1)},${y.toFixed(1)}`;
+            }
+            d += up ? ` L${w},0 Z` : ` L${w},${h} Z`;
+            seam.innerHTML =
+                `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">` +
+                `<path d="${d}"/></svg>`;
+        });
+    }
+
+    build();
+    let t = null;
+    window.addEventListener('resize', () => { clearTimeout(t); t = setTimeout(build, 150); });
+})();
 </script>
 </body>
 </html>

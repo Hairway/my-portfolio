@@ -1,13 +1,16 @@
 :root{
-    --bg:#07080f;
-    --surface:rgba(255,255,255,.04);
-    --border:rgba(255,255,255,.08);
-    --accent1:#7c5cfc;
-    --accent2:#f25c7a;
-    --accent-soft:#a990ff;
-    --accent-grad:linear-gradient(135deg,var(--accent1),var(--accent2));
-    --text:#e8eaf0;
-    --muted:#7a7f96;
+    --bg:#EFEADB;
+    --surface:rgba(26,23,16,.05);
+    --border:rgba(26,23,16,.14);
+    --accent1:#D93B22;
+    --accent1-rgb:217,59,34;
+    --accent2:#2B4FC8;
+    --accent2-rgb:43,79,200;
+    --accent-soft:#A82C17;
+    /* flat, not a gradient: gradient fills are the template tell */
+    --accent-grad:linear-gradient(135deg,var(--accent1),var(--accent1));
+    --text:#1A1710;
+    --muted:#6B6555;
     --radius:18px;
     /* Unified layout tokens */
     --container:1120px;
@@ -35,55 +38,58 @@
 html{scroll-behavior:smooth;scrollbar-gutter:stable}
 body {
     font-family: 'Outfit', sans-serif;
-    background: var(--bg);
+    background-color: var(--bg);
+    background-image: url('paper.jpg');
+    background-size: cover;
+    background-attachment: fixed;
     color: var(--text);
-}body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(124,92,252,.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(242,92,122,.14) 0%,transparent 60%);pointer-events:none}
+}body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(var(--accent1-rgb),.18) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(var(--accent2-rgb),.14) 0%,transparent 60%);pointer-events:none}
 /* NAV */
 nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; justify-content: space-between; align-items: center;
     padding: max(18px, env(safe-area-inset-top)) var(--gutter) 18px;
-    background: rgba(7,8,15,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)
+    background: rgba(239,234,219,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--border)
 }
 .nav-logo{font-weight:800;font-size:18px;background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;flex-shrink:0}
 .nav-links{display:flex;gap:8px}
 .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;padding:8px 16px;border-radius:8px;transition:color .2s,background .2s}
 .nav-links a:hover{color:var(--text);background:var(--surface)}
 .nav-links a.is-active{color:var(--text)}
-.btn-ghost.btn-cv-hero{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;font-size:var(--fs-body);font-weight:700;letter-spacing:.04em;line-height:1;white-space:nowrap;text-transform:uppercase;background:rgba(124,92,252,.08);border:1px solid rgba(124,92,252,.3);color:#cfc2ff;border-radius:100px;text-decoration:none;transition:background .2s,border-color .2s,transform .2s,color .2s}
-.btn-ghost.btn-cv-hero:hover{background:rgba(124,92,252,.16);border-color:rgba(124,92,252,.55);color:#e6ddff;transform:translateY(-2px)}
+.btn-ghost.btn-cv-hero{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;font-size:var(--fs-body);font-weight:700;letter-spacing:.04em;line-height:1;white-space:nowrap;text-transform:uppercase;background:rgba(var(--accent1-rgb),.08);border:1px solid rgba(var(--accent1-rgb),.3);color:var(--accent1);border-radius:100px;text-decoration:none;transition:background .2s,border-color .2s,transform .2s,color .2s}
+.btn-ghost.btn-cv-hero:hover{background:rgba(var(--accent1-rgb),.16);border-color:rgba(var(--accent1-rgb),.55);color:var(--accent-soft);transform:translateY(-2px)}
 .btn-cv-hero svg{width:18px;height:18px;flex-shrink:0}
 .nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
 .nav-burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform .3s,opacity .3s}
 .nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .nav-burger.open span:nth-child(2){opacity:0}
 .nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-.nav-drawer{display:none;position:fixed;inset:64px 0 0 0;z-index:99;background:rgba(7,8,15,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 24px}
+.nav-drawer{display:none;position:fixed;inset:64px 0 0 0;z-index:99;background:rgba(239,234,219,.98);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:40px 24px}
 .nav-drawer.open{display:flex}
 .nav-drawer a{color:var(--text);text-decoration:none;font-size:28px;font-weight:700;padding:14px 32px;border-radius:12px;transition:background .2s;width:100%;text-align:center}
 .nav-drawer a:hover{background:var(--surface)}
-.nav-drawer-cv{color:#a990ff !important;border:1px solid rgba(124,92,252,.3);border-radius:100px;margin-top:8px;font-size:22px !important}
+.nav-drawer-cv{color:var(--accent1) !important;border:1px solid rgba(var(--accent1-rgb),.3);border-radius:100px;margin-top:8px;font-size:22px !important}
 section{position:relative;z-index:1}
 /* HERO */
 #home{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:120px var(--gutter) 120px;position:relative;--mouse-x:50%;--mouse-y:50%}
 .hero-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:64px;width:100%;max-width:var(--container);position:relative;z-index:1}
-#home::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y), rgba(124,92,252,0.15), transparent 100%);pointer-events:none;z-index:0;transition:opacity .3s ease}
-#home::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%, rgba(242,92,122,0.08), transparent 50%), radial-gradient(circle at 30% 70%, rgba(124,92,252,0.08), transparent 50%);pointer-events:none;z-index:0;animation:ambientBreathe 8s ease-in-out infinite alternate}
+#home::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y), rgba(var(--accent1-rgb),0.15), transparent 100%);pointer-events:none;z-index:0;transition:opacity .3s ease}
+#home::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 30%, rgba(var(--accent2-rgb),0.08), transparent 50%), radial-gradient(circle at 30% 70%, rgba(var(--accent1-rgb),0.08), transparent 50%);pointer-events:none;z-index:0;animation:ambientBreathe 8s ease-in-out infinite alternate}
 @keyframes ambientBreathe { 0% { opacity: 0.5; } 100% { opacity: 1; } }
 #heroParticles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
-.hero-particle { position: absolute; background: rgba(124,92,252,0.6); border-radius: 50%; filter: blur(3px); animation: floatParticle linear infinite; }
+.hero-particle { position: absolute; background: rgba(var(--accent1-rgb),0.6); border-radius: 50%; filter: blur(3px); animation: floatParticle linear infinite; }
 @keyframes floatParticle { 0% { transform: translateY(0) scale(1); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateY(-100vh) scale(0.5); opacity: 0; } }
 .hero-left{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
-.hero-tag{display:inline-flex;align-items:center;white-space:nowrap;background:rgba(124,92,252,.15);border:1px solid rgba(124,92,252,.3);color:var(--accent-soft);font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:28px;line-height:1}
+.hero-tag{display:inline-flex;align-items:center;white-space:nowrap;background:rgba(var(--accent1-rgb),.15);border:1px solid rgba(var(--accent1-rgb),.3);color:var(--accent-soft);font-size:var(--fs-label);font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:7px 18px;border-radius:100px;margin-bottom:28px;line-height:1}
 .hero-title{font-size:var(--fs-hero-title);font-weight:800;line-height:1.04;letter-spacing:-.025em;margin-bottom:22px;text-wrap:balance}
 .hero-title .gradient{background:var(--accent-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hero-sub{width:100%;max-width:480px;color:var(--muted);font-size:var(--fs-lead);font-weight:300;line-height:1.6;margin-bottom:40px}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center;width:100%;max-width:480px}
 .btn-ghost{display:inline-block;padding:14px 32px;background:var(--surface);border:1px solid var(--border);color:var(--text);font-weight:500;font-size:15px;border-radius:100px;text-decoration:none;transition:background .2s,transform .2s}
-.btn-ghost:hover{background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.btn-ghost:hover{background:rgba(26,23,16,.09);transform:translateY(-2px)}
 /* HERO RIGHT */
 .hero-right{display:flex;align-items:center;justify-content:center;perspective:1000px;position:relative}
-.hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(124,92,252,0.22) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 9s ease-in-out infinite}
+.hero-right::before{content:'';position:absolute;width:320px;height:320px;background:radial-gradient(circle, rgba(var(--accent1-rgb),0.22) 0%, transparent 70%);filter:blur(50px);z-index:0;animation:pulseGlow 9s ease-in-out infinite}
 @keyframes pulseGlow{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.5;transform:scale(1.02)}}
 
 @media(max-width:860px){#home{padding:100px var(--gutter) 80px}.hero-inner{grid-template-columns:1fr;text-align:center;gap:40px}.hero-left{align-items:center}.hero-sub{max-width:100%}.hero-right{justify-content:center;padding-bottom:32px}.player-card{width:100%;max-width:340px}.pc-stat-name{width:90px}}
@@ -102,7 +108,7 @@ section{position:relative;z-index:1}
 .game-card.tutor-active { animation: cardPulse 1.8s infinite; }
 @keyframes cardPulse {
     0%, 15% { transform: none; border-color: var(--border); box-shadow: none; }
-    40% { transform: scale(0.97); border-color: var(--accent1); box-shadow: 0 0 30px rgba(124,92,252,.6); }
+    40% { transform: scale(0.97); border-color: var(--accent1); box-shadow: 0 0 30px rgba(var(--accent1-rgb),.6); }
     50%, 100% { transform: none; border-color: var(--border); box-shadow: none; }
 }
 /* PORTFOLIO */
@@ -112,20 +118,20 @@ section{position:relative;z-index:1}
 .section-sub{color:var(--muted);font-size:var(--fs-lead);line-height:1.55;max-width:560px;margin-bottom:56px}
 .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
 .game-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:inherit;display:flex;flex-direction:column;transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .3s,box-shadow .3s;position:relative}
-.game-card:hover{transform:translateY(-6px);border-color:rgba(124,92,252,.4);box-shadow:0 24px 48px rgba(0,0,0,.55),0 0 0 1px rgba(124,92,252,.3)}
+.game-card:hover{transform:translateY(-6px);border-color:rgba(var(--accent1-rgb),.4);box-shadow:0 24px 48px rgba(0,0,0,.55),0 0 0 1px rgba(var(--accent1-rgb),.3)}
 .card-thumb{position:relative;overflow:hidden;aspect-ratio:1/1;background:#111}
 .card-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .game-card:hover .card-thumb img{transform:scale(1.06)}
-.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,8,15,.95) 0%,transparent 55%);display:flex;align-items:flex-end;justify-content:center;padding:24px;opacity:0;transition:opacity .3s}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,23,16,.72) 0%,transparent 55%);display:flex;align-items:flex-end;justify-content:center;padding:24px;opacity:0;transition:opacity .3s}
 .game-card:hover .card-overlay{opacity:1}
 @media(hover:none){.card-overlay{opacity:1}}
 .card-play{display:flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent-grad);color:#fff;font-weight:700;font-size:15px;border-radius:100px;white-space:nowrap}
 .card-body{padding:20px 22px 22px}
 .card-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.tag{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(124,92,252,.12);color:var(--accent-soft);border:1px solid rgba(124,92,252,.2)}
+.tag{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(var(--accent1-rgb),.12);color:var(--accent-soft);border:1px solid rgba(var(--accent1-rgb),.2)}
 .card-title{font-size:var(--fs-card-title);font-weight:700;margin-bottom:6px}
 .card-desc{color:var(--muted);font-size:var(--fs-body);line-height:1.55}
-.card-benchmark{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;background:rgba(20,14,30,.7);border:1px solid rgba(124,92,252,.55);border-radius:100px;font-size:var(--fs-label);font-weight:800;letter-spacing:.08em;color:var(--accent-soft);text-transform:uppercase;pointer-events:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.35);text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.card-benchmark{position:absolute;top:12px;left:12px;z-index:6;display:inline-flex;align-items:center;gap:4px;padding:5px 11px;background:rgba(20,14,30,.7);border:1px solid rgba(var(--accent1-rgb),.55);border-radius:100px;font-size:var(--fs-label);font-weight:800;letter-spacing:.08em;color:var(--accent-soft);text-transform:uppercase;pointer-events:none;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 14px rgba(0,0,0,.35);text-shadow:0 1px 4px rgba(0,0,0,.6)}
 /* ABOUT */
 #about{padding:var(--section-pt) var(--gutter) var(--section-pb);max-width:var(--container);margin:0 auto}
 .about-hero{display:grid;grid-template-columns:240px 1fr;gap:56px;align-items:start;margin-top:48px;margin-bottom:0}
@@ -143,14 +149,14 @@ section{position:relative;z-index:1}
 .contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:36px}
 @media(max-width:980px){.contact-grid{grid-template-columns:repeat(2,1fr)}}
 .contact-card{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;text-decoration:none;color:var(--text);transition:background .2s,border-color .2s,transform .2s}
-.contact-card:hover{background:rgba(124,92,252,.08);border-color:rgba(124,92,252,.3);transform:translateY(-3px)}
-.contact-icon{width:40px;height:40px;flex-shrink:0;background:rgba(124,92,252,.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.contact-card:hover{background:rgba(var(--accent1-rgb),.08);border-color:rgba(var(--accent1-rgb),.3);transform:translateY(-3px)}
+.contact-icon{width:40px;height:40px;flex-shrink:0;background:rgba(var(--accent1-rgb),.12);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .contact-info{min-width:0;flex:1}
 .contact-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:2px}
 .contact-value{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.contact-card--cv { border-color: rgba(124,92,252,.25); background: rgba(124,92,252,.06); }
-.contact-card--cv:hover { background: rgba(124,92,252,.14); border-color: rgba(124,92,252,.5); }
-.contact-card--cv .contact-icon { background: rgba(124,92,252,.18); }
+.contact-card--cv { border-color: rgba(var(--accent1-rgb),.25); background: rgba(var(--accent1-rgb),.06); }
+.contact-card--cv:hover { background: rgba(var(--accent1-rgb),.14); border-color: rgba(var(--accent1-rgb),.5); }
+.contact-card--cv .contact-icon { background: rgba(var(--accent1-rgb),.18); }
 /* FOOTER */
 footer{position:relative;z-index:1;padding:36px var(--gutter);border-top:1px solid var(--border)}
 .footer-inner{max-width:var(--container);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -166,7 +172,7 @@ footer{position:relative;z-index:1;padding:36px var(--gutter);border-top:1px sol
 .gate-icon{font-size:40px;margin-bottom:16px}
 .gate-box h2{font-size:22px;font-weight:700;margin-bottom:8px}
 .gate-box p{color:var(--muted);font-size:14px;margin-bottom:28px}
-.gate-input{width:100%;padding:14px 18px;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;font-family:inherit;outline:none;margin-bottom:12px;transition:border-color .2s}
+.gate-input{width:100%;padding:14px 18px;background:rgba(26,23,16,.06);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:16px;font-family:inherit;outline:none;margin-bottom:12px;transition:border-color .2s}
 .gate-input:focus{border-color:var(--accent1)}
 .gate-btn{width:100%;padding:14px;background:var(--accent-grad);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:opacity .2s}
 .gate-btn:hover{opacity:.88}
@@ -209,11 +215,11 @@ footer{position:relative;z-index:1;padding:36px var(--gutter);border-top:1px sol
     color: #fff; font-weight: 700; font-size: var(--fs-body); letter-spacing: .04em; line-height: 1;
     white-space: nowrap;
     border-radius: 100px; text-decoration: none; border: none; cursor: pointer;
-    box-shadow: 0 8px 28px rgba(124,92,252,.35);
+    box-shadow: 0 8px 28px rgba(var(--accent1-rgb),.35);
     transition: transform .2s, box-shadow .2s;
 }
 .btn-playnow svg { width: 18px; height: 18px; flex-shrink: 0; animation: tapJiggle 2.6s ease-in-out infinite; }
-.btn-playnow:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(124,92,252,.5); }
+.btn-playnow:hover { transform: translateY(-2px); box-shadow: 0 14px 40px rgba(var(--accent1-rgb),.5); }
 @keyframes tapJiggle {
     0%,100%  { transform: rotate(0deg) translateY(0); }
     20%      { transform: rotate(-12deg) translateY(-2px); }
@@ -236,7 +242,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 /* ── SKELETON LOADING ── */
 .card-thumb .skeleton-shimmer {
     position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.06) 50%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(26,23,16,.06) 50%, rgba(255,255,255,0) 100%);
     background-size: 200% 100%; animation: shimmer 1.6s infinite;
 }
 @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
@@ -251,7 +257,7 @@ body.entered .reveal-blur { animation-play-state: running; }
     z-index: 9000; pointer-events: none;
     background: rgba(18,18,28,.96);
     backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255,255,255,.1);
+    border: 1px solid rgba(26,23,16,.12);
     border-radius: 16px; padding: 16px 20px;
     display: flex; align-items: center; gap: 14px;
     box-shadow: 0 8px 40px rgba(0,0,0,.6);
@@ -260,7 +266,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 }
 @media(max-width:700px){#achievementToast{right:16px;bottom:16px;width:calc(100vw - 32px)}}
 #achievementToast.show { transform: translateX(0); opacity: 1; }
-.ach-trophy { font-size: 32px; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(124,92,252,.6)); }
+.ach-trophy { font-size: 32px; flex-shrink: 0; filter: drop-shadow(0 0 8px rgba(var(--accent1-rgb),.6)); }
 .ach-trophy.bronze,
 .ach-trophy.plat { color: var(--accent-soft); }
 .ach-body { flex: 1; min-width: 0; }
@@ -269,7 +275,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .ach-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
 /* Progress bar below section title */
 .ach-progress-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
-.ach-progress-bar-bg { flex: 1; height: 6px; background: rgba(255,255,255,.08); border-radius: 100px; overflow: hidden; }
+.ach-progress-bar-bg { flex: 1; height: 6px; background: rgba(26,23,16,.09); border-radius: 100px; overflow: hidden; }
 .ach-progress-bar-fill { height: 100%; border-radius: 100px; background: var(--accent-grad); width: 0%; transition: width .8s cubic-bezier(.34,1.56,.64,1); }
 .ach-progress-label { font-size: var(--fs-label); font-weight: 700; color: var(--muted); white-space: nowrap; letter-spacing: .04em; }
 
@@ -358,14 +364,14 @@ body.entered .reveal-blur { animation-play-state: running; }
     border-radius: var(--radius);
     transition: border-color .3s, transform .3s;
 }
-.process-step:hover { border-color: rgba(124,92,252,.35); transform: translateY(-2px); }
+.process-step:hover { border-color: rgba(var(--accent1-rgb),.35); transform: translateY(-2px); }
 .process-num {
     position: relative;
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: rgba(124,92,252,.08);
-    border: 1px solid rgba(124,92,252,.2);
+    background: rgba(var(--accent1-rgb),.08);
+    border: 1px solid rgba(var(--accent1-rgb),.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -458,8 +464,8 @@ body.entered .reveal-blur { animation-play-state: running; }
     letter-spacing: .08em;
 }
 .skills-tools .skill-chip {
-    background: rgba(124,92,252,.07);
-    border-color: rgba(124,92,252,.18);
+    background: rgba(var(--accent1-rgb),.07);
+    border-color: rgba(var(--accent1-rgb),.18);
     color: var(--accent-soft);
 }
 
@@ -470,7 +476,7 @@ body.entered .reveal-blur { animation-play-state: running; }
     bottom: 0; left: 0; right: 0;
     z-index: 500;
     padding: 12px 20px env(safe-area-inset-bottom, 0px);
-    background: rgba(7,8,15,.92);
+    background: rgba(239,234,219,.95);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-top: 1px solid var(--border);
@@ -509,13 +515,13 @@ body.entered .reveal-blur { animation-play-state: running; }
     position: relative;
     z-index: 1;
     width: 300px;
-    background: rgba(255,255,255,.04);
-    border: 1px solid rgba(255,255,255,.1);
+    background: rgba(26,23,16,.05);
+    border: 1px solid rgba(26,23,16,.12);
     border-radius: 20px;
     padding: 24px 22px 22px;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 24px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.07);
+    box-shadow: 0 24px 60px rgba(0,0,0,.55), inset 0 1px 0 rgba(26,23,16,.07);
     animation: floatCard 12s ease-in-out infinite;
 }
 @keyframes floatCard {
@@ -542,7 +548,7 @@ body.entered .reveal-blur { animation-play-state: running; }
     font-weight: 800;
     letter-spacing: .12em;
     text-transform: uppercase;
-    color: rgba(255,255,255,.7);
+    color: rgba(26,23,16,.7);
 }
 .pc-lvl-num {
     font-size: 20px;
@@ -560,7 +566,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .pc-xp-wrap { margin-bottom: 16px; }
 .pc-xp-bar {
     height: 7px;
-    background: rgba(255,255,255,.08);
+    background: rgba(26,23,16,.09);
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 5px;
@@ -593,10 +599,11 @@ body.entered .reveal-blur { animation-play-state: running; }
     width: 104px;
     flex-shrink: 0;
 }
+.pc-stat-note { font-size: 12px; color: rgba(26,23,16,.72); line-height: 1.4; }
 .pc-stat-bar {
     flex: 1;
     height: 4px;
-    background: rgba(255,255,255,.07);
+    background: rgba(26,23,16,.07);
     border-radius: 2px;
     overflow: hidden;
 }
@@ -646,16 +653,16 @@ body.entered .reveal-blur { animation-play-state: running; }
     font-size: 11px;
     font-weight: 600;
     padding: 5px 10px;
-    background: rgba(124,92,252,.1);
-    border: 1px solid rgba(124,92,252,.2);
+    background: rgba(var(--accent1-rgb),.1);
+    border: 1px solid rgba(var(--accent1-rgb),.2);
     border-radius: 100px;
     color: var(--accent-soft);
     transition: background .2s, border-color .2s;
     white-space: nowrap;
 }
 .pc-badge:hover {
-    background: rgba(124,92,252,.22);
-    border-color: rgba(124,92,252,.45);
+    background: rgba(var(--accent1-rgb),.22);
+    border-color: rgba(var(--accent1-rgb),.45);
 }
 
 /* ── PLAYER CARD LEVEL-UP ── */
@@ -667,7 +674,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 @keyframes pcGlowAnim {
     0%   { opacity:0; border-color:transparent; box-shadow:none; }
     15%  { opacity:1; border-color:#ffd700; box-shadow:0 0 0 4px rgba(255,200,0,.12), 0 0 48px rgba(255,200,0,.5); }
-    55%  { border-color:rgba(124,92,252,.4); box-shadow:0 0 0 2px rgba(124,92,252,.1), 0 0 24px rgba(124,92,252,.35); }
+    55%  { border-color:rgba(var(--accent1-rgb),.4); box-shadow:0 0 0 2px rgba(var(--accent1-rgb),.1), 0 0 24px rgba(var(--accent1-rgb),.35); }
     100% { opacity:0; border-color:transparent; box-shadow:none; }
 }
 .pc-lvlbadge {
@@ -739,7 +746,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .sh-ring {
     position: absolute;
     border-radius: 50%;
-    border: 1.5px solid rgba(255,255,255,.6);
+    border: 1.5px solid rgba(26,23,16,.45);
     animation: ringPulse 2.2s ease-out infinite;
     pointer-events: none;
 }
@@ -755,7 +762,7 @@ body.entered .reveal-blur { animation-play-state: running; }
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,.35));
+    filter: none;
 }
 .sh-wheel {
     animation: wheelScroll 1.5s cubic-bezier(.4,0,.2,1) infinite;
@@ -774,7 +781,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .sh-hand-svg {
     width: 36px;
     height: 46px;
-    filter: drop-shadow(0 0 10px rgba(255,255,255,.4));
+    filter: none;
     animation: fingerSwipe 1.9s ease-in-out infinite;
 }
 @keyframes fingerSwipe {
@@ -786,7 +793,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .sh-swipe-trail {
     width: 2px;
     height: 22px;
-    background: linear-gradient(to top, rgba(255,255,255,.5), transparent);
+    background: linear-gradient(to top, rgba(26,23,16,.45), transparent);
     border-radius: 2px;
     animation: trailFade 1.9s ease-in-out infinite;
 }
@@ -826,7 +833,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .sh-label {
     font-size: 11px;
     font-weight: 700;
-    color: rgba(255,255,255,.78);
+    color: rgba(26,23,16,.78);
     letter-spacing: .1em;
     text-transform: uppercase;
     white-space: nowrap;
@@ -854,3 +861,916 @@ body.entered .reveal-blur { animation-play-state: running; }
    the hero content — not enough for the full hint, so its icon rode up over the
    Download CV button. Drop the icon there and keep the chevrons and the label. */
 @media(max-width:860px){.scroll-hint .sh-icon-wrap{display:none}}
+
+/* Gradient-filled letters read as a template whatever the hue, so the headline
+   is one warm white and colour is left to the things you can actually click. */
+.hero-title .gradient{background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:currentColor;color:var(--text)}
+.nav-logo{background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:currentColor;color:var(--accent1)}
+
+/* The ambient glows were tinted with the accent, which washed the whole page
+   green. Dimmed so the ground stays neutral and the accent stays an accent. */
+body::before{background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(var(--accent1-rgb),.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(var(--accent1-rgb),.05) 0%,transparent 60%)}
+#home::before{background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y),rgba(var(--accent1-rgb),.05),transparent 100%)}
+#home::after{background:radial-gradient(circle at 70% 30%,rgba(var(--accent1-rgb),.03),transparent 50%),radial-gradient(circle at 30% 70%,rgba(var(--accent1-rgb),.03),transparent 50%)}
+.hero-right::before{background:radial-gradient(circle,rgba(var(--accent1-rgb),.10) 0%,transparent 70%)}
+
+/* ── HERO DEVICE ──
+   The console render carries a real playable preview in its screen. The screen
+   quad was measured off the render (top-left 445,166; width vector 135,36;
+   height vector -137,76 on a 1000x545 image) and is expressed in percentages so
+   it tracks the image at any size. */
+/* the static console render was replaced by the live handheld below */
+
+/* the ghost button lost contrast on paper: give it a real outline */
+.btn-ghost.btn-cv-hero{background:transparent;border:1.5px solid rgba(26,23,16,.28);color:var(--text)}
+.btn-ghost.btn-cv-hero:hover{background:rgba(26,23,16,.05);border-color:rgba(26,23,16,.5);color:var(--text)}
+
+/* ============================================================
+   HANDHELD THEME — block structures
+   Everything below assumes the bone/paper ground set in :root.
+   Structural only: no JS hooks, ids or data-attributes are touched.
+   ============================================================ */
+
+:root{ --mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+       --ink-line:rgba(26,23,16,.14); --ink-line-2:rgba(26,23,16,.28); }
+
+/* --- shared section chrome: mono kicker, tight headline, hairline rule --- */
+.section-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--accent1);background:none;-webkit-text-fill-color:currentColor}
+.section-title{font-weight:900;letter-spacing:-.035em;line-height:.95;
+    background:none;-webkit-background-clip:initial;-webkit-text-fill-color:currentColor;color:var(--text)}
+.section-sub{color:var(--muted);max-width:58ch}
+section > .section-sub{padding-bottom:26px;border-bottom:1px solid var(--ink-line)}
+
+/* --- WORK: cards become cartridges on a shelf --- */
+.ach-progress-wrap{gap:14px;margin:22px 0 30px}
+.ach-progress-bar-bg{height:6px;background:rgba(26,23,16,.10);border-radius:0;max-width:220px}
+.ach-progress-bar-fill{background:var(--accent1);border-radius:0}
+.ach-progress-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--muted)}
+.ach-progress-label b{color:var(--text)}
+
+.games-grid{gap:22px 20px}
+.game-card{background:#F6F2E6;border:1px solid var(--ink-line-2);border-radius:10px;
+    box-shadow:0 1px 0 rgba(26,23,16,.06);padding-top:34px;overflow:visible}
+.game-card::before{ /* the cartridge spine */
+    content:"";position:absolute;left:14px;right:14px;top:11px;height:5px;border-radius:2px;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 3px,transparent 3px 9px)}
+.game-card:hover{transform:translateY(-5px);border-color:var(--accent1);
+    box-shadow:0 16px 30px rgba(26,23,16,.14)}
+.game-card:hover::before{background:repeating-linear-gradient(90deg,var(--accent1) 0 3px,transparent 3px 9px)}
+.cart-no{position:absolute;top:9px;right:16px;z-index:3;font-family:var(--mono);font-size:11px;
+    font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.game-card:hover .cart-no{color:var(--accent1)}
+.card-thumb{margin:0 12px;border-radius:6px;overflow:hidden;
+    box-shadow:inset 0 0 0 1px rgba(26,23,16,.10)}
+.card-body{padding:16px 16px 18px}
+.card-role{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--muted);order:-1;margin-bottom:6px}
+.card-title{font-weight:800;letter-spacing:-.02em}
+.card-desc{color:var(--muted)}
+.card-tags{order:2;margin-top:12px;padding-top:12px;border-top:1px solid var(--ink-line)}
+.tag{background:transparent;border:1px solid var(--ink-line-2);color:var(--muted);
+    font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+.card-benchmark{background:var(--accent1);color:#FFF6EC;border:none;font-family:var(--mono);
+    font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.card-overlay{background:linear-gradient(0deg,rgba(26,23,16,.72),rgba(26,23,16,.12))}
+.card-play{background:var(--accent1);color:#FFF6EC;font-family:var(--mono);font-size:10px;
+    font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+
+/* --- PROCESS: four slots strung on one rail --- */
+.process-track{gap:0;margin-top:36px}
+.process-track::before{background:var(--ink-line-2);opacity:1;height:1px}
+.process-step{background:transparent;border:none;border-left:1px solid var(--ink-line);
+    border-radius:0;padding:26px 22px 4px;text-align:left;align-items:flex-start}
+.process-step:first-child{border-left:none;padding-left:0}
+.process-step:hover{transform:none;border-color:var(--ink-line)}
+.process-num{background:none;border:none;box-shadow:none;width:auto;height:auto;
+    display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.pnum-icon{color:var(--accent1);width:22px;height:22px;display:block}
+.pnum-icon svg{width:22px;height:22px}
+.pnum-badge{position:static;font-family:var(--mono);font-size:26px;font-weight:700;
+    letter-spacing:-.02em;color:var(--text);background:none;border:none;width:auto;height:auto;
+    line-height:1;box-shadow:none}
+.process-step:hover .pnum-badge{color:var(--accent1)}
+.process-title{font-weight:800;letter-spacing:-.015em;margin-bottom:8px}
+.process-desc{color:var(--muted);font-size:14px;line-height:1.6}
+
+/* --- ABOUT: manual cover + spec sheet --- */
+.about-hero{grid-template-columns:270px 1fr;gap:52px;margin-top:40px}
+.about-photo{border-radius:8px;border:1px solid var(--ink-line-2);background:#F6F2E6;
+    box-shadow:0 1px 0 rgba(26,23,16,.06)}
+.about-photo-wrap::after{content:"Dima Fomin — playable ads";display:block;margin-top:10px;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.about-name{font-weight:900;letter-spacing:-.03em}
+.about-role{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent1);background:none;-webkit-text-fill-color:currentColor}
+.about-text{color:var(--muted)}
+.spec-sheet{margin-top:26px;border-top:1px solid var(--ink-line-2)}
+.spec-row{display:grid;grid-template-columns:96px 1fr;gap:20px;padding:13px 0;
+    border-bottom:1px solid var(--ink-line);align-items:baseline}
+.spec-key{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent1)}
+.spec-val{font-size:14px;line-height:1.65;color:var(--muted)}
+.spec-row:last-child .spec-val{color:var(--text);font-weight:600}
+
+/* --- CONTACT: a list of labelled rows, not a grid of tiles --- */
+.avail-status{background:transparent;border:1px solid var(--ink-line-2);color:var(--text);
+    font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border-radius:3px}
+.avail-dot{background:var(--accent1);box-shadow:0 0 0 3px rgba(var(--accent1-rgb),.18)}
+.contact-grid{grid-template-columns:1fr;gap:0;margin-top:30px;border-top:1px solid var(--ink-line-2)}
+.contact-card{display:grid;grid-template-columns:44px 150px 1fr 34px;align-items:center;gap:18px;
+    background:transparent;border:none;border-bottom:1px solid var(--ink-line);border-radius:0;
+    padding:18px 6px;transition:background .2s,padding .2s}
+.contact-card:hover{background:rgba(26,23,16,.04);padding-left:14px;transform:none;box-shadow:none}
+.contact-no{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted)}
+.contact-card:hover .contact-no{color:var(--accent1)}
+.contact-icon{width:22px;height:22px;background:none;border:none;box-shadow:none;color:var(--accent1);
+    grid-column:2;justify-self:start}
+.contact-icon svg{width:22px;height:22px}
+.contact-info{grid-column:3;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap}
+.contact-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);min-width:82px}
+.contact-value{font-size:17px;font-weight:700;letter-spacing:-.015em;color:var(--text)}
+.contact-card::after{content:"→";grid-column:4;justify-self:end;font-size:16px;color:var(--muted);
+    transition:transform .2s,color .2s}
+.contact-card:hover::after{transform:translateX(4px);color:var(--accent1)}
+
+@media(max-width:980px){
+    .process-step{border-left:none;border-top:1px solid var(--ink-line);padding:22px 0 4px}
+    .process-step:first-child{border-top:none}
+    .about-hero{grid-template-columns:1fr}
+    .spec-row{grid-template-columns:1fr;gap:4px;text-align:left}
+    .about-hero .spec-sheet{text-align:left}
+}
+@media(max-width:640px){
+    .contact-card{grid-template-columns:30px 1fr 24px;gap:12px;padding:16px 4px}
+    .contact-icon{display:none}
+    .contact-info{grid-column:2;flex-direction:column;gap:2px}
+    .contact-card::after{grid-column:3}
+    .game-card{padding-top:30px}
+}
+/* card-body needs to be a flex column for the cartridge reading order
+   (role → title → description → tags) to take effect */
+.card-body{display:flex;flex-direction:column}
+/* push the tag row to the bottom so it lines up across a row of cards */
+.card-tags{margin-top:auto}
+.card-desc{margin-bottom:12px}
+
+/* hero chrome to match the rest of the theme: mono readout instead of a pill card */
+.hero-tag{background:transparent;border:none;border-left:2px solid var(--accent1);border-radius:0;
+    padding:2px 0 2px 10px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent1)}
+.hero-stats{background:transparent;border:none;border-top:1px solid var(--ink-line-2);
+    border-bottom:1px solid var(--ink-line);border-radius:0;padding:14px 0;max-width:460px}
+.hero-stat{text-align:left;padding:0 22px 0 0}
+.hero-stat-val{font-family:var(--mono);font-weight:700;background:none;
+    -webkit-background-clip:initial;-webkit-text-fill-color:currentColor;color:var(--text)}
+.hero-stat-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted)}
+.hero-stat-div{background:var(--ink-line)}
+@media(max-width:860px){.hero-stat{text-align:center;padding:0 12px}}
+
+/* ============================================================
+   HERO HANDHELD — a real device with the playable running inside.
+   Built in CSS instead of a render so nothing has a cropped edge.
+   ============================================================ */
+.hero-console{width:min(340px,100%);display:flex;flex-direction:column;gap:14px}
+.hc-shell{background:linear-gradient(168deg,#FBF8F0,#EDE7D7);
+    border:1px solid var(--ink-line-2);border-radius:26px;padding:14px 14px 12px;
+    box-shadow:0 20px 38px rgba(26,23,16,.14), inset 0 1px 0 rgba(255,255,255,.7)}
+.hc-brand{display:flex;align-items:center;gap:7px;padding:0 4px 10px;
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted)}
+.hc-led{width:6px;height:6px;border-radius:50%;background:var(--accent1);
+    box-shadow:0 0 0 3px rgba(var(--accent1-rgb),.16)}
+.hc-screen{position:relative;width:100%;aspect-ratio:360/640;border-radius:10px;overflow:hidden;
+    background:#14120D;box-shadow:inset 0 0 0 1px rgba(26,23,16,.55),inset 0 2px 14px rgba(0,0,0,.5)}
+.hc-screen iframe{position:absolute;left:0;top:0;width:360px;height:640px;border:0;
+    transform-origin:0 0;transform:scale(var(--hc-scale,1));display:block}
+.hc-poster{position:absolute;inset:0;z-index:2;cursor:pointer;display:block}
+.hc-poster img{width:100%;height:100%;object-fit:cover;display:block}
+.hc-poster::after{content:"";position:absolute;inset:0;background:rgba(20,18,13,.42)}
+.hc-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;
+    display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:100px;
+    background:var(--accent1);color:#FFF6EC;font-family:var(--mono);font-size:10px;font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;transition:transform .2s}
+.hc-poster:hover .hc-play{transform:translate(-50%,-50%) scale(1.06)}
+.hc-controls{display:flex;align-items:center;gap:8px;padding:12px 4px 2px}
+.hc-dpad{width:26px;height:26px;flex-shrink:0;background:
+    linear-gradient(var(--ink-line-2) 0 0) center/9px 26px no-repeat,
+    linear-gradient(var(--ink-line-2) 0 0) center/26px 9px no-repeat;
+    border-radius:4px;opacity:.55}
+.hc-abtn{width:11px;height:11px;border-radius:50%;background:var(--ink-line-2);opacity:.5}
+.hc-abtn:last-of-type{background:var(--accent1);opacity:.4;margin-left:-2px}
+.hc-controls .hc-abtn:first-of-type{margin-left:auto}
+
+.hc-slots{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.hc-slot{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;
+    padding:8px 0;border:1px solid var(--ink-line-2);border-radius:5px;background:transparent;
+    color:var(--muted);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+.hc-slot:hover{border-color:var(--accent1);color:var(--accent1)}
+.hc-slot.is-active{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-meta{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.hc-now{color:var(--text);font-weight:700}
+.hc-open{color:var(--accent1);text-decoration:none;white-space:nowrap}
+.hc-open:hover{text-decoration:underline}
+@media(max-width:860px){.hero-console{margin:0 auto}}
+
+/* ── cartridge structure on the case cards ── */
+.game-card::after{content:"";position:absolute;left:26px;right:26px;bottom:0;height:5px;
+    border-radius:2px 2px 0 0;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 5px,transparent 5px 11px);
+    opacity:.7}
+.game-card:hover::after{background:repeating-linear-gradient(90deg,var(--accent1) 0 5px,transparent 5px 11px)}
+.card-thumb{padding:5px;background:#EFEADB;box-shadow:inset 0 0 0 1px rgba(26,23,16,.12)}
+.card-thumb img{border-radius:4px}
+.card-body{padding-bottom:22px}
+.hc-poster[hidden]{display:none}
+/* the hero right column used to be a decorative card, so it was hidden on phones —
+   now it is the playable itself and has to stay */
+@media(max-width:640px){
+    .hero-right{display:flex}
+    .hero-console{width:100%;max-width:330px}
+    .hc-slot{padding:9px 0}
+}
+
+/* ============================================================
+   CASE CARDS — cartridges with a stepped, semi-pixel outline.
+   The card itself is the 2px outline; .cart is the plastic inside.
+   ============================================================ */
+.games-grid{gap:26px 22px}
+.game-card{
+    --px6:polygon(0 6px,3px 6px,3px 3px,6px 3px,6px 0,
+        calc(100% - 6px) 0,calc(100% - 6px) 3px,calc(100% - 3px) 3px,calc(100% - 3px) 6px,100% 6px,
+        100% calc(100% - 6px),calc(100% - 3px) calc(100% - 6px),calc(100% - 3px) calc(100% - 3px),
+        calc(100% - 6px) calc(100% - 3px),calc(100% - 6px) 100%,
+        6px 100%,6px calc(100% - 3px),3px calc(100% - 3px),3px calc(100% - 6px),0 calc(100% - 6px));
+    background:var(--ink-line-2);border:none;border-radius:0;padding:2px;overflow:visible;
+    clip-path:var(--px6);box-shadow:none;
+    transition:transform .22s cubic-bezier(.34,1.4,.64,1),background .2s}
+.game-card::before,.game-card::after{display:none}
+.game-card:hover{transform:translateY(-5px);background:var(--accent1);box-shadow:none}
+
+.cart{display:flex;flex-direction:column;flex:1;min-height:0;background:#F7F3E8;clip-path:var(--px6)}
+/* grip ribs along the top edge, like the textured lip of a cartridge */
+.cart::before{content:"";display:block;flex:0 0 auto;height:11px;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 3px,transparent 3px 9px);opacity:.5}
+.game-card:hover .cart::before{opacity:1;
+    background:repeating-linear-gradient(90deg,rgba(var(--accent1-rgb),.9) 0 3px,transparent 3px 9px)}
+/* contact pins along the bottom edge */
+.cart::after{content:"";display:block;flex:0 0 auto;height:6px;margin:14px 16px 12px;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 4px,transparent 4px 10px);opacity:.55}
+.game-card:hover .cart::after{opacity:1;
+    background:repeating-linear-gradient(90deg,rgba(var(--accent1-rgb),.9) 0 4px,transparent 4px 10px)}
+
+.cart-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 14px 11px;font-family:var(--mono);font-size:9.5px;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase}
+.cart-no{position:static;top:auto;right:auto;color:var(--muted)}
+.game-card:hover .cart-no{color:var(--accent1)}
+.cart-badge{color:var(--accent1)}
+
+/* the artwork sits in its own 2px frame, like a printed cartridge label */
+.card-thumb{
+    --px4:polygon(0 4px,2px 4px,2px 2px,4px 2px,4px 0,
+        calc(100% - 4px) 0,calc(100% - 4px) 2px,calc(100% - 2px) 2px,calc(100% - 2px) 4px,100% 4px,
+        100% calc(100% - 4px),calc(100% - 2px) calc(100% - 4px),calc(100% - 2px) calc(100% - 2px),
+        calc(100% - 4px) calc(100% - 2px),calc(100% - 4px) 100%,
+        4px 100%,4px calc(100% - 2px),2px calc(100% - 2px),2px calc(100% - 4px),0 calc(100% - 4px));
+    margin:0 14px;padding:2px;background:var(--ink-line-2);border-radius:0;
+    clip-path:var(--px4);box-shadow:none}
+.card-thumb img{border-radius:0;clip-path:var(--px4)}
+.game-card:hover .card-thumb{background:var(--accent1)}
+
+.card-body{flex:1;padding:15px 14px 0}
+.card-title{order:1;margin:0 0 7px;font-weight:800;letter-spacing:-.02em}
+.card-role{order:2;margin:0 0 11px;color:var(--muted)}
+.card-desc{order:3;margin:0 0 16px}
+.card-tags{order:4;position:relative;margin-top:auto;padding-top:13px;border-top:none;
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.card-tags::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 3px,transparent 3px 7px);opacity:.6}
+.tag{border-radius:2px;padding:4px 7px;font-size:9px}
+.cart-go{margin-left:auto;font-family:var(--mono);font-size:9.5px;font-weight:700;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.game-card:hover .cart-go{color:var(--accent1)}
+
+/* the hover plate over the artwork, squared off to match */
+.card-play{border-radius:3px}
+
+/* ============================================================
+   PIXEL PASS — colour per cartridge, moving strips, small effects
+   ============================================================ */
+
+/* ── portrait goes back to a circle; the ring is pixel-stepped ── */
+.about-photo{border-radius:50%;border:none;background:none;box-shadow:none;
+    width:240px;height:240px;object-fit:cover}
+.about-photo img{border-radius:50%}
+.about-photo-wrap::before{background:var(--accent1);opacity:.9;
+    inset:-7px;border-radius:50%;
+    -webkit-mask:radial-gradient(circle,#000 0 calc(100% - 0px),transparent 0);}
+.about-photo-wrap::after{position:absolute;left:0;right:0;top:calc(100% + 12px);text-align:center}
+@media(max-width:860px){.about-photo{width:170px;height:170px}}
+
+/* ── process: the rail sits under the numbers instead of through them ── */
+.process-track::before{display:none}
+.process-num{width:100%;padding-bottom:13px;margin-bottom:16px;position:relative}
+.process-num::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+    background:repeating-linear-gradient(90deg,var(--c,var(--accent1)) 0 4px,transparent 4px 8px);
+    opacity:.55}
+.process-step:hover .process-num::after{opacity:1}
+.pnum-icon{color:var(--c,var(--accent1))}
+/* colour identifies a playable — the four process steps are not playables,
+   so they share the one accent instead of borrowing cartridge hues */
+.process-step{--c:var(--accent1)}
+.process-step:hover .pnum-badge{color:var(--c)}
+
+/* ── every cartridge carries its own label colour ── */
+.game-card:nth-child(1){--c:#D93B22}
+.game-card:nth-child(2){--c:#2B4FC8}
+.game-card:nth-child(3){--c:#7C3AA8}
+.game-card:nth-child(4){--c:#2E7D5B}
+.game-card:nth-child(5){--c:#C8871B}
+.game-card:nth-child(6){--c:#B02E62}
+.cart-no,.cart-badge{color:var(--c,var(--accent1))}
+.cart::before{background:repeating-linear-gradient(90deg,var(--c,var(--ink-line-2)) 0 3px,transparent 3px 9px);opacity:.45}
+.cart::after{background:repeating-linear-gradient(90deg,var(--c,var(--ink-line-2)) 0 4px,transparent 4px 10px);opacity:.4}
+.card-tags::before{background:repeating-linear-gradient(90deg,var(--c,var(--ink-line-2)) 0 3px,transparent 3px 7px);opacity:.4}
+.game-card:hover{background:var(--c,var(--accent1))}
+.game-card:hover .cart::before,.game-card:hover .cart::after{opacity:1;
+    background:repeating-linear-gradient(90deg,var(--c) 0 3px,transparent 3px 9px)}
+.game-card:hover .cart-no,.game-card:hover .cart-go{color:var(--c)}
+.game-card:hover .card-thumb{background:var(--c)}
+.card-play{background:var(--c,var(--accent1))}
+.tag{color:var(--muted)}
+.game-card:hover .tag{border-color:var(--c);color:var(--c)}
+
+/* ── moving strips between sections ── */
+.ticker{overflow:hidden;background:var(--accent1);color:#FFF6EC;
+    border-top:3px solid rgba(26,23,16,.16);border-bottom:3px solid rgba(26,23,16,.16);
+    padding:11px 0;margin:0}
+.ticker--alt{background:#2B4FC8}
+.ticker-track{display:flex;align-items:center;gap:26px;width:max-content;
+    font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    animation:tickerRun 46s linear infinite}
+.ticker--alt .ticker-track{animation-duration:38s;animation-direction:reverse}
+.ticker-track b{font-size:7px;opacity:.65}
+@keyframes tickerRun{to{transform:translateX(-50%)}}
+
+/* ── a pixel rule that draws itself under every section title ── */
+.section-title{position:relative;padding-bottom:16px}
+.section-title::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:0;
+    background:repeating-linear-gradient(90deg,var(--accent1) 0 4px,transparent 4px 8px)}
+.section-title.visible::after{animation:pxRule .8s .1s steps(14) forwards}
+@keyframes pxRule{to{width:112px}}
+
+/* ── the hero screen behaves like a real panel ── */
+.hc-screen::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+    background:repeating-linear-gradient(rgba(0,0,0,.14) 0 1px,transparent 1px 3px)}
+.hc-screen::before{content:"";position:absolute;left:0;right:0;height:38%;z-index:5;
+    pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,255,255,.055),transparent);
+    animation:hcSweep 5.5s linear infinite}
+@keyframes hcSweep{0%{top:-40%}100%{top:100%}}
+.hc-led{animation:ledBlink 2.8s ease-in-out infinite}
+@keyframes ledBlink{0%,72%,100%{opacity:1}80%{opacity:.35}}
+.hc-slot{position:relative;overflow:hidden}
+.hc-slot::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;
+    transform:scaleX(0);transform-origin:0 50%;background:var(--accent1);transition:transform .2s}
+.hc-slot:hover::after{transform:scaleX(1)}
+.hc-slot.is-active::after{display:none}
+
+@media (prefers-reduced-motion: reduce){
+    .ticker-track,.hc-screen::before,.hc-led{animation:none}
+    .section-title::after{width:112px;animation:none}
+}
+/* keep the step contents left-aligned when the track wraps to two columns */
+@media(max-width:980px){
+    .process-step{align-items:flex-start;text-align:left}
+    .process-num{justify-content:flex-start}
+}
+/* the caption is absolutely placed, so reserve the room it does not take */
+.about-photo-wrap{margin-bottom:36px}
+.about-photo-wrap::after{white-space:nowrap;font-size:9px;letter-spacing:.14em}
+@media(max-width:860px){.about-photo-wrap{margin-bottom:30px}}
+
+/* ============================================================
+   EDITORIAL PASS — full-bleed grounds, oversized type, a shelf
+   instead of a grid, and a closing wordmark.
+   ============================================================ */
+
+/* ── section headings get real scale and an index number ── */
+:root{--fs-section-title:clamp(46px,7.6vw,104px)}
+.section-title{line-height:.88;letter-spacing:-.045em;margin-bottom:18px;max-width:14ch}
+.section-label{display:block;margin-bottom:14px}
+#portfolio .section-label::before{content:"01 / "}
+#process   .section-label::before{content:"02 / "}
+#about     .section-label::before{content:"03 / "}
+#contacts  .section-label::before{content:"04 / "}
+.section-sub{font-size:17px;max-width:52ch}
+
+/* ── WORK sits on a full-bleed dark ground so the cartridges read
+      like plastic on a shelf. clip-path keeps the bleed off the scrollbar. ── */
+#portfolio{--ink:#15130F;background:var(--ink);color:#EFEADB;
+    clip-path:inset(0 -100vmax);box-shadow:0 0 0 100vmax var(--ink);
+    padding-top:clamp(72px,9vw,132px);padding-bottom:clamp(72px,9vw,132px)}
+#portfolio .section-title{color:#F4EFE1}
+#portfolio .section-sub{color:rgba(239,234,219,.62);border-bottom-color:rgba(239,234,219,.16)}
+#portfolio .section-label{color:#E4553B}
+#portfolio .section-title::after{background:repeating-linear-gradient(90deg,#E4553B 0 4px,transparent 4px 8px)}
+#portfolio .ach-progress-bar-bg{background:rgba(239,234,219,.16)}
+#portfolio .ach-progress-label{color:rgba(239,234,219,.55)}
+#portfolio .ach-progress-label b{color:#F4EFE1}
+#portfolio .ach-progress-wrap{margin:26px 0 40px}
+
+/* ── two big cartridges per row, staggered like a real shelf ── */
+.games-grid{grid-template-columns:repeat(2,1fr);gap:38px 32px}
+.game-card:nth-child(even){margin-top:56px}
+.game-card{background:rgba(239,234,219,.22)}
+.game-card .card-thumb{aspect-ratio:16/10}
+.card-title{font-size:clamp(20px,2vw,27px)}
+.card-desc{font-size:15px;line-height:1.62;max-width:46ch}
+.cart-head{padding:11px 18px 12px;font-size:10px}
+.card-thumb{margin:0 18px}
+.card-body{padding:18px 18px 0}
+.cart::after{margin:18px 20px 16px}
+@media(max-width:860px){
+    .games-grid{grid-template-columns:1fr;gap:26px}
+    .game-card:nth-child(even){margin-top:0}
+}
+
+footer{border-top:1px solid var(--ink-line)}
+/* the dark section sets a cream inherited colour — the bone cartridges
+   inside it have to opt back into ink */
+.cart{color:var(--text)}
+.card-title{color:var(--text)}
+
+
+/* ── the scroll now alternates grounds: bone → red → ink → warm → bone → blue ── */
+#process{--warm:#E7E0CB;background:var(--warm);
+    clip-path:inset(0 -100vmax);box-shadow:0 0 0 100vmax var(--warm);
+    padding:clamp(64px,8vw,116px) var(--gutter);max-width:none}
+#process > *{max-width:var(--container);margin-left:auto;margin-right:auto}
+#process .process-track{width:100%}
+
+/* the graph-paper grid is gone — the canvas field carries the hero now */
+
+/* ============================================================
+   REBUILD — informed by artist / game-dev portfolios:
+   a two-ground lock with torn pixel seams (Trent Polack's diagonal,
+   rebuilt out of pixels), a horizontal rack of work (3D-artist sites),
+   and headlines that run off the edge.
+   ============================================================ */
+
+/* ── the torn seam between grounds ── */
+.stair{line-height:0;position:relative;z-index:2}
+.stair svg{display:block;width:100%;height:clamp(26px,3.6vw,56px)}
+.stair--red-to-ink{background:var(--accent1)}
+.stair--red-to-ink svg path{fill:#15130F}
+.stair--ink-to-bone{background:#15130F}
+.stair--ink-to-bone svg{transform:scaleY(-1)}
+.stair--ink-to-bone svg path{fill:var(--bg)}
+.stair--blue-to-ink{background:#2B4FC8}
+.stair--blue-to-ink svg path{fill:#15130F}
+.ticker{border-bottom:none}
+#portfolio{padding-top:clamp(40px,5vw,70px)}
+
+/* ── PROCESS returns to bone: only two grounds in the whole site ── */
+#process{--warm:var(--bg);background:transparent;box-shadow:none;clip-path:none}
+
+/* ── CONTACT closes on ink, and the footer goes with it ── */
+#contacts{--ink:#15130F;background:var(--ink);color:#EFEADB;
+    clip-path:inset(0 -100vmax);box-shadow:0 0 0 100vmax var(--ink);
+    padding-top:clamp(48px,6vw,84px);padding-bottom:clamp(64px,8vw,110px)}
+#contacts .section-title{color:#F4EFE1}
+#contacts .section-sub{color:rgba(239,234,219,.62);border-bottom-color:rgba(239,234,219,.16)}
+#contacts .section-label{color:#E4553B}
+#contacts .section-title::after{background:repeating-linear-gradient(90deg,#E4553B 0 4px,transparent 4px 8px)}
+#contacts .avail-status{border-color:rgba(239,234,219,.3);color:#EFEADB}
+#contacts .contact-grid{border-top-color:rgba(239,234,219,.28)}
+#contacts .contact-card{border-bottom-color:rgba(239,234,219,.14)}
+#contacts .contact-card:hover{background:rgba(239,234,219,.05)}
+#contacts .contact-value{color:#F4EFE1}
+#contacts .contact-label,#contacts .contact-no,#contacts .contact-card::after{color:rgba(239,234,219,.5)}
+#contacts .contact-icon{color:#E4553B}
+footer{background:#15130F;color:rgba(239,234,219,.6);border-top:1px solid rgba(239,234,219,.14)}
+footer a{color:rgba(239,234,219,.72)}
+footer a:hover{color:#E4553B}
+.footer-logo{background:none;-webkit-text-fill-color:#E4553B;color:#E4553B}
+
+/* ── headlines run past the container, like a title card ── */
+.section-title{max-width:none;margin-right:-6vw}
+
+/* ── WORK is a rack you push sideways, not a grid you scroll past ── */
+.games-grid{display:flex;flex-wrap:nowrap;overflow-x:auto;overflow-y:visible;
+    gap:26px;padding:10px 0 30px;scroll-snap-type:x mandatory;
+    scrollbar-width:thin;scrollbar-color:rgba(239,234,219,.35) transparent;
+    margin-right:calc(var(--gutter) * -1)}
+.games-grid::-webkit-scrollbar{height:8px}
+.games-grid::-webkit-scrollbar-track{background:rgba(239,234,219,.08)}
+.games-grid::-webkit-scrollbar-thumb{background:rgba(239,234,219,.32)}
+.game-card{flex:0 0 clamp(280px,31vw,392px);scroll-snap-align:start;margin-top:0!important}
+.game-card .card-thumb{aspect-ratio:4/3}
+.rack-hint{display:flex;align-items:center;gap:10px;margin-top:-14px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:rgba(239,234,219,.45)}
+.rack-hint::after{content:"";flex:1;height:2px;
+    background:repeating-linear-gradient(90deg,rgba(239,234,219,.3) 0 4px,transparent 4px 9px)}
+
+/* ============================================================
+   CONTRAST AND CORRECTNESS PASS
+   Measured against WCAG AA (4.5:1 for text under 24px).
+   ============================================================ */
+
+/* #D93B22 on bone measures 3.80:1 — fine as a fill, fails as small text.
+   Small red type uses a darkened variant at 5.75:1 instead. */
+:root{--accent-text:#A82C17}
+.section-label,.hero-tag,.hc-open,.cart-badge,.about-role,.card-play,
+.avail-status .avail-dot{color:var(--accent-text)}
+.nav-logo{-webkit-text-fill-color:var(--accent-text);color:var(--accent-text)}
+.card-play{color:#FFF6EC}
+#portfolio .section-label,#contacts .section-label{color:#F0684C}
+
+/* cartridge label colours: keep the bright hue for the ribs and pins,
+   use a readable variant for the text on the bone card */
+.game-card{--ct:var(--c)}
+.game-card:nth-child(1){--ct:#A82C17}
+.game-card:nth-child(5){--ct:#8A5A0C}
+.cart-no,.cart-badge{color:var(--ct)}
+.game-card:hover .cart-no,.game-card:hover .cart-go{color:var(--ct)}
+.game-card:hover .tag{border-color:var(--ct);color:var(--ct)}
+.pnum-icon{color:var(--accent-text)}
+
+/* white on a slightly deeper band: 5.55:1 instead of 4.27:1 */
+.ticker{background:#C2331B;color:#fff}
+.ticker--alt{background:#2B4FC8;color:#fff}
+.stair--red-to-ink{background:#C2331B}
+.hc-play,.hc-slot.is-active{background:#C2331B;color:#fff}
+
+/* the achievement toast still carried the old dark panel, so its ink text
+   was sitting on a near-black background — invisible when it fires */
+#achievementToast{background:#F7F3E8;border:2px solid var(--ink-line-2);
+    border-radius:8px;box-shadow:0 14px 30px rgba(26,23,16,.22);color:var(--text)}
+.ach-header{color:var(--accent-text);font-family:var(--mono);letter-spacing:.14em}
+.ach-name{color:var(--text)}
+.ach-desc{color:var(--muted)}
+.ach-trophy{filter:none}
+.ach-trophy.bronze,.ach-trophy.plat{color:var(--accent-text)}
+
+/* keyboard users need to see where they are */
+a:focus-visible,button:focus-visible,.game-card:focus-visible,.hc-slot:focus-visible,
+.contact-card:focus-visible{outline:3px solid var(--accent1);outline-offset:3px;border-radius:2px}
+#portfolio a:focus-visible,#contacts a:focus-visible{outline-color:#F0684C}
+.spec-key{color:var(--accent-text)}
+footer{color:rgba(239,234,219,.78)}
+footer a{color:rgba(239,234,219,.9)}
+.footer-copy{color:rgba(239,234,219,.78)}
+
+/* the base stylesheet turns .process-step into a row under 640px, where
+   .process-num{width:100%} shoved the text out of the viewport — keep the
+   column layout the redesign was drawn for */
+@media(max-width:980px){
+    .process-step{flex-direction:column}
+    .process-num{width:100%}
+}
+
+/* the headline bleed must stop at the viewport edge, not past it:
+   -6vw pushed the box 5px beyond 1024 and created a horizontal scrollbar */
+.section-title{margin-right:calc(var(--gutter) * -1)}
+/* .footer-links a set its own muted colour, which is an ink-on-ink value
+   now that the footer is dark */
+.footer-links a{color:rgba(239,234,219,.9)}
+.footer-links a:hover{color:#F0684C}
+
+/* touch targets: WCAG asks for 44px, these were 33px and 13px tall */
+.hc-slot{min-height:44px}
+.hc-open{display:inline-block;padding:8px 0;min-height:44px;line-height:28px}
+.hc-meta{align-items:center}
+.nav-burger{padding:11px;min-width:44px;min-height:44px;align-items:center;justify-content:center}
+@media(max-width:640px){
+    .footer-links{gap:22px}
+    .footer-links a{padding:8px 0;display:inline-block}
+}
+
+/* WCAG 2.2 target size (minimum) is 24×24 — the wordmarks and footer links
+   were 19–23px tall */
+.nav-logo,.footer-logo{display:inline-block;padding:4px 0;min-height:26px}
+.footer-links a{padding:6px 0;min-height:26px;display:inline-block}
+@media(max-width:640px){.footer-links a{padding:10px 0;min-height:36px}}
+
+/* the earlier reduced-motion block only covered the new effects; the page
+   still ran its reveal, pulse and ambient animations */
+@media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{
+        animation-duration:.001ms!important;animation-iteration-count:1!important;
+        transition-duration:.001ms!important;scroll-behavior:auto!important}
+    .reveal,.reveal-blur{opacity:1!important;transform:none!important;filter:none!important}
+    html{scroll-behavior:auto}
+}
+.footer-links a{min-width:26px;text-align:center}
+
+/* ── hero pixel field: the device broadcasting into the page ── */
+#heroField{position:absolute;inset:0;z-index:0;pointer-events:none}
+#home > .hero-inner{position:relative;z-index:1}
+/* scroll-hint is already absolutely centred — only lift it, never re-position it */
+#home > .scroll-hint{z-index:2}
+
+/* ── tutorial hand on the console screen ──
+   Same hand and same cadence as the one on the case cards, so the site
+   teaches its own first interaction the way a playable does. */
+.hc-tutor{position:absolute;top:52%;left:44%;z-index:6;pointer-events:none;opacity:0}
+.hc-tutor .playable-hand{width:34px;height:34px;
+    filter:drop-shadow(0 3px 8px rgba(0,0,0,.55))}
+.hc-screen:has(.tutor-wrap.active) .hc-play{animation:tapPulse 1.8s infinite}
+@keyframes tapPulse{
+    0%,30%{transform:translate(-50%,-50%) scale(1)}
+    42%{transform:translate(-50%,-50%) scale(.92)}
+    54%,100%{transform:translate(-50%,-50%) scale(1)}
+}
+@media (prefers-reduced-motion: reduce){
+    .hc-tutor{display:none}
+    .hc-screen:has(.tutor-wrap.active) .hc-play{animation:none}
+}
+
+/* ============================================================
+   HERO FITS THE SCREEN
+   The console was a fixed 757px tall whatever the display, so on a
+   1280x800 laptop the hero came to 997px and the cartridge row and its
+   caption fell below the fold. Everything in the hero is now sized from
+   the viewport height instead.
+   ============================================================ */
+:root{
+    /* screen is 360x640, so the console costs 1.78 x its width plus ~206px
+       of chrome; solve that against the height actually available */
+    --hc-w:clamp(206px,(100dvh - 380px) / 1.78,340px);
+}
+#home{padding-top:clamp(84px,9vh,120px);padding-bottom:clamp(52px,7vh,120px)}
+.hero-console{width:min(var(--hc-w),100%)}
+.hero-title{font-size:min(var(--fs-hero-title),10.4vh)}
+
+/* on a short window the gaps go first, before anything gets cut */
+@media(max-height:920px){
+    .hero-tag{margin-bottom:20px}
+    .hero-title{margin-bottom:16px}
+    .hero-sub{margin-bottom:26px;font-size:16px}
+    .hero-stats{margin-bottom:24px;padding:11px 0}
+    .hero-cta{gap:10px}
+    .hc-shell{padding:11px 11px 9px}
+    .hc-brand{padding-bottom:8px}
+    .hc-controls{padding:9px 4px 0}
+    .hero-console{gap:11px}
+}
+@media(max-height:760px){
+    #home{padding-top:76px;padding-bottom:40px}
+    .hc-controls{display:none}
+    .hero-sub{margin-bottom:20px}
+}
+@media(max-width:860px){
+    /* stacked layout: the console no longer competes with the copy for height */
+    .hero-console{width:min(330px,100%)}
+}
+/* on short windows the console's own chrome is trimmed, which buys the
+   screen back the height the layout just took away */
+@media(max-height:920px){ :root{--hc-w:clamp(206px,(100dvh - 352px) / 1.78,340px)} }
+@media(max-height:800px){ :root{--hc-w:clamp(206px,(100dvh - 322px) / 1.78,340px)} }
+@media(max-height:760px){
+    :root{--hc-w:clamp(206px,(100dvh - 300px) / 1.78,340px)}
+    .hc-brand{display:none}
+}
+/* phones: the copy block was eating the first screen, so the device only
+   peeked. Tightening the gaps lifts more of the console above the fold. */
+@media(max-width:860px){
+    #home{padding-top:74px;padding-bottom:42px}
+    .hero-inner{gap:26px}
+    .hero-tag{margin-bottom:16px}
+    .hero-title{margin-bottom:14px}
+    .hero-sub{margin-bottom:22px;font-size:16px}
+    .hero-stats{margin-bottom:20px;padding:10px 0}
+}
+
+/* ============================================================
+   ACCENTS AND CONTROLS
+   The rack read as a wall of cards with no sign it scrolled, the
+   benchmark mark was the quietest thing on a card it should lead, and
+   the console's controls were decoration. All three fixed here.
+   ============================================================ */
+
+/* ── work: back to two honest rows, nothing hidden off-screen ── */
+.games-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:34px 28px;overflow:visible;padding:0;margin-right:0;scroll-snap-type:none}
+.game-card{flex:none;margin-top:0}
+.game-card .card-thumb{aspect-ratio:4/3}
+@media(max-width:1080px){.games-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.games-grid{grid-template-columns:1fr;gap:24px}}
+
+/* ── benchmark is the claim the whole page rests on: make it read ── */
+.cart-head{align-items:center}
+.cart-badge{display:inline-flex;align-items:center;gap:5px;
+    padding:5px 9px;border-radius:3px;
+    background:var(--ct,var(--accent1));color:#FFF6EC;
+    font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.14em;
+    box-shadow:0 0 0 2px rgba(255,246,236,.35)}
+.cart-badge--empty{display:none}
+.cart-no{font-size:10.5px}
+
+/* ── the shell's controls actually drive the rack now ── */
+.hc-controls{gap:9px}
+.hc-arrow{display:inline-flex;align-items:center;justify-content:center;
+    width:38px;height:30px;padding:0;cursor:pointer;
+    background:#EDE7D7;border:1px solid var(--ink-line-2);border-radius:5px;
+    box-shadow:0 2px 0 rgba(26,23,16,.18);color:var(--text);
+    transition:background .15s,transform .1s,box-shadow .1s,color .15s}
+.hc-arrow svg{width:12px;height:14px;fill:currentColor}
+.hc-arrow--next svg{transform:scaleX(-1)}
+.hc-arrow:hover{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-arrow:active{transform:translateY(2px);box-shadow:none}
+/* they glow every few seconds until they have been used once, so it is
+   obvious they are buttons and not moulded plastic */
+.hc-controls:not(.is-used) .hc-arrow{animation:arrowHint 5s ease-in-out infinite}
+.hc-controls:not(.is-used) .hc-arrow--next{animation-delay:.28s}
+@keyframes arrowHint{
+    0%,64%,100%{box-shadow:0 2px 0 rgba(26,23,16,.18);border-color:var(--ink-line-2)}
+    72%{box-shadow:0 2px 0 rgba(26,23,16,.18),0 0 0 4px rgba(var(--accent1-rgb),.22);
+        border-color:var(--accent1)}
+    82%{box-shadow:0 2px 0 rgba(26,23,16,.18);border-color:var(--ink-line-2)}
+}
+.hc-abtn{margin-left:0}
+.hc-controls .hc-abtn:first-of-type{margin-left:auto}
+@media (prefers-reduced-motion: reduce){.hc-controls .hc-arrow{animation:none}}
+
+
+/* ============================================================
+   SEAMS, REBUILT AS A TILE
+   The staircase was one stretched SVG, so on a wide display its steps
+   flattened into a shallow ramp. It is now a 192x36 tile of irregular
+   pixel teeth that repeats — the blocks stay 12px at any width.
+   ============================================================ */
+:root{--teeth:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22192%22%20height%3D%2236%22%20viewBox%3D%220%200%20192%2036%22%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%2212%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2218%22%2F%3E%3Crect%20x%3D%2224%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%226%22%2F%3E%3Crect%20x%3D%2236%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2224%22%2F%3E%3Crect%20x%3D%2248%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2212%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2230%22%2F%3E%3Crect%20x%3D%2272%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%226%22%2F%3E%3Crect%20x%3D%2284%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2218%22%2F%3E%3Crect%20x%3D%22108%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2224%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2212%22%2F%3E%3Crect%20x%3D%22132%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%226%22%2F%3E%3Crect%20x%3D%22144%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2230%22%2F%3E%3Crect%20x%3D%22156%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2212%22%2F%3E%3Crect%20x%3D%22168%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%2224%22%2F%3E%3Crect%20x%3D%22180%22%20y%3D%220%22%20width%3D%2212%22%20height%3D%226%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.stair{position:relative;height:36px;line-height:0;overflow:hidden}
+.stair svg{display:none}
+.stair::before{content:"";position:absolute;inset:0;
+    -webkit-mask-image:var(--teeth);mask-image:var(--teeth);
+    -webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+    -webkit-mask-size:192px 36px;mask-size:192px 36px}
+.stair--red-to-ink{background:#C2331B}
+.stair--red-to-ink::before{background:#15130F}
+.stair--blue-to-ink{background:#2B4FC8}
+.stair--blue-to-ink::before{background:#15130F}
+.stair--ink-to-bone{background:var(--bg)}
+.stair--ink-to-bone::before{background:#15130F;
+    -webkit-mask-position:0 0;mask-position:0 0;transform:scaleY(-1)}
+@media(max-width:640px){
+    .stair{height:26px}
+    .stair::before{-webkit-mask-size:138px 26px;mask-size:138px 26px}
+}
+
+/* ── section headlines rise word by word ── */
+.section-title.reveal{opacity:1;transform:none;transition:none}
+.section-title .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.section-title .w i{display:inline-block;font-style:normal;transform:translateY(112%);
+    transition:transform .75s cubic-bezier(.16,1,.3,1)}
+.section-title.visible .w i{transform:none}
+@media (prefers-reduced-motion: reduce){
+    .section-title .w i{transform:none;transition:none}
+}
+
+
+/* ============================================================
+   SEAMS, TAKE THREE
+   The torn black teeth read as artefacts. The seam now uses the same
+   blocks as the wave under the hero — 11x8 on a 15px pitch — so the
+   colour above dissolves downward into pixels, and the strip drifts
+   sideways like the ticker over it.
+   ============================================================ */
+:root{--seam:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22300%22%20height%3D%2266%22%20viewBox%3D%220%200%20300%2066%22%3E%3Cg%20fill%3D%22%23000%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%220%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2215%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2215%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2215%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2215%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2230%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2230%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2230%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2230%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2230%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2245%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2245%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2245%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2245%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2245%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2260%22%20y%3D%2255%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2275%22%20y%3D%2255%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%2290%22%20y%3D%2255%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22105%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22120%22%20y%3D%2244%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22135%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22135%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22135%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22135%22%20y%3D%2233%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22150%22%20y%3D%2222%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22165%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22165%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22180%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22195%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22255%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22270%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22285%22%20y%3D%220%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3Crect%20x%3D%22285%22%20y%3D%2211%22%20width%3D%2211%22%20height%3D%228%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E")}
+.stair{position:relative;height:66px;line-height:0;overflow:hidden}
+.stair svg{display:none}
+.stair::before{content:"";position:absolute;inset:0;
+    -webkit-mask-image:var(--seam);mask-image:var(--seam);
+    -webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+    -webkit-mask-size:300px 66px;mask-size:300px 66px;
+    -webkit-mask-position:0 0;mask-position:0 0;
+    animation:seamDrift 26s linear infinite}
+@keyframes seamDrift{to{-webkit-mask-position:-300px 0;mask-position:-300px 0}}
+
+/* the strip is the ground the next section stands on; the colour above it
+   comes down as columns */
+.stair--red-to-ink{background:#15130F}
+.stair--red-to-ink::before{background:#C2331B}
+.stair--blue-to-ink{background:#15130F}
+.stair--blue-to-ink::before{background:#2B4FC8;animation-direction:reverse;animation-duration:31s}
+.stair--ink-to-bone{background:var(--bg)}
+.stair--ink-to-bone::before{background:#15130F;animation-duration:34s}
+
+@media(max-width:640px){
+    .stair{height:44px}
+    .stair::before{-webkit-mask-size:200px 44px;mask-size:200px 44px}
+    @keyframes seamDrift{to{-webkit-mask-position:-200px 0;mask-position:-200px 0}}
+}
+@media (prefers-reduced-motion: reduce){.stair::before{animation:none}}
+
+/* ============================================================
+   SEAMS: BACK TO THE DIAGONAL
+   The staircase returns, but its steps are drawn in real pixels by
+   buildSeams() instead of one SVG stretched to the viewport — that
+   stretch was what flattened it into a ramp on a wide display.
+   ============================================================ */
+.stair{position:relative;height:auto;line-height:0;overflow:hidden}
+.stair::before{content:none}
+.stair svg{display:block;width:100%;height:auto}
+.stair--red-to-ink{background:#C2331B}
+.stair--red-to-ink svg path{fill:#15130F}
+.stair--blue-to-ink{background:#2B4FC8}
+.stair--blue-to-ink svg path{fill:#15130F}
+.stair--ink-to-bone{background:#15130F}
+.stair--ink-to-bone svg path{fill:var(--bg)}
+
+/* ── the third strip, and seams drawn from the hero's own blocks ── */
+.ticker--amber{background:#C8871B;color:#15130F}
+.ticker--amber .ticker-track{animation-duration:34s}
+.ticker--amber .ticker-track b{opacity:.5}
+
+.stair svg g rect{shape-rendering:crispEdges}
+.stair--red-to-ink{background:#C2331B}
+.stair--red-to-ink svg rect{fill:#15130F}
+.stair--blue-to-ink{background:#2B4FC8}
+.stair--blue-to-ink svg rect{fill:#15130F}
+.stair--amber-to-bone{background:#C8871B}
+.stair--amber-to-bone svg rect{fill:var(--bg)}
+
+/* the seams are solid staircases again — the block version competed with
+   the pixel wave instead of framing it */
+.stair svg path{shape-rendering:crispEdges}
+.stair--red-to-ink svg path{fill:#15130F}
+.stair--blue-to-ink svg path{fill:#15130F}
+.stair--amber-to-bone svg path{fill:var(--bg)}
+
+/* ============================================================
+   CARTRIDGES, PUSHED FURTHER
+   Real carts have a moulded shoulder down each side, a ribbed grip on
+   top, a recessed label and gold contacts. All four are here now.
+   ============================================================ */
+.cart{
+    background-color:#F7F3E8;
+    /* the two moulded shoulders */
+    background-image:
+        linear-gradient(90deg, rgba(26,23,16,.11) 0 7px, transparent 7px),
+        linear-gradient(270deg, rgba(26,23,16,.11) 0 7px, transparent 7px),
+        linear-gradient(90deg, rgba(255,255,255,.55) 7px, transparent 8px),
+        linear-gradient(270deg, rgba(255,255,255,.55) 7px, transparent 8px);
+    background-repeat:no-repeat;
+}
+/* a deeper ribbed grip along the top lip */
+.cart::before{height:14px;
+    background:repeating-linear-gradient(90deg,
+        var(--c,var(--ink-line-2)) 0 4px, transparent 4px 10px);
+    opacity:.4;
+    box-shadow:inset 0 -1px 0 rgba(26,23,16,.14)}
+.game-card:hover .cart::before{opacity:.95}
+/* gold contacts — the connector is hardware, so it stays gold on every card */
+.cart::after{height:7px;margin:16px 22px 13px;opacity:.85;
+    background:repeating-linear-gradient(90deg,#C9962F 0 5px, rgba(26,23,16,.10) 5px 9px)}
+.game-card:hover .cart::after{opacity:1}
+/* the artwork sits in a recess, not flush on the plastic */
+.card-thumb{margin:0 20px;padding:3px;background:rgba(26,23,16,.16);
+    box-shadow:inset 0 1px 2px rgba(26,23,16,.35), 0 1px 0 rgba(255,255,255,.5)}
+.game-card:hover .card-thumb{background:var(--c)}
+.card-body{padding:16px 20px 0}
+.cart-head{padding:12px 20px 12px}
+/* the play button on the console screen must never wrap */
+.hc-play{white-space:nowrap;padding:9px 14px;font-size:9.5px;letter-spacing:.1em}
+
+/* ============================================================
+   TYPE SCALE
+   Two families only — Outfit for anything that is read, JetBrains Mono
+   for anything that is a label or a number. Sizes had drifted to 18
+   distinct values, most of them a half-pixel apart; they snap to a
+   scale here: mono 9 / 10 / 11, prose 14 / 15 / 17, display 26 / 32+.
+   ============================================================ */
+.hc-play,.cart-badge,.cart-go,.hc-brand,.hc-slot,.hc-open,.hc-now,
+.about-photo-wrap::after,.spec-key,.rack-hint{font-size:10px}
+.tag,.ach-header{font-size:9px}
+.cart-no,.card-role,.contact-label,.ach-progress-label,.hc-meta{font-size:10px}
+.section-label,.hero-tag,.ticker-track,.nav-logo{font-size:11px}
+.footer-copy,.footer-links a,.spec-role-note,.ach-desc{font-size:14px}
+.card-desc,.spec-val,.process-desc{font-size:15px}
+.section-sub{font-size:17px}
+.nav-logo{font-size:17px}
+.card-title{font-size:26px}
+/* last few strays snapped onto the scale */
+.hero-stat-lbl{font-size:10px}
+.hero-sub,.about-text{font-size:17px}
+.btn-playnow,.btn-ghost.btn-cv-hero{font-size:15px}
+.process-title{font-size:17px}
+@media(max-height:920px){.hero-sub{font-size:15px}}
+@media(max-width:860px){.hero-sub{font-size:15px}}
+/* the hover chip took the cartridge hue, which dropped cream text to 2.83:1
+   on the amber card — it is ink now, with the hue kept as its outline */
+.card-play{background:#15130F;color:#FFF6EC;border:2px solid var(--c,var(--accent1))}
+/* the vertical rules sat right against the next number once the stats went
+   left-aligned — the strip is already framed by the rules above and below */
+.hero-stat-div{display:none}
+.hero-stats{gap:clamp(26px,3.4vw,52px)}
+.hero-stat{flex:0 1 auto;padding:0}
+/* the hero CTA points at the work now, so it carries an arrow, not a hand */
+.btn-playnow svg{width:17px;height:17px}
