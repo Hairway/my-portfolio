@@ -14,7 +14,7 @@
     <title>Kingdom Clash — Playable</title>
     <link rel="canonical" href="https://dima-fomin-my-portfolio.vercel.app/games/game1/">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=optional" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@400;600;700;800&display=optional" rel="stylesheet">
     <style>
         :root {
             --bg:      #EFEADB;
@@ -26,6 +26,8 @@
     --accent2-rgb:43,79,200;
             --text:    #1A1710;
             --muted:   #6B6555;
+    --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --accent-text: #A82C17;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -245,6 +247,116 @@
         .game-nav-pos { font-size: 12px; font-weight: 700; color: var(--muted); padding: 0 4px; white-space: nowrap; }
         .game-nav-pos strong { color: var(--text); }
         @media(max-width:600px) { .game-nav-pos { display: none; } }
+
+        /* ── SPEC SHEET ──────────────────────────────────────────────
+           Scene callouts in the studio's GDD shape, restyled to the
+           portfolio: bone plates, mono labels, pixel-stepped corners. */
+        .spec-container { max-width: 900px; margin: 0 auto; padding-bottom: 56px; }
+        .spec-block { margin-bottom: 26px; }
+        .spec-shot { margin-top: 18px; padding: 4px; background: rgba(26,23,16,.16);
+            box-shadow: inset 0 1px 2px rgba(26,23,16,.35), 0 1px 0 rgba(255,255,255,.5); }
+        .spec-shot img { display: block; width: 100%; height: auto; }
+        .spec-shot figcaption { display:block; margin-top:8px; font-family: var(--mono, monospace);
+            font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+        .scene-grid { display: grid; gap: 14px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .scene { position: relative; background: #F7F3E8; padding: 16px 17px 17px;
+            border: 1px solid rgba(26,23,16,.28);
+            clip-path: polygon(0 6px,3px 6px,3px 3px,6px 3px,6px 0,
+                calc(100% - 6px) 0,calc(100% - 6px) 3px,calc(100% - 3px) 3px,calc(100% - 3px) 6px,100% 6px,
+                100% calc(100% - 6px),calc(100% - 3px) calc(100% - 6px),calc(100% - 3px) calc(100% - 3px),
+                calc(100% - 6px) calc(100% - 3px),calc(100% - 6px) 100%,
+                6px 100%,6px calc(100% - 3px),3px calc(100% - 3px),3px calc(100% - 6px),0 calc(100% - 6px)); }
+        .scene-no { font-family: var(--mono, monospace); font-size: 10px; font-weight: 700;
+            letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text, #A82C17); }
+        .scene-name { font-size: 17px; font-weight: 800; letter-spacing: -.015em;
+            margin: 5px 0 9px; color: var(--text); }
+        .scene ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+        .scene li { position: relative; padding-left: 14px; font-size: 13.5px; line-height: 1.55;
+            color: var(--muted); }
+        .scene li::before { content: ""; position: absolute; left: 0; top: 8px;
+            width: 5px; height: 5px; background: var(--accent-text, #A82C17); opacity: .55; }
+        .scene q { quotes: none; display: inline; font-weight: 700; color: var(--text); }
+        .scene q::before { content: "\201C"; } .scene q::after { content: "\201D"; }
+        .scene-tutor { margin-top: 11px; padding-top: 10px; font-family: var(--mono, monospace);
+            font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+            border-top: 2px dotted rgba(26,23,16,.28); }
+        .scene-tutor b { color: var(--accent-text, #A82C17); }
+        .scene--win { border-color: #2E7D5B; }
+        .scene--win .scene-no, .scene--win li::before { color: #2E7D5B; background: #2E7D5B; }
+        .scene--win .scene-no { background: none; }
+        .scene--fail { border-color: #B02E62; }
+        .scene--fail .scene-no, .scene--fail li::before { color: #B02E62; background: #B02E62; }
+        .scene--fail .scene-no { background: none; }
+
+        .asset-grid { display: grid; gap: 1px; background: rgba(26,23,16,.14);
+            border: 1px solid rgba(26,23,16,.14); }
+        .asset { background: var(--bg); padding: 11px 14px; display: grid; gap: 3px;
+            grid-template-columns: minmax(0,1fr); }
+        @media (min-width: 640px) { .asset { grid-template-columns: 190px minmax(0,1fr); gap: 18px; align-items: baseline; } }
+        .asset b { font-family: var(--mono, monospace); font-size: 11px; font-weight: 700;
+            letter-spacing: .06em; color: var(--text); }
+        .asset span { font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+        .spec-params { display: grid; gap: 8px; }
+        .spec-params div { display: flex; justify-content: space-between; gap: 16px;
+            padding-bottom: 7px; border-bottom: 1px solid rgba(26,23,16,.14);
+            font-family: var(--mono, monospace); font-size: 12px; }
+        .spec-params span:first-child { color: var(--muted); letter-spacing: .08em; text-transform: uppercase; font-size: 10px; }
+        .spec-params span:last-child { color: var(--text); font-weight: 700; }
+
+        /* measured on the bone plate: --muted lands at 4.38:1 and the bright
+           accent at 3.05:1, both under AA for text this size */
+        #specTab { --muted: #57513F; }
+        #specTab .spec-block-label, #specTab .spec-chip { color: var(--accent-text); }
+        #specTab .spec-chip { border-color: rgba(168,44,23,.3); }
+        #specTab .spec-chip.chip-dim, #specTab .spec-role-note { color: #57513F; }
+        /* the caption sits on the darker frame, so it needs to go darker still */
+        #specTab .spec-shot figcaption { color: #4A4436; }
+        #specTab .chip-platform { color: #2B4FC8; }
+        /* the header rail could run past the viewport on a narrow desktop */
+        .header-rail { max-width: 100vw; overflow-x: clip; }
+
+        /* spec images come from the ТЗ itself, set into the scene like a plate */
+        .scene-shot { margin: 0 0 11px; padding: 3px; background: rgba(26,23,16,.16);
+            box-shadow: inset 0 1px 2px rgba(26,23,16,.3), 0 1px 0 rgba(255,255,255,.5); }
+        .scene-shot img { display: block; width: 100%; height: auto; }
+        .scene-shot figcaption { display: block; margin-top: 6px; font-family: var(--mono, monospace);
+            font-size: 9.5px; line-height: 1.4; letter-spacing: .1em; text-transform: uppercase;
+            color: #4A4436; }
+        .scene em { font-style: normal; font-weight: 700; color: var(--text); }
+
+        /* the auto-fit grid produced three narrow columns and left the fourth
+           card hanging on its own row; two wide columns read better and an odd
+           last card takes the full width instead of dangling */
+        .scene-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .scene-grid > .scene:last-child:nth-child(odd) { grid-column: 1 / -1; }
+        @media (max-width: 720px) { .scene-grid { grid-template-columns: minmax(0, 1fr); } }
+
+        /* Every scene image sits in the same 16:10 box and is fitted whole
+           rather than cropped — six of them lost real content to a centre crop
+           (the depot, the boombox figure, the tap prompt, the tutorial hand). */
+        .scene-shot img, .spec-shot img { width: 100%; display: block; }
+        .scene-shot img { aspect-ratio: 16 / 10; object-fit: contain; background: #15130F; }
+        .scene-shot { padding: 3px; }
+        /* the role is the point of the page, so it goes at the top */
+        .spec-role-top { font-family: var(--mono, monospace); font-size: 10px; font-weight: 700;
+            letter-spacing: .16em; text-transform: uppercase; color: var(--accent-text);
+            margin: 6px 0 12px; }
+        /* the pixel staircase from the portfolio, used as the seam between blocks */
+        .spec-block + .spec-block::before { content: ""; display: block; height: 10px;
+            margin: -14px 0 20px;
+            background: repeating-linear-gradient(90deg,
+                rgba(26,23,16,.30) 0 4px, transparent 4px 10px);
+            -webkit-mask-image: linear-gradient(90deg, #000 0 55%, transparent 100%);
+            mask-image: linear-gradient(90deg, #000 0 55%, transparent 100%); }
+
+        /* a full-width scene card is twice as wide, so a 16:10 image there grew
+           to 505px and outweighed every other card — cap the height */
+        .scene-shot img { max-height: 250px; }
+
+        /* cream on #D93B22 measures 4.27:1 — just under AA for this size */
+        .btn-rotate { background: #C2331B; color: #fff; }
     </style>
 </head>
 <body>
@@ -318,47 +430,138 @@
             <span class="spec-chip">Strategy</span>
             <span class="spec-chip chip-platform">iOS · Android</span>
             <span class="spec-chip chip-dim">Portrait</span>
-            <span class="spec-chip chip-dim">~30 sec</span>
+            <span class="spec-chip chip-dim">3 rounds</span>
         </div>
         <h2 class="spec-title">Kingdom Clash</h2>
-        <p class="spec-brief">Клиент поставил задачу создать плеебл для idle-merge игры про армию. Нужно было показать ключевую петлю — merge юнитов и прогрессию — за 30 секунд и закрыть эндкардом.<span class="todo">TODO — уточни детали брифа</span></p>
+        <div class="spec-role-top">Concept · Spec · Full production</div>
+        <p class="spec-brief">Let the player buy squads — but not endlessly. Money only comes back after the army has been sent into battle, so every round is a closed loop of spend, fight, earn, spend more. Three rounds, each against a bigger red army than the last.</p>
     </div>
     <div class="spec-block">
-        <div class="spec-block-label">01 · Objective</div>
-        <p class="spec-block-text">Продемонстрировать merge-механику как главный крючок: показать рост армии, довести игрока до момента победы и завершить призывом к установке.<span class="todo">TODO — добавь KPI если знаешь</span></p>
-    </div>
-    <div class="spec-block">
-        <div class="spec-block-label">02 · Core Mechanic</div>
-        <p class="spec-block-text">Тап по двум одинаковым юнитам → merge → апгрейд солдата → автобой с врагом. Туториал занимает первые 5 секунд, затем игрок действует самостоятельно.<span class="todo">TODO — уточни длину туториала и шаги</span></p>
-    </div>
-    <div class="spec-block">
-        <div class="spec-block-label">03 · Key Design Decisions</div>
+        <div class="spec-block-label">Location</div>
         <ul class="spec-list">
-            <li>Убраны вторичные UI-элементы, чтобы фокус оставался на merge-зоне<span class="todo">TODO</span></li>
-            <li>Эндкард появляется в момент победы, а не после поражения — позитивный опыт<span class="todo">TODO</span></li>
-            <li>Анимация merge — самая заметная в плеебле, создаёт wow-момент<span class="todo">TODO</span></li>
+            <li>The blue kingdom's castle sits along the bottom of the screen, with forest and bushes across the top.</li>
+            <li>Enemy waves come out of those bushes and walk down towards the castle.</li>
+            <li>A 3×5 grid appears under the blue army — that grid is where everything the player does happens.</li>
+            <li>Between rounds the field disappears entirely and the two armies clash on open ground, which keeps the fight and the planning visually separate.</li>
         </ul>
+        <figure class="spec-shot"><img src="spec/field.jpg" alt="Field layout" loading="lazy"><figcaption>Working layout — the 3×5 grid, the three buy buttons and the coin bar</figcaption></figure>
     </div>
     <div class="spec-block">
-        <div class="spec-block-label">04 · Iterations</div>
-        <p class="spec-block-text">Произведено несколько итераций: длина туториала, скорость прогрессии, состав эндкарда.<span class="todo">TODO — уточни кол-во версий и что менялось</span></p>
-    </div>
-
-    <div class="spec-block">
-        <div class="spec-block-label">Spec Document</div>
-        <div class="spec-doc-placeholder">
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" style="opacity:.4">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span>Скриншоты ТЗ появятся здесь</span>
-            <span class="todo">TODO — экспортируй страницу из Notion и добавь img сюда</span>
+        <div class="spec-block-label">Scenes</div>
+        <div class="scene-grid">
+                <div class="scene">
+                    <div class="scene-no">Scene 1</div>
+                    <div class="scene-name">Opening</div>
+                    <figure class="scene-shot"><img src="spec/battle.jpg" alt="The two armies before the field appears" loading="lazy"><figcaption>The two armies before the field appears</figcaption></figure>
+                    <ul>
+                    <li>A small blue army — one swordsman, one archer, one spearman, all level 1 — is standing in front of the castle.</li>
+                    <li>The camera pushes in on them, then the red army appears out of the bushes at the top: four level 1 swordsmen.</li>
+                    <li>The camera then drops down to the playfield, which is where the player will act.</li>
+                    <li><q>PLAY NOW</q> is active from the very first frame.</li>
+                    </ul>
+                </div>
+                <div class="scene">
+                    <div class="scene-no">Scene 2</div>
+                    <div class="scene-name">Buy and merge</div>
+                    <figure class="scene-shot"><img src="spec/buy.jpg" alt="Grid, three buy buttons and the coin bar" loading="lazy"><figcaption>Grid, three buy buttons and the coin bar</figcaption></figure>
+                    <ul>
+                    <li>The 3×5 grid appears under the blue army's feet and three purchase buttons come up: swordsman, archer, spearman.</li>
+                    <li>Every unit costs 10 to start, and the coin bar opens at 30 — so the player can afford exactly three units before the money is gone.</li>
+                    <li>The price rises by 10 only on the button that was tapped. A player who never buys spearmen still sees 10 on that button at the end of the playable.</li>
+                    <li>Bought units appear on a free cell of the grid; ideally they run in from the bottom of the screen as if coming out of the castle.</li>
+                    <li>A pulsing <q>UPGRADE YOUR ARMY</q> plate sits over the field while there is money left to spend.</li>
+                    <li>Once two identical units are on the grid, the finger drags one onto the other and they become a single level 2 squad — the icon changes from a 1 to a 2.</li>
+                    </ul>
+                    <div class="scene-tutor"><b>Tutorial</b> · finger jumps between the buy buttons, then shows the merge — <q>MERGE THE SOLDIERS</q></div>
+                </div>
+                <div class="scene">
+                    <div class="scene-no">Scene 3</div>
+                    <div class="scene-name">First battle</div>
+                    <ul>
+                    <li>When the money runs out the <q>TO BATTLE</q> button appears.</li>
+                    <li>The grid disappears and the two armies walk into each other on open ground.</li>
+                    <li>Swordsmen take melee, archers shoot from behind them, spearmen deal medium damage at short range.</li>
+                    <li>Fallen soldiers disappear from the field rather than piling up.</li>
+                    <li>The blues win and coins fly out of the dead reds into the coin bar — 150 for this round.</li>
+                    <li>The surviving squad walks back and the grid returns. Losses are replenished automatically: units of the same level as the ones that died run in from the bottom.</li>
+                    </ul>
+                </div>
+                <div class="scene">
+                    <div class="scene-no">Scene 4</div>
+                    <div class="scene-name">Rounds 2 and 3</div>
+                    <figure class="scene-shot"><img src="spec/rounds.jpg" alt="Later in the run — a rebuilt army and a bigger budget" loading="lazy"><figcaption>Later in the run — a rebuilt army and a bigger budget</figcaption></figure>
+                    <ul>
+                    <li>The second red wave is three swordsmen, three archers and two spearmen — visibly denser than the first.</li>
+                    <li>The player spends the 150 on the same three buttons, at whatever prices their own buying pattern has produced.</li>
+                    <li>Winning round two pays 300, so the budget roughly doubles each time while the enemy grows faster than that.</li>
+                    <li>The third wave is a deliberately large army that reads as stronger than anything the player has assembled, which is what forces the last round of merges.</li>
+                    <li>If a purchase is unaffordable the button goes black and white rather than disappearing, so the player can still see what it would cost.</li>
+                    <li>Five to seven seconds of inactivity replays the tutorial on the next useful action.</li>
+                    </ul>
+                </div>
         </div>
     </div>
     <div class="spec-block">
-        <div class="spec-block-label">Results</div>
-        <p class="spec-block-text">Метрики под NDA — точные данные недоступны. Плеебл показан в портфолио как пример продакшена.<span class="todo">TODO — добавь данные, если есть</span></p>
-        <p class="spec-role-note">Role: Concept · Spec · Full Production</p>
+        <div class="spec-block-label">End states</div>
+        <div class="scene-grid">
+                <div class="scene scene--win">
+                    <div class="scene-no">Win</div>
+                    <div class="scene-name">Third wave held</div>
+                    <ul>
+                    <li>Condition: the player survives to the end of the third wave.</li>
+                    <li>If they still have money left, the tutorial finger points at the buy buttons before the fight starts.</li>
+                    <li><q>PLAY NOW</q> in the centre; any tap on the screen goes to the store.</li>
+                    </ul>
+                </div>
+                <div class="scene scene--fail">
+                    <div class="scene-no">Fail</div>
+                    <div class="scene-name">Castle taken</div>
+                    <figure class="scene-shot"><img src="spec/fail.jpg" alt="Fail card" loading="lazy"><figcaption>Fail card</figcaption></figure>
+                    <ul>
+                    <li>Condition: the player spends everything and still loses the round.</li>
+                    <li>The reds run at the castle, the camera cuts to it in close-up and a red vignette closes in.</li>
+                    <li>The blue flags on the towers turn red.</li>
+                    <li><q>DEFEAT</q>, then a pulsing <q>TRY NOW</q>.</li>
+                    </ul>
+                </div>
+        </div>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">Balance</div>
+        <div class="spec-params">
+            <div><span>Starting coins</span><span>30</span></div>
+            <div><span>Any unit</span><span>10</span></div>
+            <div><span>Price step</span><span>+10 on that button only</span></div>
+            <div><span>Round 1 reward</span><span>150</span></div>
+            <div><span>Round 2 reward</span><span>300</span></div>
+            <div><span>Grid</span><span>3 × 5</span></div>
+            <div><span>Unit levels</span><span>1 → 2</span></div>
+            <div><span>Idle hint after</span><span>5–7 sec</span></div>
+        </div>
+    </div>
+    <div class="spec-block">
+        <div class="spec-block-label">Assets, animation and VFX</div>
+        <div class="asset-grid">
+            <div class="asset"><b>Location</b><span>Field in front of the blue castle: forest and bushes at the top, flat ground for the fight.</span></div>
+            <div class="asset"><b>Blue castle</b><span>Small fortress with flags — the flags change colour on the fail card.</span></div>
+            <div class="asset"><b>Blue starting army</b><span>One swordsman, one archer, one spearman, all level 1.</span></div>
+            <div class="asset"><b>Red wave 1</b><span>Four level 1 swordsmen, entering from the bushes.</span></div>
+            <div class="asset"><b>Red wave 2</b><span>Three swordsmen, three archers, two spearmen.</span></div>
+            <div class="asset"><b>Red wave 3</b><span>A deliberately larger army that has to read as stronger than the player's.</span></div>
+            <div class="asset"><b>3×5 grid</b><span>Placement and merge field in the game's own visual style.</span></div>
+            <div class="asset"><b>Buy buttons ×3</b><span>Swordsman, archer, spearman. Price starts at 10 and rises by 10 for that type only; greyscale state when unaffordable.</span></div>
+            <div class="asset"><b>Coin bar</b><span>Opens at 30, then 150 and 300 after the rounds.</span></div>
+            <div class="asset"><b>Unit icons lvl 1 / lvl 2</b><span>The number on the squad icon changes from 1 to 2 on merge.</span></div>
+            <div class="asset"><b>UPGRADE YOUR ARMY plate</b><span>Pulses while there is money left to spend.</span></div>
+            <div class="asset"><b>TO BATTLE button</b><span>Appears after the first purchase or merge.</span></div>
+            <div class="asset"><b>Purchase animation</b><span>Unit lands on a free cell — better still, runs in from the bottom as if out of the castle.</span></div>
+            <div class="asset"><b>Merge VFX</b><span>Two squads become one of the next level, with a glow and particles.</span></div>
+            <div class="asset"><b>Battle start</b><span>The grid disappears and the armies collide; the dead vanish.</span></div>
+            <div class="asset"><b>Replenishment</b><span>After a win the squad walks back and losses are refilled at the same level.</span></div>
+            <div class="asset"><b>Coins from kills</b><span>Yellow coins fly out of dead enemies into the coin bar.</span></div>
+            <div class="asset"><b>Fail animation</b><span>Reds run at the castle, close-up, red vignette, blue flags turn red.</span></div>
+            <div class="asset"><b>Audio</b><span>Kingdom Clash opening music, button clicks with a faint coin sound, magical merge sting, sword, arrow and spear hits with soldier shouts, coin rattle, defeat sting.</span></div>
+        </div>
     </div>
     </div>
     <script>
