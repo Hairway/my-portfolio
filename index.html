@@ -56,7 +56,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=80">
+    <link rel="stylesheet" href="style.css?v=81">
     <!-- with scripting off the observers never fire, so the reveal states
          would hide the page for good -->
     <noscript><style>.reveal,.reveal-blur{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}</style></noscript>
@@ -193,9 +193,9 @@
     <!-- caption for focus mode: fills the free side of the screen once the
          device takes the middle -->
     <aside class="focus-side focus-side--left" id="focusSideLeft" aria-hidden="true">
-        <div class="fs-card">
+        <div class="fs-cart">
             <div class="fs-body">
-                <span class="fs-kicker">Dima Fomin</span>
+                <div class="fs-head"><span class="fs-label">Profile</span></div>
                 <span class="fs-title">Playable ads creative&nbsp;producer</span>
                 <ul class="fs-stats">
                     <li><b>400+</b><span>playables shipped</span></li>
@@ -211,16 +211,20 @@
         </div>
     </aside>
     <aside class="focus-side" id="focusSide" aria-hidden="true">
-        <div class="fs-card">
+        <div class="fs-cart">
             <div class="fs-body">
-                <span class="fs-kicker fs-kicker--live">Now playing</span>
+                <div class="fs-head">
+                    <span class="fs-label">Playable <span id="fsIndex">01</span> / <span id="fsCount">06</span></span>
+                    <span class="fs-badge" id="fsBadge">Benchmark</span>
+                </div>
                 <span class="fs-title" id="fsTitle">Kingdom Clash</span>
+                <span class="fs-role" id="fsRole">Ideation · Spec · Production</span>
                 <p class="fs-note">The&nbsp;shipped build, running in&nbsp;full. Step through the&nbsp;rack with&nbsp;the&nbsp;arrows, turn the&nbsp;screen, or&nbsp;take it&nbsp;fullscreen.</p>
-                <ul class="fs-stats fs-stats--meta">
-                    <li><b id="fsIndex">01</b><span>of&nbsp;six playables on&nbsp;the&nbsp;shelf</span></li>
-                </ul>
-                <a class="fs-link" id="fsLink" href="games/game1/index.html">Open full case &rarr;</a>
-                <span class="fs-hint">Esc &mdash; back to&nbsp;the&nbsp;page</span>
+                <div class="fs-tags" id="fsTags"><span class="fs-tag">Idle</span><span class="fs-tag">Merge</span><span class="fs-tag">Strategy</span></div>
+                <div class="fs-foot">
+                    <a class="fs-link" id="fsLink" href="games/game1/index.html">Open full case &rarr;</a>
+                    <span class="fs-hint">Esc &mdash; back to&nbsp;the&nbsp;page</span>
+                </div>
             </div>
         </div>
     </aside>
@@ -1095,6 +1099,31 @@
             el.classList.remove('is-swapping');
         }, 170);
     }
+    // The right card is a copy of the cartridge on the Work shelf, so its role
+    // line, tags and badge are read from that card rather than kept twice.
+    const fsRole = document.getElementById('fsRole');
+    const fsTags = document.getElementById('fsTags');
+    const fsBadge = document.getElementById('fsBadge');
+    document.getElementById('fsCount').textContent = String(slots.length).padStart(2, '0');
+    function fillCase(n) {
+        const card = document.getElementById('card-game' + n);
+        if (!card) return;
+        const role = card.querySelector('.card-role');
+        swapText(fsRole, role ? role.textContent : '');
+        fsBadge.hidden = !card.querySelector('.cart-badge:not(.cart-badge--empty)');
+        const tags = Array.from(card.querySelectorAll('.card-tags .tag'), el => el.textContent);
+        if (tags.join('|') === Array.from(fsTags.children, el => el.textContent).join('|')) return;
+        fsTags.classList.add('is-swapping');
+        setTimeout(() => {
+            fsTags.replaceChildren(...tags.map(text => {
+                const chip = document.createElement('span');
+                chip.className = 'fs-tag';
+                chip.textContent = text;
+                return chip;
+            }));
+            fsTags.classList.remove('is-swapping');
+        }, 170);
+    }
     const fsSide = document.getElementById('focusSide');
     const fsSideLeft = document.getElementById('focusSideLeft');
     let dx = 0, dy = 0, zoom = 1;
@@ -1136,13 +1165,14 @@
         // in it, so a wide screen does not end up with dead outer margins.
         const edge = vw / 2 - (w * zoom) / 2;
         const band = Math.max(0, edge - 26);
-        const panel = Math.max(200, Math.min(420, band - 52));
+        const panel = Math.max(220, Math.min(360, band - 52));
         const inset = Math.max(26, Math.round((band - panel) / 2) + 26);
         home.style.setProperty('--fs-w', Math.round(panel) + 'px');
         home.style.setProperty('--fs-left', Math.round(vw - inset - panel) + 'px');
         home.style.setProperty('--fs-right', Math.round(inset + panel) + 'px');
         swapText(fsTitle, nowEl.textContent);
         swapText(fsIndex, String(current).padStart(2, '0'));
+        fillCase(current);
         fsLink.href = openEl.href;
         fsSide.setAttribute('aria-hidden', 'false');
         fsSideLeft.setAttribute('aria-hidden', 'false');

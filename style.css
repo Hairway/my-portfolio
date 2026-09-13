@@ -1898,8 +1898,9 @@ footer a{color:rgba(239,234,219,.9)}
 }
 
 /* ── focus mode: the captions ──
-   The hero keeps its paper ground while a build runs; the two captions are
-   plain type on it, no card and no ribs. */
+   Both captions are cartridges off the Work shelf: the same stepped outline,
+   grip ribs, mono head and tag chips, so the running build reads as one of
+   the six rather than a separate layer of type. */
 .focus-side{position:absolute;left:var(--fs-left,60%);top:50%;z-index:2;
     display:none;width:var(--fs-w,260px);
     opacity:0;visibility:hidden;transform:translate(20px,-50%);
@@ -1910,53 +1911,55 @@ footer a{color:rgba(239,234,219,.9)}
    display:none skips its transition and would pop in at once. */
 #home.is-focused .focus-side{transition:opacity .45s ease .62s,
     transform .55s cubic-bezier(.22,1,.36,1) .62s,visibility 0s linear .62s}
-.fs-card{background:none;padding:0;clip-path:none}
-.fs-body{display:flex;flex-direction:column;align-items:flex-start;background:none;padding:0}
-.fs-kicker{display:inline-block;padding:5px 9px 4px;margin-bottom:13px;
-    background:#C2331B;color:#FFF6EC;
-    font-family:var(--mono);font-size:9px;font-weight:700;line-height:1;
-    letter-spacing:.2em;text-transform:uppercase}
-.fs-kicker--live::before{content:"";display:inline-block;width:5px;height:5px;margin-right:6px;
-    vertical-align:1px;border-radius:50%;background:#FFF6EC;
-    animation:fsBlink 1.6s steps(1,end) infinite}
-@keyframes fsBlink{0%,55%{opacity:1}56%,100%{opacity:.25}}
-.fs-title{font-size:32px;font-weight:800;line-height:1.06;letter-spacing:-.025em;color:var(--text)}
-.fs-title,#fsIndex{transition:opacity .17s ease}
-.fs-title.is-swapping,#fsIndex.is-swapping{opacity:0}
-.fs-note{margin:14px 0 0;padding-top:13px;font-size:14px;line-height:1.6;
-    color:var(--muted);border-top:1px solid var(--border);align-self:stretch}
-.fs-link{margin-top:16px;font-family:var(--mono);font-size:11px;font-weight:700;line-height:1;
-    letter-spacing:.14em;text-transform:uppercase;color:var(--text);text-decoration:none;
-    border-bottom:2px solid var(--accent1);padding-bottom:4px;transition:color .16s}
-.fs-link:hover{color:var(--accent-soft)}
-.fs-hint{margin-top:14px;font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;
-    letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.fs-cart{padding:2px;background:var(--ink-line-2);clip-path:var(--px6)}
+.fs-body{display:flex;flex-direction:column;padding:0 20px 20px;background:#F7F3E8;clip-path:var(--px6)}
+/* grip ribs along the top edge, as on the shelf */
+.fs-body::before{content:"";flex:0 0 auto;height:11px;margin:0 -20px 14px;opacity:.5;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 3px,transparent 3px 9px)}
+.fs-head{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:20px}
+.fs-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent1)}
+.fs-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 7px;background:var(--accent1);
+    color:#FFF6EC;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase}
+.fs-badge::before{content:"";width:5px;height:5px;background:currentColor}
+.fs-badge[hidden]{display:none}
+.fs-title{margin-top:12px;font-size:30px;font-weight:800;line-height:1.05;letter-spacing:-.02em;
+    color:var(--text);text-wrap:balance}
+.fs-role{margin-top:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--muted)}
+.fs-title,#fsIndex,#fsRole,#fsTags{transition:opacity .17s ease}
+.fs-title.is-swapping,#fsIndex.is-swapping,#fsRole.is-swapping,#fsTags.is-swapping{opacity:0}
+.fs-note{margin:12px 0 0;font-size:14px;line-height:1.55;color:var(--muted);text-wrap:pretty}
+.fs-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.fs-tag{padding:4px 7px;border:1px solid var(--ink-line-2);border-radius:2px;font-family:var(--mono);
+    font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 
-/* the figure rows keep the spec-row rhythm, on hairlines instead of dashes */
-.fs-stats--meta{margin-top:13px}
-.fs-stats{list-style:none;margin:15px 0 0;padding-top:5px;display:flex;flex-direction:column;
-    align-self:stretch;border-top:1px solid var(--border)}
-.fs-stats li{display:flex;align-items:baseline;gap:10px;padding:9px 0;
-    border-bottom:1px solid rgba(26,23,16,.08)}
-.fs-stats li:last-child{border-bottom:none;padding-bottom:0}
-.fs-stats b{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent-soft);min-width:46px}
-.fs-stats span{font-size:12px;line-height:1.3;color:var(--muted)}
+/* the figures keep the spec-row rhythm on hairlines */
+.fs-stats{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;
+    border-top:1px solid var(--ink-line-2)}
+.fs-stats li{display:flex;align-items:baseline;gap:12px;padding:9px 0;border-bottom:1px solid var(--ink-line)}
+.fs-stats b{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--accent-soft);min-width:52px}
+.fs-stats span{font-size:13px;line-height:1.3;color:var(--muted)}
 
-/* contacts sit on one line rather than a second table */
-.fs-links{list-style:none;margin:16px 0 0;padding-top:12px;display:flex;gap:16px;flex-wrap:wrap;
-    align-self:stretch;border-top:1px solid var(--border)}
+/* the card's last row sits under a dotted seam, like the tags on the shelf */
+.fs-foot,.fs-links{margin-top:16px;padding-top:16px;
+    background:repeating-linear-gradient(90deg,var(--ink-line-2) 0 2px,transparent 2px 5px) top left/100% 2px no-repeat}
+.fs-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px 16px}
+.fs-link{display:inline-flex;align-items:center;padding:11px 16px;background:var(--accent1);color:#FFF6EC;
+    font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    text-decoration:none;clip-path:var(--px6);transition:background .16s}
+.fs-link:hover{background:var(--accent-soft)}
+.fs-hint{font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--muted)}
+.fs-links{list-style:none;margin-bottom:0;padding-left:0;padding-right:0;padding-bottom:0;
+    display:flex;gap:18px;flex-wrap:wrap}
 .fs-links a{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;
     text-transform:uppercase;color:var(--text);text-decoration:none;transition:color .16s}
 .fs-links a:hover{color:var(--accent-soft)}
 
-/* mirrored on the left: the caption faces the device */
+/* the left card slides in from the device's side */
 .focus-side--left{left:auto;right:calc(100% - var(--fs-right,40%));transform:translate(-20px,-50%)}
-.focus-side--left .fs-body{align-items:flex-end;text-align:right}
-.focus-side--left .fs-title{text-align:right}
-.focus-side--left .fs-stats li{flex-direction:row-reverse;justify-content:flex-start}
-.focus-side--left .fs-stats b{min-width:0;text-align:right}
-.focus-side--left .fs-stats span{flex:1}
-.focus-side--left .fs-links{justify-content:flex-end}
 
 @media(min-width:880px){
     .focus-side{display:block}
