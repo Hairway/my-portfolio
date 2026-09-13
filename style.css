@@ -1,4 +1,9 @@
 :root{
+    --px6:polygon(0 6px,3px 6px,3px 3px,6px 3px,6px 0,
+        calc(100% - 6px) 0,calc(100% - 6px) 3px,calc(100% - 3px) 3px,calc(100% - 3px) 6px,100% 6px,
+        100% calc(100% - 6px),calc(100% - 3px) calc(100% - 6px),calc(100% - 3px) calc(100% - 3px),
+        calc(100% - 6px) calc(100% - 3px),calc(100% - 6px) 100%,
+        6px 100%,6px calc(100% - 3px),3px calc(100% - 3px),3px calc(100% - 6px),0 calc(100% - 6px));
     --bg:#EFEADB;
     --surface:rgba(26,23,16,.05);
     --border:rgba(26,23,16,.14);
@@ -1623,7 +1628,14 @@ footer a{color:rgba(239,234,219,.9)}
 
 /* ── section headlines rise word by word ── */
 .section-title.reveal{opacity:1;transform:none;transition:none}
-.section-title .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+/* The reveal mask clips to the advance box, which is not where the ink ends:
+   letter-spacing of -.045em is applied after the last glyph too, so the box
+   stopped ~4.7px short of it, and a .88 line-height is shorter than Outfit 900's
+   ink, so descenders were cut. Pad the box out and pull it back with matching
+   negative margins, which keeps the layout identical. */
+.section-title{word-spacing:.07em}
+.section-title .w{display:inline-block;overflow:hidden;vertical-align:bottom;
+    padding:.12em .07em .20em 0;margin:-.12em -.07em -.14em 0}
 .section-title .w i{display:inline-block;font-style:normal;transform:translateY(112%);
     transition:transform .75s cubic-bezier(.16,1,.3,1)}
 .section-title.visible .w i{transform:none}
@@ -1812,3 +1824,234 @@ footer a{color:rgba(239,234,219,.9)}
     .btn-playnow{padding-left:18px;padding-right:20px}
     .btn-ghost.btn-cv-hero{padding-left:16px;padding-right:18px}
 }
+
+/* ── the device, restyled to the cartridges' own edge ──
+   The shell was on a 26px radius while every cartridge next to it is cut in
+   3px steps; matching them makes the two read as one object family. */
+.hc-shell,.hc-screen{border-radius:0;clip-path:var(--px6)}
+.hc-slot,.hc-arrow{border-radius:2px}
+
+/* the panel is centred inside the screen in either orientation */
+.hc-screen iframe{transform:translate(var(--hc-dx,0),var(--hc-dy,0)) scale(var(--hc-scale,1))}
+.hc-screen.is-landscape{aspect-ratio:640/360}
+.hc-screen.is-full{aspect-ratio:auto;width:100%;height:100%;background:#14120D}
+
+/* ── rotate and fullscreen ── */
+.hc-tool{display:inline-flex;align-items:center;justify-content:center;
+    width:30px;height:30px;padding:0;cursor:pointer;background:#EDE7D7;
+    border:1px solid var(--ink-line-2);border-radius:2px;
+    box-shadow:0 2px 0 rgba(26,23,16,.18);color:var(--text);
+    transition:background .15s,transform .1s,box-shadow .1s,color .15s}
+.hc-tool svg{width:15px;height:15px;fill:currentColor}
+.hc-tool:hover{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-tool:active{transform:translateY(2px);box-shadow:none}
+.hc-tool.is-on{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-controls .hc-abtn:first-of-type{margin-left:auto}
+
+/* ── focus mode ──
+   The copy steps aside and the device takes the middle of the hero. Escape or
+   a change of cartridge brings the page back. */
+/* The copy does not leave — it settles downwards and dims to a paper-ghost
+   behind the device, so the hero never reads as an empty page. */
+.hero-left{position:relative;z-index:1;
+    transition:transform .38s cubic-bezier(.4,0,.2,1),opacity .26s ease}
+.hero-console{position:relative;z-index:3;transition:transform .44s cubic-bezier(.4,0,.2,1)}
+/* Entering is a sequence — the copy clears out, then the device travels, then
+   the captions arrive. Leaving is one fast move: an exit should never make
+   anyone wait. */
+#home.is-focused .hero-left{transform:translateY(90px);opacity:0;pointer-events:none;
+    transition:transform .5s cubic-bezier(.4,0,.2,1),opacity .3s ease}
+#home.is-focused .hero-console{transform:translate(var(--hc-shift,0),var(--hc-lift,0)) scale(var(--hc-zoom,1));
+    transition:transform .6s cubic-bezier(.22,1,.36,1) .18s}
+#home.is-focused .scroll-hint{opacity:0;pointer-events:none;transition:opacity .3s}
+@media(max-width:860px){
+    #home.is-focused .hero-console{transform:none}
+    #home.is-focused .hero-left{transform:translateY(24px)}
+}
+@media (prefers-reduced-motion: reduce){
+    .hero-left,.hero-console,.focus-side{transition:none}
+}
+
+.hc-tool[disabled]{opacity:.34;cursor:default;box-shadow:none}
+.hc-tool[disabled]:hover{background:#EDE7D7;border-color:var(--ink-line-2);color:var(--text)}
+
+/* the browser's own fullscreen box, so the class and the state agree */
+.hc-screen:fullscreen,.hc-screen:-webkit-full-screen{
+    clip-path:none;aspect-ratio:auto;width:100%;height:100%;background:#14120D}
+.hc-screen:fullscreen::before,.hc-screen:fullscreen::after{display:none}
+
+/* the way out of focus mode: only there while a build is running */
+.hc-tool--exit{display:none}
+#home.is-focused .hc-tool--exit{display:inline-flex}
+@media(max-height:760px){#home.is-focused .hc-controls{display:flex}}
+
+@media(max-width:860px){
+    /* thumb-sized controls once the device is the whole width of the screen */
+    .hc-arrow,.hc-tool{height:36px}
+    .hc-tool{width:36px}
+    .hc-tool svg{width:17px;height:17px}
+}
+
+@media(max-width:860px){
+    /* stacked: the copy folds away rather than leaving a blank column above */
+    #home.is-focused .hero-left{max-height:0;margin:0;padding:0;overflow:hidden;opacity:0}
+}
+
+/* ── focus mode: the ink cabinet ──
+   The rest of the page alternates paper and ink section by section. A running
+   build is its own section: the hero drops to the Work section's ink, the
+   device becomes the only lit object, and the two captions stop being cards
+   and become type on the dark. */
+.focus-ground{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
+    background:radial-gradient(120% 70% at 50% 44%,#211D16 0%,#15130F 62%);
+    transition:opacity .3s ease}
+#home.is-focused .focus-ground{opacity:1;transition:opacity .55s ease}
+#home.is-focused #heroField{opacity:0;transition:opacity .45s ease}
+#heroField{transition:opacity .3s ease}
+
+/* the nav rides the same change */
+body.focus-dark nav{background:rgba(21,19,15,.82);border-bottom-color:rgba(239,234,219,.16)}
+body.focus-dark .nav-links a{color:rgba(239,234,219,.6)}
+body.focus-dark .nav-links a:hover,body.focus-dark .nav-links a.is-active{color:#EFEADB}
+body.focus-dark .nav-logo{color:#F2A48F;-webkit-text-fill-color:#F2A48F}
+body.focus-dark .nav-burger span{background:#EFEADB}
+nav,.nav-links a,.nav-logo{transition:background .45s ease,color .45s ease,border-color .45s ease}
+
+/* the captions: no card, no ribs — just type standing on the ink */
+.focus-side{position:absolute;left:var(--fs-left,60%);top:50%;z-index:2;
+    display:none;width:var(--fs-w,260px);
+    opacity:0;transform:translate(20px,-50%);
+    transition:opacity .2s ease,transform .2s ease}
+#home.is-focused .focus-side{transition:opacity .45s ease .5s,
+    transform .55s cubic-bezier(.22,1,.36,1) .5s}
+.fs-card{background:none;padding:0;clip-path:none}
+.fs-body{display:flex;flex-direction:column;align-items:flex-start;background:none;padding:0}
+.fs-kicker{display:inline-block;padding:5px 9px 4px;margin-bottom:13px;
+    background:#C2331B;color:#FFF6EC;
+    font-family:var(--mono);font-size:9px;font-weight:700;line-height:1;
+    letter-spacing:.2em;text-transform:uppercase}
+.fs-kicker--live::before{content:"";display:inline-block;width:5px;height:5px;margin-right:6px;
+    vertical-align:1px;border-radius:50%;background:#FFF6EC;
+    animation:fsBlink 1.6s steps(1,end) infinite}
+@keyframes fsBlink{0%,55%{opacity:1}56%,100%{opacity:.25}}
+.fs-title{font-size:32px;font-weight:800;line-height:1.06;letter-spacing:-.025em;color:#EFEADB}
+.fs-title,#fsIndex{transition:opacity .17s ease}
+.fs-title.is-swapping,#fsIndex.is-swapping{opacity:0}
+.fs-note{margin:14px 0 0;padding-top:13px;font-size:14px;line-height:1.6;
+    color:rgba(239,234,219,.68);border-top:1px solid rgba(239,234,219,.22);align-self:stretch}
+.fs-link{margin-top:16px;font-family:var(--mono);font-size:11px;font-weight:700;line-height:1;
+    letter-spacing:.14em;text-transform:uppercase;color:#EFEADB;text-decoration:none;
+    border-bottom:2px solid var(--accent1);padding-bottom:4px;transition:color .16s}
+.fs-link:hover{color:#F2A48F}
+.fs-hint{margin-top:14px;font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;
+    letter-spacing:.16em;text-transform:uppercase;color:rgba(239,234,219,.55)}
+
+/* the figure rows keep the spec-row rhythm, on hairlines instead of dashes */
+.fs-stats--meta{margin-top:13px}
+.fs-stats{list-style:none;margin:15px 0 0;padding-top:5px;display:flex;flex-direction:column;
+    align-self:stretch;border-top:1px solid rgba(239,234,219,.22)}
+.fs-stats li{display:flex;align-items:baseline;gap:10px;padding:9px 0;
+    border-bottom:1px solid rgba(239,234,219,.12)}
+.fs-stats li:last-child{border-bottom:none;padding-bottom:0}
+.fs-stats b{font-family:var(--mono);font-size:15px;font-weight:700;color:#F2A48F;min-width:46px}
+.fs-stats span{font-size:12px;line-height:1.3;color:rgba(239,234,219,.62)}
+
+/* contacts sit on one line rather than a second table */
+.fs-links{list-style:none;margin:16px 0 0;padding-top:12px;display:flex;gap:16px;flex-wrap:wrap;
+    align-self:stretch;border-top:1px solid rgba(239,234,219,.22)}
+.fs-links a{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;
+    text-transform:uppercase;color:#EFEADB;text-decoration:none;transition:color .16s}
+.fs-links a:hover{color:#F2A48F}
+
+/* mirrored on the left: the caption faces the device */
+.focus-side--left{left:auto;right:calc(100% - var(--fs-right,40%));transform:translate(-20px,-50%)}
+.focus-side--left .fs-body{align-items:flex-end;text-align:right}
+.focus-side--left .fs-title{text-align:right}
+.focus-side--left .fs-stats li{flex-direction:row-reverse;justify-content:flex-start}
+.focus-side--left .fs-stats b{min-width:0;text-align:right}
+.focus-side--left .fs-stats span{flex:1}
+.focus-side--left .fs-links{justify-content:flex-end}
+
+/* ── the floor ──
+   The same staircase-and-ticker seam that separates every other section,
+   closing the bottom of the room. */
+.focus-floor{position:fixed;left:0;right:0;bottom:0;z-index:3;pointer-events:none;
+    opacity:0;transform:translateY(100%);transition:opacity .2s ease,transform .25s ease}
+body.focus-dark .focus-floor{opacity:1;transform:none;
+    transition:opacity .35s ease .55s,transform .5s cubic-bezier(.22,1,.36,1) .55s}
+.ff-steps{position:relative;height:26px;display:flex;align-items:flex-end}
+.ff-steps i{flex:1;background:#C8871B}
+.ff-steps i:nth-child(1){height:6px}
+.ff-steps i:nth-child(2){height:12px}
+.ff-steps i:nth-child(3){height:19px}
+.ff-steps i:nth-child(4){height:26px}
+.ff-steps i:nth-child(5){height:19px}
+.ff-steps i:nth-child(6){height:12px}
+.ff-steps i:nth-child(7){height:6px}
+.ff-steps i:nth-child(8){height:12px}
+.ff-ticker{background:#C8871B;color:#15130F;padding:7px 0;overflow:hidden}
+.ff-run{display:inline-block;padding-left:var(--gutter);white-space:nowrap;
+    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;transition:opacity .17s ease}
+.ff-run.is-swapping{opacity:0}
+
+@media(min-width:880px){
+    #home.is-focused .focus-side{display:block;opacity:1;transform:translate(0,-50%)}
+    #home.is-focused.is-landscape .focus-side{display:none}
+}
+
+/* ── console keys ──
+   Five keycaps with their job written on them: an icon alone left people
+   guessing which of prev / next / turn was which. */
+.hc-key{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    flex:1 1 0;min-width:34px;width:auto;height:36px;padding:0;cursor:pointer;
+    background:#EDE7D7;border:1px solid var(--ink-line-2);border-radius:2px;
+    box-shadow:0 2px 0 rgba(26,23,16,.18);color:var(--text);
+    transition:background .15s,transform .1s,box-shadow .1s,color .15s}
+.hc-key .hc-ico{width:13px;height:12px;fill:currentColor}
+.hc-key b{font:700 8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.hc-key:hover{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-key:active{transform:translateY(2px);box-shadow:none}
+.hc-key.is-on{background:var(--accent1);border-color:var(--accent1);color:#FFF6EC}
+.hc-key[disabled]{opacity:.34;cursor:default;box-shadow:none}
+.hc-key[disabled]:hover{background:#EDE7D7;border-color:var(--ink-line-2);color:var(--text)}
+.hc-arrow--next .hc-ico{transform:scaleX(-1)}
+.hc-controls{gap:6px}
+.hc-controls .hc-abtn:first-of-type{margin-left:4px}
+@media(max-width:860px){.hc-key{height:40px}.hc-key .hc-ico{width:13px;height:12px}}
+
+
+/* the exit key only exists while a build is running */
+.hc-controls .hc-tool--exit{display:none}
+#home.is-focused .hc-controls .hc-tool--exit{display:inline-flex}
+
+/* contrast: the 10px role line measured 3.84:1 on the cartridge face */
+.card-role{color:#57513F}
+/* the footer CV link was a 26px-wide tap target */
+.footer-links a{min-width:34px}
+
+/* ── the device, lit ──
+   On the ink ground the shell is the only paper object left, so it carries the
+   light: a hard edge plus a cast shadow. The caption strip under it is
+   dropped — the right-hand plate already says the title. */
+.hc-shell{transition:box-shadow .5s ease}
+#home.is-focused .hc-shell{box-shadow:0 0 0 1px rgba(0,0,0,.55),0 26px 70px rgba(0,0,0,.5)}
+#home.is-focused .hc-meta{opacity:0;pointer-events:none}
+.hc-meta{transition:opacity .3s ease}
+/* the rack under the device reads on the dark too */
+#home.is-focused .hc-slot{background:#23201A;color:rgba(239,234,219,.75);
+    box-shadow:inset 0 0 0 1px rgba(239,234,219,.22)}
+#home.is-focused .hc-slot.is-active{background:var(--accent1);color:#FFF6EC;box-shadow:none}
+.hc-slot{transition:background .45s ease,color .45s ease,box-shadow .45s ease}
+
+/* the page's warm corner glow would bleed across the ink */
+body::before{transition:opacity .5s ease}
+body.focus-dark::before{opacity:0}
+
+/* the hero's warm spotlight and ambient wash belong to the paper state */
+#home::after{transition:opacity .5s ease}
+#home.is-focused::before{opacity:0}
+#home.is-focused::after{opacity:0;animation:none}
+
+/* the label column reads as a column: one gutter to the values, not a ragged one */
+.contact-label{text-align:right}

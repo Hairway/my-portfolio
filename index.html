@@ -24,7 +24,8 @@
     {
         "@context": "https://schema.org",
         "@type": "ProfilePage",
-        "dateModified": "2026-09-01",
+        "dateCreated": "2026-05-14T21:06:52+03:00",
+        "dateModified": "2026-09-02T22:33:40+03:00",
         "mainEntity": {
             "@type": "Person",
             "@id": "https://dima-fomin-my-portfolio.vercel.app/#dima-fomin",
@@ -55,7 +56,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=36">
+    <link rel="stylesheet" href="style.css?v=78">
+    <!-- with scripting off the observers never fire, so the reveal states
+         would hide the page for good -->
+    <noscript><style>.reveal,.reveal-blur{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}</style></noscript>
 </head>
 <body>
 
@@ -64,7 +68,7 @@
     <div class="gate-box">
         <div class="gate-icon">🔐</div>
         <h2>Portfolio Access</h2>
-        <p>This portfolio is password protected. Enter the password to continue.</p>
+        <p>This&nbsp;portfolio is&nbsp;password protected. Enter the&nbsp;password to&nbsp;continue.</p>
         <input id="pwInput" class="gate-input" type="password" placeholder="Password" autofocus>
         <button class="gate-btn" onclick="checkAuth()">Enter →</button>
         <div class="gate-error" id="gateError"></div>
@@ -97,11 +101,14 @@
 <!-- HERO -->
 <section id="home">
     <canvas id="heroField" aria-hidden="true"></canvas>
+    <!-- focus mode borrows the Work section's ink ground, so a running build
+         is a place on the page rather than a state it fell into -->
+    <div class="focus-ground" aria-hidden="true"></div>
     <div class="hero-inner">
     <div class="hero-left">
         <div class="hero-tag reveal-blur">Playable Ads Creative Producer</div>
         <h1 class="hero-title reveal-blur">Playables <span class="gradient">That&nbsp;Became Benchmarks</span></h1>
-        <p class="hero-sub reveal-blur">From the first idea to the final build — hooks, tutorials, and the pacing that keeps people playing.</p>
+        <p class="hero-sub reveal-blur">From&nbsp;the&nbsp;first idea to&nbsp;the&nbsp;final build — hooks, tutorials, and&nbsp;the&nbsp;pacing that&nbsp;keeps people playing.</p>
         <div class="hero-stats reveal-blur">
             <div class="hero-stat">
                 <div class="hero-stat-val"><span class="hstat-n" data-to="400">0</span><span>+</span></div>
@@ -110,7 +117,7 @@
             <div class="hero-stat-div"></div>
             <div class="hero-stat">
                 <div class="hero-stat-val"><span class="hstat-n" data-to="6">0</span><span>+</span></div>
-                <div class="hero-stat-lbl">Yrs in Ads</div>
+                <div class="hero-stat-lbl">Yrs in&nbsp;Ads</div>
             </div>
             <div class="hero-stat-div"></div>
             <div class="hero-stat">
@@ -121,7 +128,7 @@
         <div class="hero-cta reveal-blur">
             <a href="https://www.linkedin.com/in/dima-fomin-185b94246/" target="_blank" rel="noopener noreferrer" class="btn-playnow" id="heroPlayBtn">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.05-3.3-2.05 0-2.37 1.57-2.37 3.2V21H9z"/></svg>
-                MESSAGE ON LINKEDIN
+                MESSAGE ON&nbsp;LINKEDIN
             </a>
             <a href="dima_cv.pdf" download="Dima_Fomin_CV_Creative_Producer_Playable.pdf" class="btn-ghost btn-cv-hero">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -139,18 +146,32 @@
                 <div class="hc-brand"><span class="hc-led"></span>DF&middot;01 PORTABLE</div>
                 <div class="hc-screen">
                     <div class="hc-poster" id="hcPoster">
-                        <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.png" alt="">
-                        <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg><b>Tap to play</b></span>
+                        <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.png" alt="Kingdom Clash cover">
+                        <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg><b>Tap to&nbsp;play</b></span>
                     </div>
                     <iframe id="hcFrame" title="Playable preview" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
                     <span class="tutor-wrap hc-tutor" id="hcTutor" aria-hidden="true"><svg class="playable-hand" viewBox="0 0 32 42" fill="#fff" stroke="#15130F" stroke-width="2"><path d="M15.4,1.5 A3.3,3.3 0 0,0 12.1,4.8 L12.1,17.5 L10.6,16.6 A3.3,3.3 0 0,0 6,17.2 L1.6,23.9 A3.3,3.3 0 0,0 2,28.2 L9.3,39.1 A5.3,5.3 0 0,0 13.7,42 L24,42 A4.3,4.3 0 0,0 28.3,37.7 L29.5,23 A3.3,3.3 0 0,0 26.2,19.7 L22,19.7 L22,4.8 A3.3,3.3 0 0,0 18.7,1.5 Z"/></svg></span>
                 </div>
                 <div class="hc-controls" id="hcControls">
-                    <button type="button" class="hc-arrow" id="hcPrev" aria-label="Previous playable">
-                        <svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                    <button type="button" class="hc-key hc-arrow" id="hcPrev" aria-label="Previous playable">
+                        <svg class="hc-ico hc-ico--arrow" viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                        <b>Prev</b>
                     </button>
-                    <button type="button" class="hc-arrow hc-arrow--next" id="hcNext" aria-label="Next playable">
-                        <svg viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                    <button type="button" class="hc-key hc-arrow hc-arrow--next" id="hcNext" aria-label="Next playable">
+                        <svg class="hc-ico hc-ico--arrow" viewBox="0 0 12 14" aria-hidden="true"><path d="M0 6h3v2H0z M3 5h3v4H3z M6 3h3v8H6z M9 0h3v14H9z"/></svg>
+                        <b>Next</b>
+                    </button>
+                    <button type="button" class="hc-key hc-tool" id="hcRotate" aria-label="Switch to landscape" title="Turn the screen">
+                        <svg class="hc-ico" viewBox="0 0 16 12" aria-hidden="true"><path d="M0 0h7v2H0z M0 10h7v2H0z M0 2h2v8H0z M5 2h2v8H5z M9 3h7v2H9z M9 7h7v2H9z M9 5h2v2H9z M14 5h2v2h-2z"/></svg>
+                        <b>Turn</b>
+                    </button>
+                    <button type="button" class="hc-key hc-tool" id="hcFull" aria-label="Fullscreen" title="Fullscreen">
+                        <svg class="hc-ico" viewBox="0 0 16 12" aria-hidden="true"><path d="M0 0h6v2H2v2H0z M10 0h6v4h-2V2h-4z M0 8h2v2h4v2H0z M14 8h2v4h-6v-2h4z"/></svg>
+                        <b>Full</b>
+                    </button>
+                    <button type="button" class="hc-key hc-tool hc-tool--exit" id="hcExit" aria-label="Close the playable" title="Close (Esc)">
+                        <svg class="hc-ico" viewBox="0 0 15 15" aria-hidden="true"><path d="M0 0h3v3H0z M3 3h3v3H3z M6 6h3v3H6z M9 9h3v3H9z M12 12h3v3h-3z M12 0h3v3h-3z M9 3h3v3H9z M3 9h3v3H3z M0 12h3v3H0z"/></svg>
+                        <b>Exit</b>
                     </button>
                     <span class="hc-abtn" aria-hidden="true"></span><span class="hc-abtn" aria-hidden="true"></span>
                 </div>
@@ -170,6 +191,44 @@
         </div>
     </div>
     </div><!-- /.hero-inner -->
+    <!-- caption for focus mode: fills the free side of the screen once the
+         device takes the middle -->
+    <aside class="focus-side focus-side--left" id="focusSideLeft" aria-hidden="true">
+        <div class="fs-card">
+            <div class="fs-body">
+                <span class="fs-kicker">Dima Fomin</span>
+                <span class="fs-title">Playable ads creative&nbsp;producer</span>
+                <ul class="fs-stats">
+                    <li><b>400+</b><span>playables shipped</span></li>
+                    <li><b>6+</b><span>years in&nbsp;ads</span></li>
+                    <li><b>15+</b><span>genres covered</span></li>
+                </ul>
+                <ul class="fs-links">
+                    <li><a href="https://www.linkedin.com/in/dima-fomin-185b94246/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://t.me/hairway" target="_blank" rel="noopener noreferrer">Telegram</a></li>
+                    <li><a href="mailto:hairway7@icloud.com">Email</a></li>
+                </ul>
+            </div>
+        </div>
+    </aside>
+    <aside class="focus-side" id="focusSide" aria-hidden="true">
+        <div class="fs-card">
+            <div class="fs-body">
+                <span class="fs-kicker fs-kicker--live">Now playing</span>
+                <span class="fs-title" id="fsTitle">Kingdom Clash</span>
+                <p class="fs-note">The&nbsp;shipped build, running in&nbsp;full. Step through the&nbsp;rack with&nbsp;the&nbsp;arrows, turn the&nbsp;screen, or&nbsp;take it&nbsp;fullscreen.</p>
+                <ul class="fs-stats fs-stats--meta">
+                    <li><b id="fsIndex">01</b><span>of&nbsp;six playables on&nbsp;the&nbsp;shelf</span></li>
+                </ul>
+                <a class="fs-link" id="fsLink" href="games/game1/index.html">Open full case &rarr;</a>
+                <span class="fs-hint">Esc &mdash; back to&nbsp;the&nbsp;page</span>
+            </div>
+        </div>
+    </aside>
+    <div class="focus-floor" aria-hidden="true">
+        <div class="ff-steps"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="ff-ticker"><span class="ff-run" id="ffRun">Now playing &mdash; Kingdom Clash</span></div>
+    </div>
     <div class="scroll-hint" id="scrollHint">
         <div class="sh-icon-wrap">
             <div class="sh-ring sh-ring1"></div>
@@ -193,8 +252,8 @@
             <div class="sh-chev"></div>
         </div>
         <span class="sh-label">
-            <span class="sh-label-desktop">Scroll to explore</span>
-            <span class="sh-label-mobile">Swipe to explore</span>
+            <span class="sh-label-desktop">Scroll to&nbsp;explore</span>
+            <span class="sh-label-mobile">Swipe to&nbsp;explore</span>
         </span>
     </div>
 </section>
@@ -212,7 +271,7 @@
 <!-- PORTFOLIO -->
 
 <div class="ticker " aria-hidden="true">
-    <div class="ticker-track"><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in parallel</span><b>&#9632;</b><span>30+ builds a month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the client still iterates from</span><b>&#9632;</b><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in parallel</span><b>&#9632;</b><span>30+ builds a month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the client still iterates from</span><b>&#9632;</b></div>
+    <div class="ticker-track"><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in&nbsp;parallel</span><b>&#9632;</b><span>30+ builds a&nbsp;month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the&nbsp;client still iterates from</span><b>&#9632;</b><span>400+ playables shipped</span><b>&#9632;</b><span>15 titles in&nbsp;parallel</span><b>&#9632;</b><span>30+ builds a&nbsp;month</span><b>&#9632;</b><span>Concept &rarr; GDD &rarr; final build</span><b>&#9632;</b><span>Benchmarks the&nbsp;client still iterates from</span><b>&#9632;</b></div>
 </div>
 
 <div class="stair stair--red-to-ink" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
@@ -220,7 +279,7 @@
 <section id="portfolio">
     <div class="section-label reveal">Portfolio</div>
     <h2 class="section-title reveal">Playable Ads</h2>
-    <p class="section-sub reveal">Examples of playable ads I created and led from concept to release. Tap a card to play and explore the full spec.</p>
+    <p class="section-sub reveal">Examples of&nbsp;playable ads I created and&nbsp;led from&nbsp;concept to&nbsp;release. Tap&nbsp;a&nbsp;card to&nbsp;play and&nbsp;explore the&nbsp;full spec.</p>
     <div class="ach-progress-wrap reveal" id="achProgressWrap">
         <div class="ach-progress-bar-bg"><div class="ach-progress-bar-fill" id="achProgressFill"></div></div>
         <div class="ach-progress-label" id="achProgressLabel">Playables played <b>0</b> / 6</div>
@@ -245,7 +304,7 @@
                 <div class="card-tags"><span class="tag">Idle</span><span class="tag">Merge</span><span class="tag">Strategy</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Ideation · Spec · Production</div>
                 <div class="card-title">Kingdom Clash</div>
-                <div class="card-desc">Built a unit-purchasing mechanic focused on readability, pacing, and escalating enemy pressure — from concept to final build.</div>
+                <div class="card-desc">Built a&nbsp;unit-purchasing mechanic focused on&nbsp;readability, pacing, and&nbsp;escalating enemy pressure — from&nbsp;concept to&nbsp;final build.</div>
             </div>
 
                     </span>
@@ -264,7 +323,7 @@
                 <div class="card-tags"><span class="tag">Tycoon</span><span class="tag">Strategy</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Railroad Empire</div>
-                <div class="card-desc">Designed the level, economy, resource collection, and upgrade systems for a full-funnel playable ad with end-to-end production ownership.</div>
+                <div class="card-desc">Designed the&nbsp;level, economy, resource collection, and&nbsp;upgrade systems for&nbsp;a&nbsp;full-funnel playable ad with&nbsp;end-to-end production ownership.</div>
             </div>
 
                     </span>
@@ -283,7 +342,7 @@
                 <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Match-3</span><span class="tag">RPG</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Direction</div>
                 <div class="card-title">Battle Lines: Puzzle Fighter</div>
-                <div class="card-desc">Built the level flow, enemy placement, difficulty pacing, and player navigation systems.</div>
+                <div class="card-desc">Built the&nbsp;level flow, enemy placement, difficulty pacing, and&nbsp;player navigation systems.</div>
             </div>
 
                     </span>
@@ -302,7 +361,7 @@
                 <div class="card-tags"><span class="tag">Survival</span><span class="tag">City Builder</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Direction · Brief · Mechanics</div>
                 <div class="card-title">Pocket Tales</div>
-                <div class="card-desc">Directed gameplay scenarios, designed new mechanics, and led the playable through full production from concept to launch.</div>
+                <div class="card-desc">Directed gameplay scenarios, designed new mechanics, and&nbsp;led the&nbsp;playable through full production from&nbsp;concept to&nbsp;launch.</div>
             </div>
 
                     </span>
@@ -321,7 +380,7 @@
                 <div class="card-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span><span class="tag">Casual</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Spec · Production</div>
                 <div class="card-title">Tap Arrows Gallery</div>
-                <div class="card-desc">Created a music-based mechanic adapted to the game's existing core loop, with full production from concept to launch.</div>
+                <div class="card-desc">Created a&nbsp;music-based mechanic adapted to&nbsp;the&nbsp;game's existing core loop, with&nbsp;full production from&nbsp;concept to&nbsp;launch.</div>
             </div>
 
                     </span>
@@ -340,7 +399,7 @@
                 <div class="card-tags"><span class="tag">Arcade</span><span class="tag">Action</span><span class="tag">Turn-Based</span><span class="cart-go">Play &#9656;</span></div>
                 <div class="card-role">Concept · Hook · Production</div>
                 <div class="card-title">Tank Stars</div>
-                <div class="card-desc">Designed a hook-driven gameplay scenario with balanced progression, upgrade mechanics, and full playable production.</div>
+                <div class="card-desc">Designed a&nbsp;hook-driven gameplay scenario with&nbsp;balanced progression, upgrade mechanics, and&nbsp;full playable production.</div>
             </div>
 
                     </span>
@@ -351,14 +410,14 @@
 
 <!-- PROCESS -->
 <div class="ticker ticker--amber" aria-hidden="true">
-    <div class="ticker-track"><span>Research the game, then the competitors</span><b>&#9632;</b><span>Find the hook before the mechanic</span><b>&#9632;</b><span>Every new action gets its own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the numbers, iterate</span><b>&#9632;</b><span>Research the game, then the competitors</span><b>&#9632;</b><span>Find the hook before the mechanic</span><b>&#9632;</b><span>Every new action gets its own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the numbers, iterate</span><b>&#9632;</b></div>
+    <div class="ticker-track"><span>Research the&nbsp;game, then the&nbsp;competitors</span><b>&#9632;</b><span>Find the&nbsp;hook before the&nbsp;mechanic</span><b>&#9632;</b><span>Every new action gets its&nbsp;own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the&nbsp;numbers, iterate</span><b>&#9632;</b><span>Research the&nbsp;game, then the&nbsp;competitors</span><b>&#9632;</b><span>Find the&nbsp;hook before the&nbsp;mechanic</span><b>&#9632;</b><span>Every new action gets its&nbsp;own tutorial</span><b>&#9632;</b><span>Brief, review, test, ship</span><b>&#9632;</b><span>Read the&nbsp;numbers, iterate</span><b>&#9632;</b></div>
 </div>
 
 <div class="stair stair--amber-to-bone" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
 <section id="process">
-    <div class="section-label reveal">My Workflow</div>
-    <h2 class="section-title reveal">How I Work</h2>
-    <p class="section-sub reveal">How a playable actually gets made, from the first idea to the build that ships.</p>
+    <div class="section-label reveal">My&nbsp;Workflow</div>
+    <h2 class="section-title reveal">How&nbsp;I Work</h2>
+    <p class="section-sub reveal">How&nbsp;a&nbsp;playable actually gets made, from&nbsp;the&nbsp;first idea to&nbsp;the&nbsp;build that&nbsp;ships.</p>
     <div class="process-track">
         <div class="process-step reveal">
             <div class="process-num">
@@ -367,7 +426,7 @@
             </div>
             <div class="process-content">
                 <div class="process-title">Ideation &amp; Research</div>
-                <div class="process-desc">Market research, competitor analysis, and gameplay hook exploration. I define the core idea and shape the playable around mechanics that are easy to understand and engaging to interact with.</div>
+                <div class="process-desc">Market research, competitor analysis, and&nbsp;gameplay hook exploration. I&nbsp;define the&nbsp;core idea and&nbsp;shape the&nbsp;playable around mechanics that&nbsp;are&nbsp;easy to&nbsp;understand and&nbsp;engaging to&nbsp;interact with.</div>
             </div>
         </div>
         <div class="process-step reveal">
@@ -377,7 +436,7 @@
             </div>
             <div class="process-content">
                 <div class="process-title">Spec Writing</div>
-                <div class="process-desc">Detailed GDDs covering mechanics, tutorial flow, UI, pacing, and end-card logic. Clear documentation that keeps production efficient and aligned across the team.</div>
+                <div class="process-desc">Detailed GDDs covering mechanics, tutorial flow, UI, pacing, and&nbsp;end-card logic. Clear documentation that&nbsp;keeps production efficient and&nbsp;aligned across the&nbsp;team.</div>
             </div>
         </div>
         <div class="process-step reveal">
@@ -387,7 +446,7 @@
             </div>
             <div class="process-content">
                 <div class="process-title">Team Briefing</div>
-                <div class="process-desc">Close collaboration with developers, artists, and QA throughout production. I stay hands-on during the full production cycle to keep the playable polished and consistent.</div>
+                <div class="process-desc">Close collaboration with&nbsp;developers, artists, and&nbsp;QA throughout production. I stay hands-on&nbsp;during the&nbsp;full production cycle to&nbsp;keep the&nbsp;playable polished and&nbsp;consistent.</div>
             </div>
         </div>
         <div class="process-step reveal">
@@ -397,7 +456,7 @@
             </div>
             <div class="process-content">
                 <div class="process-title">Launch &amp; Iterate</div>
-                <div class="process-desc">I read performance data — CTR, IPM, CPI and retention — to understand why a creative won or lost, and use that for the next concepts and iterations.</div>
+                <div class="process-desc">I read performance data — CTR, IPM, CPI and&nbsp;retention — to&nbsp;understand why&nbsp;a&nbsp;creative won or&nbsp;lost, and&nbsp;use that&nbsp;for&nbsp;the&nbsp;next concepts and&nbsp;iterations.</div>
             </div>
         </div>
     </div>
@@ -416,15 +475,15 @@
         <div class="about-bio">
             <div class="about-name">Dima Fomin</div>
             <div class="about-role">Playable Ads Creative Producer</div>
-            <p class="about-text">For the last year, I've been the only playable ads producer on my team. I work with 15 casual and midcore mobile games at the same time and release more than 30 playables every month. I've already produced more than 400 in total.</p>
-            <p class="about-text">Usually I handle the whole production process: research the game and competitors, find the hook and the mechanic, write the GDD, brief artists and developers, review builds, test everything and take the playable to the final version.</p>
-            <p class="about-text">Before gaming, I spent more than six years in advertising, finishing as a Group Head Creator leading a team of seven. That is why I treat a playable as an ad first — it has to stop the scroll and sell the game honestly, not just be a fun mini-game.</p>
-            <p class="about-text">A few of my concepts became internal benchmarks for the client. A year later they are still the reference other playables iterate from.</p>
+            <p class="about-text">For&nbsp;the&nbsp;last year, I've been the&nbsp;only&nbsp;playable ads producer on&nbsp;my&nbsp;team. I work with&nbsp;15 casual and&nbsp;midcore mobile games at&nbsp;the&nbsp;same time and&nbsp;release more than&nbsp;30 playables every month. I've already produced more than&nbsp;400 in&nbsp;total.</p>
+            <p class="about-text">Usually I handle the&nbsp;whole production process: research the&nbsp;game and&nbsp;competitors, find the&nbsp;hook and&nbsp;the&nbsp;mechanic, write the&nbsp;GDD, brief artists and&nbsp;developers, review builds, test everything and&nbsp;take the&nbsp;playable to&nbsp;the&nbsp;final version.</p>
+            <p class="about-text">Before gaming, I spent more than&nbsp;six years in&nbsp;advertising. As&nbsp;a&nbsp;Group Head Creator I&nbsp;led a&nbsp;team of&nbsp;seven. That&nbsp;is&nbsp;why&nbsp;I treat a&nbsp;playable as&nbsp;an&nbsp;ad first — it&nbsp;has&nbsp;to&nbsp;stop the&nbsp;scroll and&nbsp;sell the&nbsp;game honestly, not&nbsp;just&nbsp;be&nbsp;a&nbsp;fun mini-game.</p>
+            <p class="about-text">A&nbsp;few of&nbsp;my&nbsp;concepts became internal benchmarks for&nbsp;the&nbsp;client. A&nbsp;year later they&nbsp;are&nbsp;still the&nbsp;reference other playables iterate from.</p>
             <div class="spec-sheet">
                 <div class="spec-row"><div class="spec-key">Craft</div><div class="spec-val">Ideation &amp; Concepts · Creative Strategy · Market Research · A/B Testing · Team Briefing · Data Analysis · Full Production Cycle</div></div>
                 <div class="spec-row"><div class="spec-key">Tools</div><div class="spec-val">Notion · Miro · Figma · Photoshop · Blender · Unity · Unreal Engine</div></div>
                 <div class="spec-row"><div class="spec-key">AI</div><div class="spec-val">ChatGPT &amp; Claude · Gemini &amp; Antigravity · Midjourney · Nano Banana · Codex</div></div>
-                <div class="spec-row"><div class="spec-key">Output</div><div class="spec-val">30+ playables a month · 400+ shipped · 15 titles in parallel</div></div>
+                <div class="spec-row"><div class="spec-key">Output</div><div class="spec-val">30+ playables a&nbsp;month · 400+ shipped · 15 titles in&nbsp;parallel</div></div>
             </div>
         </div>
     </div>
@@ -432,7 +491,7 @@
 
 
 <div class="ticker ticker--alt" aria-hidden="true">
-    <div class="ticker-track"><span>Open to remote and relocation</span><b>&#9632;</b><span>Playable ads as the main focus</span><b>&#9632;</b><span>Six years in advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b><span>Open to remote and relocation</span><b>&#9632;</b><span>Playable ads as the main focus</span><b>&#9632;</b><span>Six years in advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b></div>
+    <div class="ticker-track"><span>Open to&nbsp;remote and&nbsp;relocation</span><b>&#9632;</b><span>Playable ads as&nbsp;the&nbsp;main focus</span><b>&#9632;</b><span>Six years in&nbsp;advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b><span>Open to&nbsp;remote and&nbsp;relocation</span><b>&#9632;</b><span>Playable ads as&nbsp;the&nbsp;main focus</span><b>&#9632;</b><span>Six years in&nbsp;advertising before games</span><b>&#9632;</b><span>Minsk &middot; working worldwide</span><b>&#9632;</b></div>
 </div>
 
 <div class="stair stair--blue-to-ink" data-dir="down" aria-hidden="true"><svg viewBox="0 0 1120 56" preserveAspectRatio="none"><path d="M0,56 L0.0,54.0 L40.0,54.0 L40.0,52.0 L80.0,52.0 L80.0,50.0 L120.0,50.0 L120.0,48.0 L160.0,48.0 L160.0,46.0 L200.0,46.0 L200.0,44.0 L240.0,44.0 L240.0,42.0 L280.0,42.0 L280.0,40.0 L320.0,40.0 L320.0,38.0 L360.0,38.0 L360.0,36.0 L400.0,36.0 L400.0,34.0 L440.0,34.0 L440.0,32.0 L480.0,32.0 L480.0,30.0 L520.0,30.0 L520.0,28.0 L560.0,28.0 L560.0,26.0 L600.0,26.0 L600.0,24.0 L640.0,24.0 L640.0,22.0 L680.0,22.0 L680.0,20.0 L720.0,20.0 L720.0,18.0 L760.0,18.0 L760.0,16.0 L800.0,16.0 L800.0,14.0 L840.0,14.0 L840.0,12.0 L880.0,12.0 L880.0,10.0 L920.0,10.0 L920.0,8.0 L960.0,8.0 L960.0,6.0 L1000.0,6.0 L1000.0,4.0 L1040.0,4.0 L1040.0,2.0 L1080.0,2.0 L1080.0,0.0 L1120.0,0.0 L1120,56 Z"/></svg></div>
@@ -441,10 +500,10 @@
 <section id="contacts">
     <div class="section-label reveal">Contact</div>
     <h2 class="section-title reveal">Let's Work Together</h2>
-    <p class="section-sub reveal">I'm mostly interested in roles where playable ads are the main focus. Open to remote work and relocation.</p>
+    <p class="section-sub reveal">I'm mostly interested in&nbsp;roles where playable ads are&nbsp;the&nbsp;main focus. Open&nbsp;to&nbsp;remote work and&nbsp;relocation.</p>
     <div class="avail-status reveal">
         <span class="avail-dot"></span>
-        Available for new projects
+        Available for&nbsp;new projects
     </div>
     <div class="contact-grid reveal">
         <a class="contact-card" href="mailto:hairway7@icloud.com" id="contact-email">
@@ -492,7 +551,7 @@
         <div class="footer-brand">
             <a class="footer-logo" href="#home">Dima Fomin</a>
         </div>
-        <span class="footer-copy">&copy; 2026 Dima Fomin &middot; Minsk</span>
+        <span class="footer-copy">&copy; 2026 Dima Fomin &middot; Remote &amp;&nbsp;relocation</span>
         <div class="footer-links">
             <a href="mailto:hairway7@icloud.com">Email</a>
             <a href="https://www.linkedin.com/in/dima-fomin-185b94246/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -983,22 +1042,38 @@
     function hideTutor(){ clearTimeout(tutorTimer); if (tutor) tutor.classList.remove('active'); }
 
     function fit() {
-        screenEl.style.setProperty('--hc-scale', (screenEl.clientWidth / 360).toFixed(4));
+        const w = screenEl.clientWidth, h = screenEl.clientHeight;
+        const nativeW = frame.width || 360, nativeH = frame.height || 640;
+        // contain the panel in the box so nothing is cropped in either orientation
+        const s = Math.min(w / nativeW, h / nativeH);
+        screenEl.style.setProperty('--hc-scale', s.toFixed(4));
+        screenEl.style.setProperty('--hc-dx', ((w - nativeW * s) / 2).toFixed(1) + 'px');
+        screenEl.style.setProperty('--hc-dy', ((h - nativeH * s) / 2).toFixed(1) + 'px');
     }
     fit();
     window.addEventListener('resize', fit);
 
-    function select(n, title) {
-        current = n; playing = false;
+    function select(n, title, stay) {
+        current = n; playing = false; loadGen++;
         slots.forEach(b => b.classList.toggle('is-active', b.dataset.game === n));
         posterImg.src = PREVIEW[n] || `games/game${n}/preview.png`;
+        posterImg.alt = `${title} cover`;
         nowEl.textContent = title;
         openEl.href = `games/game${n}/index.html`;
         frame.src = 'about:blank';
         poster.hidden = false;
         screenBox.classList.remove('is-playing', 'is-loading');
-        warm(n);
+        rotateBtn.disabled = true;
+        fullBtn.disabled = true;
+        if (landscape) { landscape = false; applyOrientation(); }
         if (window.heroField) window.heroField.setColour(HUE[n] || '#D93B22');
+        if (stay) {
+            focusMode(true);
+            play();
+            return;
+        }
+        focusMode(false);
+        warm(n);
         showTutor(1400);
     }
 
@@ -1006,7 +1081,96 @@
     // loading state instead of handing the player a black rectangle, and the
     // screen's scanline filter comes off so it never sits over the gameplay.
     const screenBox = root.querySelector('.hc-screen');
+    const home = document.getElementById('home');
     let warmed = null;
+
+    // When a build starts, the copy on the left steps out of the way and the
+    // device takes the middle of the screen, grown to whatever room is left.
+    // The transform is ours alone, so the untransformed geometry is recovered
+    // arithmetically rather than by measuring a second time.
+    const fsTitle = document.getElementById('fsTitle');
+    const fsLink = document.getElementById('fsLink');
+    const fsIndex = document.getElementById('fsIndex');
+    const ffRun = document.getElementById('ffRun');
+    // a cartridge swap fades the caption over rather than retyping it
+    function swapText(el, text) {
+        if (el.textContent === text) return;
+        el.classList.add('is-swapping');
+        setTimeout(() => {
+            el.textContent = text;
+            el.classList.remove('is-swapping');
+        }, 170);
+    }
+    const fsSide = document.getElementById('focusSide');
+    const fsSideLeft = document.getElementById('focusSideLeft');
+    let dx = 0, dy = 0, zoom = 1;
+    function focusMode(on) {
+        if (!on) {
+            dx = dy = 0; zoom = 1;
+            root.style.removeProperty('--hc-shift');
+            root.style.removeProperty('--hc-lift');
+            root.style.removeProperty('--hc-zoom');
+            home.classList.remove('is-focused');
+            document.body.classList.remove('focus-dark');
+            fsSide.setAttribute('aria-hidden', 'true');
+            fsSideLeft.setAttribute('aria-hidden', 'true');
+            return;
+        }
+        // If the hero has been scrolled past by the time a build finishes, the
+        // device stays where it is — centring on a viewport it is not in would
+        // throw it off screen.
+        const seen = root.getBoundingClientRect();
+        if (seen.bottom < 80 || seen.top > window.innerHeight - 80) return;
+        // The class is applied first: it reveals the exit control, which changes
+        // the device's height, and the fit has to account for that row.
+        root.style.setProperty('--hc-shift', dx + 'px');
+        root.style.setProperty('--hc-lift', dy + 'px');
+        root.style.setProperty('--hc-zoom', zoom);
+        home.classList.add('is-focused');
+        document.body.classList.add('focus-dark');
+        const b = root.getBoundingClientRect();
+        const w = b.width / zoom, h = b.height / zoom;
+        const cx = b.left + b.width / 2 - dx, cy = b.top + b.height / 2 - dy;
+        const vw = document.documentElement.clientWidth, vh = window.innerHeight;
+        // the floor strip owns the bottom of the room, so it is not fair game
+        const top = 88, bottom = vh - 76;
+        zoom = Math.max(1, Math.min((vw - 40) / w, (bottom - top) / h, 2.4));
+        dx = Math.round(vw / 2 - cx);
+        dy = Math.round((top + bottom) / 2 - cy);
+        root.style.setProperty('--hc-shift', dx + 'px');
+        root.style.setProperty('--hc-lift', dy + 'px');
+        root.style.setProperty('--hc-zoom', zoom.toFixed(3));
+        // The plates fill the band left over beside the device and sit centred
+        // in it, so a wide screen does not end up with dead outer margins.
+        const edge = vw / 2 - (w * zoom) / 2;
+        const band = Math.max(0, edge - 26);
+        const panel = Math.max(200, Math.min(420, band - 52));
+        const inset = Math.max(26, Math.round((band - panel) / 2) + 26);
+        home.style.setProperty('--fs-w', Math.round(panel) + 'px');
+        home.style.setProperty('--fs-left', Math.round(vw - inset - panel) + 'px');
+        home.style.setProperty('--fs-right', Math.round(inset + panel) + 'px');
+        swapText(fsTitle, nowEl.textContent);
+        swapText(fsIndex, String(current).padStart(2, '0'));
+        swapText(ffRun, 'Now playing \u2014 ' + nowEl.textContent);
+        fsLink.href = openEl.href;
+        fsSide.setAttribute('aria-hidden', 'false');
+        fsSideLeft.setAttribute('aria-hidden', 'false');
+        // Stacked layout keeps the device in the flow, so it is scrolled to
+        // instead of moved.
+        if (window.matchMedia('(max-width: 860px)').matches) {
+            // Clear of the sticky header rather than centred, or the header
+            // would sit over the top of the device.
+            window.scrollTo({ top: window.scrollY + root.getBoundingClientRect().top - 84 });
+        }
+    }
+    window.addEventListener('resize', () => {
+        if (home.classList.contains('is-focused')) focusMode(true);
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && home.classList.contains('is-focused') && !document.fullscreenElement) {
+            document.getElementById('hcExit').click();
+        }
+    });
 
     function warm(n) {
         if (warmed === n) return;
@@ -1018,15 +1182,21 @@
         document.head.appendChild(l);
     }
 
+    let loadGen = 0;
     function play() {
         if (playing) return;
         playing = true;
+        const mine = ++loadGen;
         hideTutor();
         screenBox.classList.add('is-loading');
         frame.addEventListener('load', () => {
+            if (mine !== loadGen || !playing) return;
             poster.hidden = true;
             screenBox.classList.remove('is-loading');
             screenBox.classList.add('is-playing');
+            rotateBtn.disabled = false;
+            fullBtn.disabled = false;
+            focusMode(true);
         }, { once: true });
         frame.src = `games/game${current}/original_game.html`;
         if (window.heroField) window.heroField.pulse();
@@ -1051,13 +1221,52 @@
         const i = slots.findIndex(b => b.dataset.game === current);
         const nextBtn = slots[(i + dir + slots.length) % slots.length];
         controls.classList.add('is-used');          // stops the "press me" glow
-        select(nextBtn.dataset.game, nextBtn.dataset.title);
+        select(nextBtn.dataset.game, nextBtn.dataset.title, home.classList.contains('is-focused'));
     }
     document.getElementById('hcPrev').addEventListener('click', () => step(-1));
     document.getElementById('hcNext').addEventListener('click', () => step(1));
+
+    // ── orientation ───────────────────────────────────────────────────
+    // The screen is a 360x640 panel. Landscape swaps the box and the iframe's
+    // own dimensions, then fit() rescales — the same trick the case pages use.
+    const rotateBtn = document.getElementById('hcRotate');
+    let landscape = false;
+    function applyOrientation() {
+        screenEl.classList.toggle('is-landscape', landscape);
+        frame.width = landscape ? 640 : 360;
+        frame.height = landscape ? 360 : 640;
+        rotateBtn.setAttribute('aria-label', landscape ? 'Switch to portrait' : 'Switch to landscape');
+        rotateBtn.classList.toggle('is-on', landscape);
+        home.classList.toggle('is-landscape', landscape);
+        fit();
+        if (home.classList.contains('is-focused')) focusMode(true);
+    }
+    rotateBtn.addEventListener('click', () => { landscape = !landscape; applyOrientation(); });
+
+    // ── fullscreen ────────────────────────────────────────────────────
+    const fullBtn = document.getElementById('hcFull');
+    rotateBtn.disabled = true;
+    fullBtn.disabled = true;
+    fullBtn.addEventListener('click', () => {
+        const target = screenEl;
+        if (document.fullscreenElement) document.exitFullscreen();
+        else if (target.requestFullscreen) target.requestFullscreen().catch(() => {});
+        else if (target.webkitRequestFullscreen) target.webkitRequestFullscreen();
+    });
+    document.getElementById('hcExit').addEventListener('click', () => {
+        if (document.fullscreenElement) document.exitFullscreen();
+        select(current, nowEl.textContent);
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        const on = !!document.fullscreenElement;
+        screenEl.classList.toggle('is-full', on);
+        fullBtn.classList.toggle('is-on', on);
+        fit();
+    });
     slots.forEach(b => b.addEventListener('click', () => {
         if (b.dataset.game === current && !playing) return;
-        select(b.dataset.game, b.dataset.title);
+        select(b.dataset.game, b.dataset.title, home.classList.contains('is-focused'));
     }));
 
 

@@ -11,10 +11,10 @@
             
             var modal = document.createElement('div');
             modal.id = 'portfolio-blocker-modal';
-            modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(10,10,18,0.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:999999;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#fff;animation:fadeInBlocker 0.3s ease-out;';
+            modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(21,19,15,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:999999;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#fff;animation:fadeInBlocker 0.3s ease-out;';
             
             var content = document.createElement('div');
-            content.style.cssText = 'background:linear-gradient(135deg, rgba(20,20,35,0.95) 0%, rgba(30,20,50,0.95) 100%);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:32px;width:90%;max-width:400px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.5);transform:scale(0.9);animation:scaleUpBlocker 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;';
+            content.style.cssText = 'background:#F7F3E8;border:2px solid rgba(26,23,16,.28);clip-path:polygon(0 6px,3px 6px,3px 3px,6px 3px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 3px,calc(100% - 3px) 3px,calc(100% - 3px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 3px) calc(100% - 6px),calc(100% - 3px) calc(100% - 3px),calc(100% - 6px) calc(100% - 3px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 3px),3px calc(100% - 3px),3px calc(100% - 6px),0 calc(100% - 6px));padding:30px 28px;width:90%;max-width:390px;text-align:center;box-shadow:0 22px 44px rgba(21,19,15,.45);color:#1A1710;transform:scale(0.9);animation:scaleUpBlocker 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;';
             
             if (!document.getElementById('portfolio-blocker-style')) {
                 var style = document.createElement('style');
@@ -24,27 +24,27 @@
             }
             
             var iconContainer = document.createElement('div');
-            iconContainer.style.cssText = 'width:70px;height:70px;margin:0 auto 20px;background:rgba(147,51,234,0.1);border:2px solid rgba(147,51,234,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(147,51,234,0.25);';
-            iconContainer.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>';
+            iconContainer.style.cssText = 'width:56px;height:56px;margin:0 auto 18px;background:#C2331B;border:none;border-radius:4px;display:flex;align-items:center;justify-content:center;';
+            iconContainer.innerHTML = '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#FFF6EC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>';
             
             var title = document.createElement('h3');
-            title.style.cssText = 'font-size:22px;font-weight:700;margin:0 0 12px 0;background:linear-gradient(90deg, #c084fc, #a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;';
-            title.innerText = 'Demo Playable Mode';
+            title.style.cssText = 'font-size:21px;font-weight:800;margin:0 0 10px 0;color:#1A1710;letter-spacing:-0.02em;';
+            title.innerText = 'Demo mode';
             
             var text = document.createElement('p');
-            text.style.cssText = 'font-size:14px;line-height:1.6;color:rgba(255,255,255,0.7);margin:0 0 24px 0;';
-            text.innerText = 'Store redirection is disabled to keep you in the portfolio. You can continue playing the interactive demo!';
+            text.style.cssText = 'font-size:14px;line-height:1.6;color:#57513F;margin:0 0 22px 0;';
+            text.innerText = 'The store link is switched off so you stay in the portfolio. The playable keeps running \u2014 carry on.';
             
             var btn = document.createElement('button');
-            btn.style.cssText = 'width:100%;padding:14px;background:linear-gradient(90deg, #9333ea, #a855f7);border:none;border-radius:12px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;transition:all 0.2s;box-shadow:0 8px 20px rgba(147,51,234,0.3);outline:none;';
-            btn.innerText = 'Resume Playable';
+            btn.style.cssText = 'width:100%;padding:14px;background:#C2331B;border:none;border-radius:4px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:background .2s;box-shadow:0 3px 0 rgba(26,23,16,.28);outline:none;';
+            btn.innerText = 'Back to the playable';
             btn.onmouseover = function() {
                 btn.style.filter = 'brightness(1.1)';
-                btn.style.boxShadow = '0 8px 25px rgba(147,51,234,0.45)';
+                btn.style.background = '#A82C17';
             };
             btn.onmouseout = function() {
                 btn.style.filter = 'none';
-                btn.style.boxShadow = '0 8px 20px rgba(147,51,234,0.3)';
+                btn.style.background = '#C2331B';
             };
             btn.onclick = function() {
                 modal.style.animation = 'fadeInBlocker 0.2s ease-in reverse';
