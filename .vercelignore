@@ -1,0 +1,5 @@
+# Repo-only files: instructions, editor config and helper scripts, never served.
+CLAUDE.md
+.claude
+.gitattributes
+tools
