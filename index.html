@@ -56,7 +56,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=78">
+    <link rel="stylesheet" href="style.css?v=79">
     <!-- with scripting off the observers never fire, so the reveal states
          would hide the page for good -->
     <noscript><style>.reveal,.reveal-blur{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}</style></noscript>
@@ -103,7 +103,6 @@
     <canvas id="heroField" aria-hidden="true"></canvas>
     <!-- focus mode borrows the Work section's ink ground, so a running build
          is a place on the page rather than a state it fell into -->
-    <div class="focus-ground" aria-hidden="true"></div>
     <div class="hero-inner">
     <div class="hero-left">
         <div class="hero-tag reveal-blur">Playable Ads Creative Producer</div>
@@ -225,10 +224,6 @@
             </div>
         </div>
     </aside>
-    <div class="focus-floor" aria-hidden="true">
-        <div class="ff-steps"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        <div class="ff-ticker"><span class="ff-run" id="ffRun">Now playing &mdash; Kingdom Clash</span></div>
-    </div>
     <div class="scroll-hint" id="scrollHint">
         <div class="sh-icon-wrap">
             <div class="sh-ring sh-ring1"></div>
@@ -1091,7 +1086,6 @@
     const fsTitle = document.getElementById('fsTitle');
     const fsLink = document.getElementById('fsLink');
     const fsIndex = document.getElementById('fsIndex');
-    const ffRun = document.getElementById('ffRun');
     // a cartridge swap fades the caption over rather than retyping it
     function swapText(el, text) {
         if (el.textContent === text) return;
@@ -1111,7 +1105,6 @@
             root.style.removeProperty('--hc-lift');
             root.style.removeProperty('--hc-zoom');
             home.classList.remove('is-focused');
-            document.body.classList.remove('focus-dark');
             fsSide.setAttribute('aria-hidden', 'true');
             fsSideLeft.setAttribute('aria-hidden', 'true');
             return;
@@ -1127,12 +1120,11 @@
         root.style.setProperty('--hc-lift', dy + 'px');
         root.style.setProperty('--hc-zoom', zoom);
         home.classList.add('is-focused');
-        document.body.classList.add('focus-dark');
         const b = root.getBoundingClientRect();
         const w = b.width / zoom, h = b.height / zoom;
         const cx = b.left + b.width / 2 - dx, cy = b.top + b.height / 2 - dy;
         const vw = document.documentElement.clientWidth, vh = window.innerHeight;
-        // the floor strip owns the bottom of the room, so it is not fair game
+        // the seam ticker owns the bottom of the hero, so it is not fair game
         const top = 88, bottom = vh - 76;
         zoom = Math.max(1, Math.min((vw - 40) / w, (bottom - top) / h, 2.4));
         dx = Math.round(vw / 2 - cx);
@@ -1151,7 +1143,6 @@
         home.style.setProperty('--fs-right', Math.round(inset + panel) + 'px');
         swapText(fsTitle, nowEl.textContent);
         swapText(fsIndex, String(current).padStart(2, '0'));
-        swapText(ffRun, 'Now playing \u2014 ' + nowEl.textContent);
         fsLink.href = openEl.href;
         fsSide.setAttribute('aria-hidden', 'false');
         fsSideLeft.setAttribute('aria-hidden', 'false');
@@ -1183,6 +1174,10 @@
     }
 
     let loadGen = 0;
+    // A build parses and boots on the page's own thread, which stalls it for a
+    // second or more. So the device travels first, while the thread is free,
+    // and the build is only requested once it has arrived.
+    const settles = window.matchMedia('(min-width: 861px) and (prefers-reduced-motion: no-preference)');
     function play() {
         if (playing) return;
         playing = true;
@@ -1196,10 +1191,24 @@
             screenBox.classList.add('is-playing');
             rotateBtn.disabled = false;
             fullBtn.disabled = false;
-            focusMode(true);
         }, { once: true });
-        frame.src = `games/game${current}/original_game.html`;
+        const travels = !home.classList.contains('is-focused');
+        focusMode(true);
         if (window.heroField) window.heroField.pulse();
+        const load = () => {
+            if (mine !== loadGen || !playing) return;
+            frame.src = `games/game${current}/original_game.html`;
+        };
+        if (!travels || !settles.matches || !home.classList.contains('is-focused')) { load(); return; }
+        let done = false;
+        const arrive = e => {
+            if (done || (e && (e.target !== root || e.propertyName !== 'transform'))) return;
+            done = true;
+            root.removeEventListener('transitionend', arrive);
+            load();
+        };
+        root.addEventListener('transitionend', arrive);
+        setTimeout(arrive, 900);   // the move is .18s + .6s; never wait past it
     }
 
     poster.addEventListener('click', play);

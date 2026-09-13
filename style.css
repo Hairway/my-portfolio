@@ -1897,27 +1897,9 @@ footer a{color:rgba(239,234,219,.9)}
     #home.is-focused .hero-left{max-height:0;margin:0;padding:0;overflow:hidden;opacity:0}
 }
 
-/* ── focus mode: the ink cabinet ──
-   The rest of the page alternates paper and ink section by section. A running
-   build is its own section: the hero drops to the Work section's ink, the
-   device becomes the only lit object, and the two captions stop being cards
-   and become type on the dark. */
-.focus-ground{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;
-    background:radial-gradient(120% 70% at 50% 44%,#211D16 0%,#15130F 62%);
-    transition:opacity .3s ease}
-#home.is-focused .focus-ground{opacity:1;transition:opacity .55s ease}
-#home.is-focused #heroField{opacity:0;transition:opacity .45s ease}
-#heroField{transition:opacity .3s ease}
-
-/* the nav rides the same change */
-body.focus-dark nav{background:rgba(21,19,15,.82);border-bottom-color:rgba(239,234,219,.16)}
-body.focus-dark .nav-links a{color:rgba(239,234,219,.6)}
-body.focus-dark .nav-links a:hover,body.focus-dark .nav-links a.is-active{color:#EFEADB}
-body.focus-dark .nav-logo{color:#F2A48F;-webkit-text-fill-color:#F2A48F}
-body.focus-dark .nav-burger span{background:#EFEADB}
-nav,.nav-links a,.nav-logo{transition:background .45s ease,color .45s ease,border-color .45s ease}
-
-/* the captions: no card, no ribs — just type standing on the ink */
+/* ── focus mode: the captions ──
+   The hero keeps its paper ground while a build runs; the two captions are
+   plain type on it, no card and no ribs. */
 .focus-side{position:absolute;left:var(--fs-left,60%);top:50%;z-index:2;
     display:none;width:var(--fs-w,260px);
     opacity:0;transform:translate(20px,-50%);
@@ -1934,34 +1916,34 @@ nav,.nav-links a,.nav-logo{transition:background .45s ease,color .45s ease,borde
     vertical-align:1px;border-radius:50%;background:#FFF6EC;
     animation:fsBlink 1.6s steps(1,end) infinite}
 @keyframes fsBlink{0%,55%{opacity:1}56%,100%{opacity:.25}}
-.fs-title{font-size:32px;font-weight:800;line-height:1.06;letter-spacing:-.025em;color:#EFEADB}
+.fs-title{font-size:32px;font-weight:800;line-height:1.06;letter-spacing:-.025em;color:var(--text)}
 .fs-title,#fsIndex{transition:opacity .17s ease}
 .fs-title.is-swapping,#fsIndex.is-swapping{opacity:0}
 .fs-note{margin:14px 0 0;padding-top:13px;font-size:14px;line-height:1.6;
-    color:rgba(239,234,219,.68);border-top:1px solid rgba(239,234,219,.22);align-self:stretch}
+    color:var(--muted);border-top:1px solid var(--border);align-self:stretch}
 .fs-link{margin-top:16px;font-family:var(--mono);font-size:11px;font-weight:700;line-height:1;
-    letter-spacing:.14em;text-transform:uppercase;color:#EFEADB;text-decoration:none;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--text);text-decoration:none;
     border-bottom:2px solid var(--accent1);padding-bottom:4px;transition:color .16s}
-.fs-link:hover{color:#F2A48F}
+.fs-link:hover{color:var(--accent-soft)}
 .fs-hint{margin-top:14px;font-family:var(--mono);font-size:9px;font-weight:500;line-height:1;
-    letter-spacing:.16em;text-transform:uppercase;color:rgba(239,234,219,.55)}
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
 /* the figure rows keep the spec-row rhythm, on hairlines instead of dashes */
 .fs-stats--meta{margin-top:13px}
 .fs-stats{list-style:none;margin:15px 0 0;padding-top:5px;display:flex;flex-direction:column;
-    align-self:stretch;border-top:1px solid rgba(239,234,219,.22)}
+    align-self:stretch;border-top:1px solid var(--border)}
 .fs-stats li{display:flex;align-items:baseline;gap:10px;padding:9px 0;
-    border-bottom:1px solid rgba(239,234,219,.12)}
+    border-bottom:1px solid rgba(26,23,16,.08)}
 .fs-stats li:last-child{border-bottom:none;padding-bottom:0}
-.fs-stats b{font-family:var(--mono);font-size:15px;font-weight:700;color:#F2A48F;min-width:46px}
-.fs-stats span{font-size:12px;line-height:1.3;color:rgba(239,234,219,.62)}
+.fs-stats b{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent-soft);min-width:46px}
+.fs-stats span{font-size:12px;line-height:1.3;color:var(--muted)}
 
 /* contacts sit on one line rather than a second table */
 .fs-links{list-style:none;margin:16px 0 0;padding-top:12px;display:flex;gap:16px;flex-wrap:wrap;
-    align-self:stretch;border-top:1px solid rgba(239,234,219,.22)}
+    align-self:stretch;border-top:1px solid var(--border)}
 .fs-links a{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.15em;
-    text-transform:uppercase;color:#EFEADB;text-decoration:none;transition:color .16s}
-.fs-links a:hover{color:#F2A48F}
+    text-transform:uppercase;color:var(--text);text-decoration:none;transition:color .16s}
+.fs-links a:hover{color:var(--accent-soft)}
 
 /* mirrored on the left: the caption faces the device */
 .focus-side--left{left:auto;right:calc(100% - var(--fs-right,40%));transform:translate(-20px,-50%)}
@@ -1971,29 +1953,6 @@ nav,.nav-links a,.nav-logo{transition:background .45s ease,color .45s ease,borde
 .focus-side--left .fs-stats b{min-width:0;text-align:right}
 .focus-side--left .fs-stats span{flex:1}
 .focus-side--left .fs-links{justify-content:flex-end}
-
-/* ── the floor ──
-   The same staircase-and-ticker seam that separates every other section,
-   closing the bottom of the room. */
-.focus-floor{position:fixed;left:0;right:0;bottom:0;z-index:3;pointer-events:none;
-    opacity:0;transform:translateY(100%);transition:opacity .2s ease,transform .25s ease}
-body.focus-dark .focus-floor{opacity:1;transform:none;
-    transition:opacity .35s ease .55s,transform .5s cubic-bezier(.22,1,.36,1) .55s}
-.ff-steps{position:relative;height:26px;display:flex;align-items:flex-end}
-.ff-steps i{flex:1;background:#C8871B}
-.ff-steps i:nth-child(1){height:6px}
-.ff-steps i:nth-child(2){height:12px}
-.ff-steps i:nth-child(3){height:19px}
-.ff-steps i:nth-child(4){height:26px}
-.ff-steps i:nth-child(5){height:19px}
-.ff-steps i:nth-child(6){height:12px}
-.ff-steps i:nth-child(7){height:6px}
-.ff-steps i:nth-child(8){height:12px}
-.ff-ticker{background:#C8871B;color:#15130F;padding:7px 0;overflow:hidden}
-.ff-run{display:inline-block;padding-left:var(--gutter);white-space:nowrap;
-    font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.18em;
-    text-transform:uppercase;transition:opacity .17s ease}
-.ff-run.is-swapping{opacity:0}
 
 @media(min-width:880px){
     #home.is-focused .focus-side{display:block;opacity:1;transform:translate(0,-50%)}
@@ -2030,25 +1989,12 @@ body.focus-dark .focus-floor{opacity:1;transform:none;
 /* the footer CV link was a 26px-wide tap target */
 .footer-links a{min-width:34px}
 
-/* ── the device, lit ──
-   On the ink ground the shell is the only paper object left, so it carries the
-   light: a hard edge plus a cast shadow. The caption strip under it is
-   dropped — the right-hand plate already says the title. */
-.hc-shell{transition:box-shadow .5s ease}
-#home.is-focused .hc-shell{box-shadow:0 0 0 1px rgba(0,0,0,.55),0 26px 70px rgba(0,0,0,.5)}
+/* The caption strip under the device is dropped in focus mode — the
+   right-hand plate already says the title. */
 #home.is-focused .hc-meta{opacity:0;pointer-events:none}
 .hc-meta{transition:opacity .3s ease}
-/* the rack under the device reads on the dark too */
-#home.is-focused .hc-slot{background:#23201A;color:rgba(239,234,219,.75);
-    box-shadow:inset 0 0 0 1px rgba(239,234,219,.22)}
-#home.is-focused .hc-slot.is-active{background:var(--accent1);color:#FFF6EC;box-shadow:none}
-.hc-slot{transition:background .45s ease,color .45s ease,box-shadow .45s ease}
 
-/* the page's warm corner glow would bleed across the ink */
-body::before{transition:opacity .5s ease}
-body.focus-dark::before{opacity:0}
-
-/* the hero's warm spotlight and ambient wash belong to the paper state */
+/* the hero's spotlight and ambient wash rest while a build runs */
 #home::after{transition:opacity .5s ease}
 #home.is-focused::before{opacity:0}
 #home.is-focused::after{opacity:0;animation:none}
