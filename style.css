@@ -254,6 +254,7 @@ body.entered .reveal-blur { animation-play-state: running; }
 .card-thumb.loading { background: #141520; }
 .card-thumb.loading img { opacity: 0; transition: opacity .4s; }
 .card-thumb.loaded img { opacity: 1; }
+.card-thumb.loaded .skeleton-shimmer { display: none; }  /* it kept animating after load */
 
 /* ── PLAYSTATION ACHIEVEMENTS ── */
 #achievementToast {
@@ -871,7 +872,13 @@ body.entered .reveal-blur { animation-play-state: running; }
 /* The ambient glows were tinted with the accent, which washed the whole page
    green. Dimmed so the ground stays neutral and the accent stays an accent. */
 body::before{background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(var(--accent1-rgb),.06) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 80% 110%,rgba(var(--accent1-rgb),.05) 0%,transparent 60%)}
-#home::before{background:radial-gradient(circle 800px at var(--mouse-x) var(--mouse-y),rgba(var(--accent1-rgb),.05),transparent 100%)}
+/* the cursor glow lives on .hero-glow now, moved with a transform */
+#home::before{content:none}
+.hero-glow{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;transition:opacity .5s ease}
+.hero-glow i{position:absolute;left:-800px;top:-800px;width:1600px;height:1600px;
+    background:radial-gradient(circle 800px at center,rgba(var(--accent1-rgb),.05),transparent 100%);
+    transform:translate3d(50vw,50vh,0);will-change:transform}
+#home.is-focused .hero-glow{opacity:0}
 #home::after{background:radial-gradient(circle at 70% 30%,rgba(var(--accent1-rgb),.03),transparent 50%),radial-gradient(circle at 30% 70%,rgba(var(--accent1-rgb),.03),transparent 50%)}
 .hero-right::before{background:radial-gradient(circle,rgba(var(--accent1-rgb),.10) 0%,transparent 70%)}
 
@@ -1230,10 +1237,11 @@ section > .section-sub{padding-bottom:26px;border-bottom:1px solid var(--ink-lin
 /* ── the hero screen behaves like a real panel ── */
 .hc-screen::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
     background:repeating-linear-gradient(rgba(0,0,0,.14) 0 1px,transparent 1px 3px)}
-.hc-screen::before{content:"";position:absolute;left:0;right:0;height:38%;z-index:5;
+.hc-screen::before{content:"";position:absolute;left:0;right:0;top:0;height:38%;z-index:5;
     pointer-events:none;background:linear-gradient(180deg,transparent,rgba(255,255,255,.055),transparent);
     animation:hcSweep 5.5s linear infinite}
-@keyframes hcSweep{0%{top:-40%}100%{top:100%}}
+/* moved with a transform (-40% to 100% of the screen), not top, so it never re-lays out */
+@keyframes hcSweep{0%{transform:translateY(-105%)}100%{transform:translateY(263%)}}
 .hc-led{animation:ledBlink 2.8s ease-in-out infinite}
 @keyframes ledBlink{0%,72%,100%{opacity:1}80%{opacity:.35}}
 .hc-slot{position:relative;overflow:hidden}
@@ -1472,7 +1480,7 @@ footer a{color:rgba(239,234,219,.9)}
 .footer-links a{min-width:26px;text-align:center}
 
 /* ── hero pixel field: the device broadcasting into the page ── */
-#heroField{position:absolute;inset:0;z-index:0;pointer-events:none}
+#heroField{position:absolute;left:0;right:0;bottom:0;z-index:0;pointer-events:none}
 #home > .hero-inner{position:relative;z-index:1}
 /* scroll-hint is already absolutely centred — only lift it, never re-position it */
 #home > .scroll-hint{z-index:2}

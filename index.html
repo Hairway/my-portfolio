@@ -56,7 +56,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-    <link rel="stylesheet" href="style.css?v=81">
+    <link rel="stylesheet" href="style.css?v=82">
     <!-- with scripting off the observers never fire, so the reveal states
          would hide the page for good -->
     <noscript><style>.reveal,.reveal-blur{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}</style></noscript>
@@ -100,6 +100,7 @@
 
 <!-- HERO -->
 <section id="home">
+    <div class="hero-glow" aria-hidden="true"><i></i></div>
     <canvas id="heroField" aria-hidden="true"></canvas>
     <!-- focus mode borrows the Work section's ink ground, so a running build
          is a place on the page rather than a state it fell into -->
@@ -145,7 +146,7 @@
                 <div class="hc-brand"><span class="hc-led"></span>DF&middot;01 PORTABLE</div>
                 <div class="hc-screen">
                     <div class="hc-poster" id="hcPoster">
-                        <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.png" alt="Kingdom Clash cover">
+                        <img width="512" height="512" id="hcPosterImg" src="games/game1/preview.webp" alt="Kingdom Clash cover">
                         <span class="hc-play"><svg width="13" height="13" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg><b>Tap to&nbsp;play</b></span>
                     </div>
                     <iframe id="hcFrame" title="Playable preview" sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
@@ -294,7 +295,7 @@
             </div>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game1/preview.png" alt="Kingdom Clash" loading="lazy">
+                <img width="512" height="512" src="games/game1/preview.webp" alt="Kingdom Clash" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -313,7 +314,7 @@
             <span class="cart-head"><span class="cart-no">Playable 02</span><span class="cart-badge">&#9733; Benchmark</span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game2/preview.png" alt="Railroad Empire" loading="lazy">
+                <img width="512" height="512" src="games/game2/preview.webp" alt="Railroad Empire" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -332,7 +333,7 @@
             <span class="cart-head"><span class="cart-no">Playable 03</span><span class="cart-badge">&#9733; Benchmark</span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game3/preview.png?v=2" alt="Battle Lines" loading="lazy">
+                <img width="512" height="512" src="games/game3/preview.webp" alt="Battle Lines" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -351,7 +352,7 @@
             <span class="cart-head"><span class="cart-no">Playable 04</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game4/preview.png" alt="Pocket Tales" loading="lazy">
+                <img width="512" height="512" src="games/game4/preview.webp" alt="Pocket Tales" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -370,7 +371,7 @@
             <span class="cart-head"><span class="cart-no">Playable 05</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game5/preview.png" alt="Tap Arrows Gallery" loading="lazy">
+                <img width="512" height="512" src="games/game5/preview.webp" alt="Tap Arrows Gallery" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -389,7 +390,7 @@
             <span class="cart-head"><span class="cart-no">Playable 06</span><span class="cart-badge cart-badge--empty"></span></span>
             <div class="card-thumb loading">
                 <div class="skeleton-shimmer"></div>
-                <img width="512" height="512" src="games/game6/preview.png" alt="Tank Stars" loading="lazy">
+                <img width="512" height="512" src="games/game6/preview.webp" alt="Tank Stars" loading="lazy">
                 <div class="card-overlay">
                     <div class="card-play"><svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M3 2l9 5-9 5V2z"/></svg>Open playable</div>
                 </div>
@@ -468,7 +469,7 @@
     <div class="about-hero reveal">
         <div class="about-photo-wrap">
             <div class="about-photo" style="overflow: hidden; padding: 0;">
-                <img src="dima_photo.jpg" width="900" height="1124" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform-origin: 50% 42%; transform: scale(1.3); display: block;">
+                <img src="dima_photo.webp" width="480" height="600" alt="Portrait" style="width: 100%; height: 100%; object-fit: cover; object-position: center top; transform-origin: 50% 42%; transform: scale(1.3); display: block;">
             </div>
         </div>
         <div class="about-bio">
@@ -667,15 +668,22 @@
         requestAnimationFrame(tick);
     }
 
-    // Hero Background Glow Parallax
+    // Hero background glow: its own layer, moved once per frame with a
+    // transform. Setting a custom property on #home restyled the whole hero
+    // and repainted a full-screen gradient on every mousemove.
     const homeSect = document.getElementById('home');
-    if (homeSect) {
+    const glow = homeSect && homeSect.querySelector('.hero-glow i');
+    if (glow && window.matchMedia('(hover: hover)').matches) {
+        let gx = 0, gy = 0, queued = false;
         homeSect.addEventListener('mousemove', e => {
-            const rect = homeSect.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / rect.width) * 100;
-            const y = ((e.clientY - rect.top) / rect.height) * 100;
-            homeSect.style.setProperty('--mouse-x', `${x}%`);
-            homeSect.style.setProperty('--mouse-y', `${y}%`);
+            gx = e.clientX; gy = e.clientY;
+            if (queued) return;
+            queued = true;
+            requestAnimationFrame(() => {
+                queued = false;
+                const r = homeSect.getBoundingClientRect();
+                glow.style.transform = `translate3d(${Math.round(gx - r.left)}px, ${Math.round(gy - r.top)}px, 0)`;
+            });
         });
     }
 
@@ -1020,7 +1028,7 @@
     const nowEl  = document.getElementById('hcNow');
     const openEl = document.getElementById('hcOpen');
     const slots  = Array.from(root.querySelectorAll('.hc-slot'));
-    const PREVIEW = { '3': 'games/game3/preview.png?v=2' };
+    const PREVIEW = { '3': 'games/game3/preview.webp' };
     // each cartridge owns a hue; the pixel field behind the device borrows it
     const HUE = { '1':'#D93B22','2':'#2B4FC8','3':'#7C3AA8','4':'#2E7D5B','5':'#C8871B','6':'#B02E62' };
     const tutor = document.getElementById('hcTutor');
@@ -1055,7 +1063,7 @@
     function select(n, title, stay) {
         current = n; playing = false; loadGen++;
         slots.forEach(b => b.classList.toggle('is-active', b.dataset.game === n));
-        posterImg.src = PREVIEW[n] || `games/game${n}/preview.png`;
+        posterImg.src = PREVIEW[n] || `games/game${n}/preview.webp`;
         posterImg.alt = `${title} cover`;
         nowEl.textContent = title;
         openEl.href = `games/game${n}/index.html`;
@@ -1334,7 +1342,10 @@
 
     function measure() {
         const r = home.getBoundingClientRect();
-        w = r.width; h = r.height;
+        // The canvas only spans the band the staircase can reach: a full-hero
+        // canvas meant clearing and uploading a screen-sized bitmap every frame.
+        w = r.width;
+        h = Math.max(9, Math.min(15, Math.round(w / 150))) * ROW + 4;
         dpr = Math.min(window.devicePixelRatio || 1, 2);
         cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
         cv.style.width = w + 'px'; cv.style.height = h + 'px';
