@@ -491,11 +491,6 @@
     <div class="footer-inner">
         <div class="footer-brand">
             <a class="footer-logo" href="#home">Dima Fomin</a>
-            <!-- Private visitor counter — hidden for everyone except the owner -->
-            <div class="view-counter" id="viewCounter" hidden>
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
-                <span id="viewCount">…</span> visitors
-            </div>
         </div>
         <span class="footer-copy">&copy; 2026 Dima Fomin &middot; Minsk</span>
         <div class="footer-links">
@@ -954,31 +949,6 @@
     // ── PLAYER CARD LEVEL-UP SYSTEM ── (started by revealHero, runs once)
 </script>
 
-<!-- ── PRIVATE VISITOR COUNTER ── -->
-<script>
-    (function () {
-        // Every visitor pings the counter (recorded server-side, your IP excluded).
-        // The number is only shown to you: reveal it once by opening the site with
-        //   #stats=<your-secret-token>
-        // which is then remembered in this browser. Normal visitors never see it.
-        const m = location.hash.match(/^#stats=(.+)$/);
-        if (m) {
-            localStorage.setItem('viewsAdmin', decodeURIComponent(m[1]));
-            history.replaceState(null, '', location.pathname + location.search);
-        }
-        const adminToken = localStorage.getItem('viewsAdmin');
-        const url = '/api/views' + (adminToken ? '?admin=' + encodeURIComponent(adminToken) : '');
-        fetch(url, { method: 'POST' })
-            .then(r => r.json())
-            .then(d => {
-                if (adminToken && typeof d.count === 'number') {
-                    document.getElementById('viewCount').textContent = d.count.toLocaleString();
-                    document.getElementById('viewCounter').hidden = false;
-                }
-            })
-            .catch(() => {});
-    })();
-</script>
 <script>
 /* Hero handheld: runs the real playable inside the device and swaps cartridges.
    The build is only fetched on the first tap so the page still loads light. */
