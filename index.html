@@ -1154,19 +1154,44 @@
         // throw it off screen.
         const seen = root.getBoundingClientRect();
         if (seen.bottom < 80 || seen.top > window.innerHeight - 80) return;
+        // Side by side, the device is placed against the viewport, so the hero
+        // is pinned to the top first: a page left scrolled part-way (or scrolled
+        // later) would otherwise carry the device down into the ticker.
+        const narrow = window.matchMedia('(max-width: 860px)').matches;
+        const homeTop = home.getBoundingClientRect().top;
+        if (!narrow && Math.abs(homeTop) > 1) {
+            window.scrollTo({ top: window.scrollY + homeTop, behavior: 'instant' });
+        }
         // The class is applied first: it reveals the exit control, which changes
         // the device's height, and the fit has to account for that row.
         root.style.setProperty('--hc-shift', dx + 'px');
         root.style.setProperty('--hc-lift', dy + 'px');
         root.style.setProperty('--hc-zoom', zoom);
         home.classList.add('is-focused');
-        const b = root.getBoundingClientRect();
-        const w = b.width / zoom, h = b.height / zoom;
-        const cx = b.left + b.width / 2 - dx, cy = b.top + b.height / 2 - dy;
+        // The device's own layout box, not its on-screen rect: a resize (the
+        // browser's tab sidebar sliding open) refits it while the previous move
+        // is still animating, and a mid-flight rect put the centre off to one side.
+        let lx = 0, ly = 0;
+        for (let el = root; el; el = el.offsetParent) { lx += el.offsetLeft; ly += el.offsetTop; }
+        const w = root.offsetWidth, h = root.offsetHeight;
+        const cx = lx - window.scrollX + w / 2, cy = ly - window.scrollY + h / 2;
         const vw = document.documentElement.clientWidth, vh = window.innerHeight;
-        // the seam ticker owns the bottom of the hero, so it is not fair game
-        const top = 88, bottom = vh - 76;
-        zoom = Math.max(1, Math.min((vw - 40) / w, (bottom - top) / h, 2.4));
+        // The seam ticker owns the bottom of the hero, so it is not fair game.
+        // Both edges are measured: once the page is scrolled even a little, or
+        // the browser chrome changes the window height, the ticker rides up
+        // from where a fixed offset assumed it was.
+        const nav = document.querySelector('nav');
+        const ticker = document.querySelector('.ticker');
+        const navBottom = nav ? nav.getBoundingClientRect().bottom : 0;
+        const tickerTop = ticker ? ticker.getBoundingClientRect().top : vh;
+        const top = Math.max(88, navBottom + 20);
+        const bottom = Math.min(vh - 76, tickerTop - 20);
+        // a short window may need the device smaller than its resting size, since
+        // focus mode adds the control row to it
+        // Where the captions show (880px and up), each side keeps room for a
+        // plate at its narrowest, so the device never grows in under one.
+        const room = vw >= 880 ? vw - 2 * (220 + 52 + 26) : vw - 40;
+        zoom = Math.max(0.5, Math.min(room / w, (bottom - top) / h, 2.4));
         dx = Math.round(vw / 2 - cx);
         dy = Math.round((top + bottom) / 2 - cy);
         root.style.setProperty('--hc-shift', dx + 'px');

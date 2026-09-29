@@ -1994,6 +1994,13 @@ footer a{color:rgba(239,234,219,.9)}
 .hc-controls{gap:6px}
 .hc-controls .hc-abtn:first-of-type{margin-left:4px}
 @media(max-width:860px){.hc-key{height:40px}.hc-key .hc-ico{width:13px;height:12px}}
+/* a short window keeps the device at its narrowest, where five keys and the
+   two decorative buttons overflow the shell; the decoration gives way */
+@media(max-height:760px) and (min-width:861px){
+    .hc-controls .hc-abtn{display:none}
+    .hc-controls{gap:5px}
+    .hc-key{min-width:30px}
+}
 
 
 /* the exit key only exists while a build is running */
